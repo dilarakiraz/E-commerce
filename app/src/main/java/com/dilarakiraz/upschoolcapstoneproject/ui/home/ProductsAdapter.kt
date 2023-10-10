@@ -8,31 +8,33 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dilarakiraz.upschoolcapstoneproject.R
 import com.dilarakiraz.upschoolcapstoneproject.common.loadImage
 import com.dilarakiraz.upschoolcapstoneproject.common.setStrikeThrough
+import com.dilarakiraz.upschoolcapstoneproject.common.visible
 import com.dilarakiraz.upschoolcapstoneproject.data.model.response.ProductUI
-import com.dilarakiraz.upschoolcapstoneproject.databinding.ItemSaleProductBinding
+import com.dilarakiraz.upschoolcapstoneproject.databinding.ItemProductBinding
 
 /**
  * Created on 7.10.2023
  * @author Dilara Kiraz
  */
 
-class SaleProductsAdapter(
+class ProductsAdapter(
     private val onProductClick: (Int) -> Unit,
     private val onFavoriteClick: (ProductUI) -> Unit,
-): ListAdapter<ProductUI, SaleProductsAdapter.SaleProductViewHolder>(ProductDiffCallBack()) {
+) :
+    ListAdapter<ProductUI, ProductsAdapter.ProductViewHolder>(ProductDiffCallBack()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SaleProductViewHolder =
-        SaleProductViewHolder(
-            ItemSaleProductBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder =
+        ProductViewHolder(
+            ItemProductBinding.inflate(LayoutInflater.from(parent.context), parent, false),
             onProductClick,
             onFavoriteClick
         )
 
-    override fun onBindViewHolder(holder: SaleProductViewHolder, position: Int) = holder.bind(getItem(position))
 
+    override fun onBindViewHolder(holder:ProductViewHolder, position: Int)  = holder.bind(getItem(position))
 
-    class SaleProductViewHolder(
-        private val binding: ItemSaleProductBinding,
+    class ProductViewHolder (
+        private val binding: ItemProductBinding,
         private val onProductClick: (Int) -> Unit,
         private val onFavoriteClick: (ProductUI) -> Unit,
     ): RecyclerView.ViewHolder(binding.root){
@@ -40,8 +42,12 @@ class SaleProductsAdapter(
         fun bind(product: ProductUI) = with(binding){
             tvName.text = product.title
             tvPrice.text = "${product.price} ₺"
-            tvSalePrice.text = "${product.salePrice} ₺"
-            tvPrice.setStrikeThrough()
+
+            if (product.saleState) {
+                tvSalePrice.text = "${product.salePrice} ₺"
+                tvSalePrice.visible()
+                tvPrice.setStrikeThrough()
+            }
 
             if (product.isFavorite) {
                 ivFavorite.setImageResource(R.drawable.ic_fav)
@@ -54,14 +60,13 @@ class SaleProductsAdapter(
             root.setOnClickListener {
                 onProductClick(product.id)
             }
-
             ivFavorite.setOnClickListener {
                 onFavoriteClick(product)
             }
         }
     }
 
-    class ProductDiffCallBack: DiffUtil.ItemCallback<ProductUI>(){
+    class ProductDiffCallBack : DiffUtil.ItemCallback<ProductUI>() {
         override fun areItemsTheSame(oldItem: ProductUI, newItem: ProductUI): Boolean {
             return oldItem.id == newItem.id
         }

@@ -5,5 +5,8 @@ package com.dilarakiraz.upschoolcapstoneproject.data.model.response
  * @author Dilara Kiraz
  */
 
-class GetProductDetailResponse {
-}
+data class GetProductDetailResponse(
+    val product: Product?,
+    var status: Int? = null,
+    var message: String? = null
+)

@@ -55,6 +55,8 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
                    progressBar.gone()
                     showErrorMessage(state.throwable.message ?: "Unknown Error")
                 }
+
+                else -> {}
             }
         }
     }
