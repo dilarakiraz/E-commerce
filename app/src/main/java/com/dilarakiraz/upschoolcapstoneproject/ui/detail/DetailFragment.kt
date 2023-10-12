@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.dilarakiraz.upschoolcapstoneproject.R
 import com.dilarakiraz.upschoolcapstoneproject.common.gone
+import com.dilarakiraz.upschoolcapstoneproject.common.loadImage
 import com.dilarakiraz.upschoolcapstoneproject.common.viewBinding
 import com.dilarakiraz.upschoolcapstoneproject.common.visible
 import com.dilarakiraz.upschoolcapstoneproject.databinding.FragmentDetailBinding
@@ -45,6 +46,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                     val product = state.product
                     tvTitle.text = product.title
                     tvDescription.text = product.description
+                    ivProduct.loadImage(product.imageOne)
                 }
                 is DetailState.Error -> {
                     ivError.visible()
