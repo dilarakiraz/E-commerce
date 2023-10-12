@@ -6,7 +6,5 @@ package com.dilarakiraz.upschoolcapstoneproject.data.model.response
  */
 
 data class GetSaleProductsResponse(
-    val products: List<Product>?,
-    var status: Int? = null,
-    var message: String? = null
-)
+    val products: List<Product>?
+): BaseResponse()

@@ -5,5 +5,8 @@ package com.dilarakiraz.upschoolcapstoneproject.data.model.request
  * @author Dilara Kiraz
  */
 
-class AddToCartRequest {
+data class AddToCartRequest (
+    val userId: String,
+    val productId: Int
+){
 }

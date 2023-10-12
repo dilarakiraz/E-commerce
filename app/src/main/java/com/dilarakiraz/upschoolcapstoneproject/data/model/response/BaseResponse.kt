@@ -5,5 +5,7 @@ package com.dilarakiraz.upschoolcapstoneproject.data.model.response
  * @author Dilara Kiraz
  */
 
-class BaseResponse {
-}
+open class BaseResponse(
+    var status: Int? = null,
+    var message: String? = null
+)

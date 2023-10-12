@@ -7,6 +7,4 @@ package com.dilarakiraz.upschoolcapstoneproject.data.model.response
 
 data class GetProductDetailResponse(
     val product: Product?,
-    var status: Int? = null,
-    var message: String? = null
-)
+):BaseResponse()

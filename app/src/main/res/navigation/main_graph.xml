@@ -78,8 +78,8 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.dilarakiraz.upschoolcapstoneproject.ui.detail.DetailFragment"
-        android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" >
+        android:label="DetailFragment"
+        tools:layout="@layout/fragment_detail">
         <argument
             android:name="id"
             app:argType="integer" />

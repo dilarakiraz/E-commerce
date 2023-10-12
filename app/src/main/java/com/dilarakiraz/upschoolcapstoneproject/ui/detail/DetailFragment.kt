@@ -42,6 +42,9 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                 }
                 is DetailState.Success -> {
                     progressBar.gone()
+                    val product = state.product
+                    tvTitle.text = product.title
+                    tvDescription.text = product.description
                 }
                 is DetailState.Error -> {
                     ivError.visible()

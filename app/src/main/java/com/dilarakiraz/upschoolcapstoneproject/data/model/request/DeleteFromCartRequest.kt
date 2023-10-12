@@ -5,5 +5,7 @@ package com.dilarakiraz.upschoolcapstoneproject.data.model.request
  * @author Dilara Kiraz
  */
 
-class DeleteFromCartRequest {
+data class DeleteFromCartRequest (
+    val id: Int
+){
 }

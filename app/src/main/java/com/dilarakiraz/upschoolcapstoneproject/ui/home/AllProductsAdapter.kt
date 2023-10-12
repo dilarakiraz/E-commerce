@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dilarakiraz.upschoolcapstoneproject.R
 import com.dilarakiraz.upschoolcapstoneproject.common.loadImage
 import com.dilarakiraz.upschoolcapstoneproject.common.setStrikeThrough
-import com.dilarakiraz.upschoolcapstoneproject.common.visible
 import com.dilarakiraz.upschoolcapstoneproject.data.model.response.ProductUI
 import com.dilarakiraz.upschoolcapstoneproject.databinding.ItemProductBinding
 
@@ -17,11 +16,10 @@ import com.dilarakiraz.upschoolcapstoneproject.databinding.ItemProductBinding
  * @author Dilara Kiraz
  */
 
-class ProductsAdapter(
+class AllProductsAdapter(
     private val onProductClick: (Int) -> Unit,
     private val onFavoriteClick: (ProductUI) -> Unit,
-) :
-    ListAdapter<ProductUI, ProductsAdapter.ProductViewHolder>(ProductDiffCallBack()) {
+) : ListAdapter<ProductUI, AllProductsAdapter.ProductViewHolder>(ProductDiffCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder =
         ProductViewHolder(
@@ -31,7 +29,7 @@ class ProductsAdapter(
         )
 
 
-    override fun onBindViewHolder(holder:ProductViewHolder, position: Int)  = holder.bind(getItem(position))
+   override fun onBindViewHolder(holder:ProductViewHolder, position: Int)  = holder.bind(getItem(position))
 
     class ProductViewHolder (
         private val binding: ItemProductBinding,
@@ -42,12 +40,8 @@ class ProductsAdapter(
         fun bind(product: ProductUI) = with(binding){
             tvName.text = product.title
             tvPrice.text = "${product.price} ₺"
-
-            if (product.saleState) {
-                tvSalePrice.text = "${product.salePrice} ₺"
-                tvSalePrice.visible()
-                tvPrice.setStrikeThrough()
-            }
+            tvSalePrice.text = "${product.salePrice} ₺"
+            tvPrice.setStrikeThrough()
 
             if (product.isFavorite) {
                 ivFavorite.setImageResource(R.drawable.ic_fav)
@@ -60,6 +54,7 @@ class ProductsAdapter(
             root.setOnClickListener {
                 onProductClick(product.id)
             }
+
             ivFavorite.setOnClickListener {
                 onFavoriteClick(product)
             }

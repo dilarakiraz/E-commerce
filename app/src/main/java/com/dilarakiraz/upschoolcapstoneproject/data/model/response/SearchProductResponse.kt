@@ -5,5 +5,6 @@ package com.dilarakiraz.upschoolcapstoneproject.data.model.response
  * @author Dilara Kiraz
  */
 
-class SearchProductResponse {
-}
+data class SearchProductResponse(
+    val products: List<Product>?
+) : BaseResponse()

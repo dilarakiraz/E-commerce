@@ -26,15 +26,34 @@ class DetailViewModel @Inject constructor(
     val detailState: LiveData<DetailState>
         get() = _detailState
 
-    fun getProductDetail(id: Int){
+    private var _selectedProduct = MutableLiveData<ProductUI>()
+    val selectedProduct: LiveData<ProductUI>
+        get() = _selectedProduct
+
+//    fun getProductDetail(id: Int){
+//        viewModelScope.launch {
+//            _detailState.value = when(val result = productRepository.getProductDetail(id)){
+//                is Resource.Success -> DetailState.Success(result.data)
+//                is Resource.Error -> DetailState.Error(result.throwable)
+//                is Resource.Fail -> DetailState.EmptyScreen(result.message)
+//            }
+//        }
+//    }
+
+    fun getProductDetail(id: Int) {
         viewModelScope.launch {
-            _detailState.value = when(val result = productRepository.getProductDetail(id)){
-                is Resource.Success -> DetailState.Success(result.data)
-                is Resource.Error -> DetailState.Error(result.throwable)
-                is Resource.Fail -> DetailState.EmptyScreen(result.message)
+            _detailState.value = DetailState.Loading
+            when (val result = productRepository.getProductDetail(id)) {
+                is Resource.Success -> {
+                    _detailState.value = DetailState.Success(result.data)
+                    _selectedProduct.value = result.data // Seçilen ürünü güncelle
+                }
+                is Resource.Error -> _detailState.value = DetailState.Error(result.throwable)
+                is Resource.Fail -> _detailState.value = DetailState.EmptyScreen(result.message)
             }
         }
     }
+
 }
 
 sealed interface DetailState{

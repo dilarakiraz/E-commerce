@@ -28,17 +28,17 @@ class HomeViewModel @Inject constructor(
 
     private fun getProducts() = viewModelScope.launch{
         _mainState.value = HomeState.Loading
-        val products = async { productRepository.getAllProducts() }.await()
+        val allProducts = async { productRepository.getAllProducts() }.await()
         val saleProducts = async { productRepository.getSaleProducts() }.await()
 
         _mainState.value = when{
-            products is Resource.Error -> HomeState.Error(products.throwable)
-            products is Resource.Fail -> HomeState.EmptyScreen(products.message)
+            allProducts is Resource.Error -> HomeState.Error(allProducts.throwable)
+            allProducts is Resource.Fail -> HomeState.EmptyScreen(allProducts.message)
             saleProducts is Resource.Error -> HomeState.Error(saleProducts.throwable)
             saleProducts is Resource.Fail -> HomeState.EmptyScreen(saleProducts.message)
 
             else -> {
-                val product = (products as Resource.Success)
+                val product = (allProducts as Resource.Success)
                 val sale = (saleProducts as Resource.Success)
                 HomeState.Success(product.data, sale.data)
             }

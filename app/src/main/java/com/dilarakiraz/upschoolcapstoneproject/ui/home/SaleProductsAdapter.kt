@@ -1,13 +1,16 @@
 package com.dilarakiraz.upschoolcapstoneproject.ui.home
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dilarakiraz.upschoolcapstoneproject.R
+import com.dilarakiraz.upschoolcapstoneproject.common.invisible
 import com.dilarakiraz.upschoolcapstoneproject.common.loadImage
 import com.dilarakiraz.upschoolcapstoneproject.common.setStrikeThrough
+import com.dilarakiraz.upschoolcapstoneproject.common.visible
 import com.dilarakiraz.upschoolcapstoneproject.data.model.response.ProductUI
 import com.dilarakiraz.upschoolcapstoneproject.databinding.ItemSaleProductBinding
 
@@ -28,8 +31,10 @@ class SaleProductsAdapter(
             onFavoriteClick
         )
 
-    override fun onBindViewHolder(holder: SaleProductViewHolder, position: Int) = holder.bind(getItem(position))
-
+    override fun onBindViewHolder(holder: SaleProductViewHolder, position: Int) {
+        val product = getItem(position)
+        holder.bind(product)
+    }
 
     class SaleProductViewHolder(
         private val binding: ItemSaleProductBinding,
@@ -37,11 +42,19 @@ class SaleProductsAdapter(
         private val onFavoriteClick: (ProductUI) -> Unit,
     ): RecyclerView.ViewHolder(binding.root){
 
-        fun bind(product: ProductUI) = with(binding){
+
+            fun bind(product: ProductUI) = with(binding){
             tvName.text = product.title
             tvPrice.text = "${product.price} ₺"
-            tvSalePrice.text = "${product.salePrice} ₺"
-            tvPrice.setStrikeThrough()
+
+            if (product.saleState && product.salePrice > 0) {
+                tvSalePrice.text = "${product.salePrice} ₺"
+                tvSalePrice.visible()
+                tvPrice.setStrikeThrough()
+            }else {
+                tvSalePrice.text = ""
+                tvSalePrice.invisible()
+            }
 
             if (product.isFavorite) {
                 ivFavorite.setImageResource(R.drawable.ic_fav)
@@ -54,7 +67,6 @@ class SaleProductsAdapter(
             root.setOnClickListener {
                 onProductClick(product.id)
             }
-
             ivFavorite.setOnClickListener {
                 onFavoriteClick(product)
             }

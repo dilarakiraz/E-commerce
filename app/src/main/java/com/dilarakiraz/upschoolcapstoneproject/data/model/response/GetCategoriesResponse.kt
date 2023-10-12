@@ -5,5 +5,6 @@ package com.dilarakiraz.upschoolcapstoneproject.data.model.response
  * @author Dilara Kiraz
  */
 
-class GetCategoriesResponse {
-}
+data class GetCategoriesResponse (
+    val categories: List<String>?
+): BaseResponse()

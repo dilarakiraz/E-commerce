@@ -3,13 +3,12 @@ package com.dilarakiraz.upschoolcapstoneproject.ui.home
 import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.dilarakiraz.upschoolcapstoneproject.R
 import com.dilarakiraz.upschoolcapstoneproject.common.gone
+import com.dilarakiraz.upschoolcapstoneproject.common.showPopup
 import com.dilarakiraz.upschoolcapstoneproject.common.viewBinding
 import com.dilarakiraz.upschoolcapstoneproject.common.visible
 import com.dilarakiraz.upschoolcapstoneproject.data.model.response.ProductUI
@@ -23,9 +22,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val viewModel by viewModels<HomeViewModel>()
 
-    private val productsAdapter by lazy { ProductsAdapter(::onProductClick, ::onFavoriteClick)}
-
     private val saleProductsAdapter by lazy { SaleProductsAdapter(::onProductClick, ::onFavoriteClick) }
+
+    private val allProductsAdapter by lazy { AllProductsAdapter(::onProductClick, ::onFavoriteClick)}
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -34,8 +33,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             btnOut.setOnClickListener{
                 showLogoutDialog()
             }
-            rvAllProducts.adapter = productsAdapter
             rvSaleProducts.adapter = saleProductsAdapter
+            rvAllProducts.adapter = allProductsAdapter
         }
 
         observeData()
@@ -64,12 +63,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
                 is HomeState.Success -> {
                     saleProductsAdapter.submitList(state.saleProducts)
-                    productsAdapter.submitList(state.products)
+                    allProductsAdapter.submitList(state.products)
                     progressBar.gone()
                 }
 
                 is HomeState.Error -> {
-
+                    showPopup(state.throwable.message)
                     progressBar.gone()
                 }
 
