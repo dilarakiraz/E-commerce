@@ -4,10 +4,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.dilarakiraz.upschoolcapstoneproject.R
 import com.dilarakiraz.upschoolcapstoneproject.common.gone
 import com.dilarakiraz.upschoolcapstoneproject.common.loadImage
+import com.dilarakiraz.upschoolcapstoneproject.common.setStrikeThrough
+import com.dilarakiraz.upschoolcapstoneproject.common.showPopup
+import com.dilarakiraz.upschoolcapstoneproject.common.showSnackBar
 import com.dilarakiraz.upschoolcapstoneproject.common.viewBinding
 import com.dilarakiraz.upschoolcapstoneproject.common.visible
 import com.dilarakiraz.upschoolcapstoneproject.databinding.FragmentDetailBinding
@@ -32,28 +36,69 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
         viewModel.getProductDetail(args.id)
 
+        with(binding) {
+            icDetailToHome.setOnClickListener {
+                findNavController().navigate(R.id.detailToHome)
+            }
+        }
+
         observeData()
     }
 
-    private fun observeData() = with(binding){
-        viewModel.detailState.observe(viewLifecycleOwner){ state ->
-            when(state){
+    private fun observeData() = with(binding) {
+        viewModel.detailState.observe(viewLifecycleOwner) { state ->
+            when (state) {
                 is DetailState.Loading -> {
                     progressBar.visible()
                 }
+
                 is DetailState.Success -> {
                     progressBar.gone()
                     val product = state.product
                     tvTitle.text = product.title
                     tvDescription.text = product.description
+
+                    if (product.saleState) {
+                        tvPrice.text = "${product.price} ₺"
+                        tvPrice.setStrikeThrough()
+                        tvSalePrice.text = "${product.salePrice} ₺"
+                    } else {
+                        tvPrice.text = "${product.price} ₺"
+                        tvSalePrice.visibility = View.GONE
+                    }
+
                     ivProduct.loadImage(product.imageOne)
+
+                    if (product.isFavorite) {
+                        ivFavorite.setImageResource(R.drawable.ic_fav)
+                    } else {
+                        ivFavorite.setImageResource(R.drawable.ic_unfav)
+                    }
+
+                    ivFavorite.setOnClickListener {
+                        val product = viewModel.selectedProduct.value
+                        if (product != null) {
+                            if (!viewModel.isFavoriteUpdating()) {
+                                viewModel.toggleFavorite(product)
+                                if (product.isFavorite) {
+                                    ivFavorite.setImageResource(R.drawable.ic_unfav)
+                                    showPopup("Ürün favorilerden kaldırıldı")
+                                } else {
+                                    ivFavorite.setImageResource(R.drawable.ic_fav)
+                                    view?.showSnackBar("Ürün favorilere eklendi")
+                                }
+                            }
+                        }
+                    }
                 }
+
                 is DetailState.Error -> {
                     ivError.visible()
                     tvError.visible()
                     tvError.text = state.throwable.message.orEmpty()
                     progressBar.gone()
                 }
+
                 is DetailState.EmptyScreen -> {
 
                 }

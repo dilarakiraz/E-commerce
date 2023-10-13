@@ -73,6 +73,10 @@ class ProductRepository(
         productDao.addToFavorites(product.mapToProductEntity())
     }
 
+    suspend fun deleteFromFavorites(product: ProductUI) {
+        productDao.deleteFromFavorites(product.mapToProductEntity())
+    }
+
     suspend fun getFavorites(): Resource<List<ProductUI>> =
         try {
             val products = productDao.getProducts().map {
@@ -82,10 +86,6 @@ class ProductRepository(
         } catch (e: Exception) {
             Resource.Error(e)
         }
-
-    suspend fun deleteFromFavorites(product: ProductUI) {
-        productDao.deleteFromFavorites(product.mapToProductEntity())
-    }
 
     suspend fun clearFavorites() {
         productDao.clearFavorites()

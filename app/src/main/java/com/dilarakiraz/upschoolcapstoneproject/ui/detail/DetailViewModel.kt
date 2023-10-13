@@ -30,6 +30,7 @@ class DetailViewModel @Inject constructor(
     val selectedProduct: LiveData<ProductUI>
         get() = _selectedProduct
 
+    private var isFavoriteUpdating = false
 
     fun getProductDetail(id: Int) {
         viewModelScope.launch {
@@ -43,6 +44,23 @@ class DetailViewModel @Inject constructor(
                 is Resource.Fail -> _detailState.value = DetailState.EmptyScreen(result.message)
             }
         }
+    }
+
+    fun toggleFavorite(product: ProductUI) {
+        isFavoriteUpdating = true
+        viewModelScope.launch {
+            if (product.isFavorite) {
+                productRepository.deleteFromFavorites(product)
+                _selectedProduct.value = product.copy(isFavorite = false)
+            } else {
+                productRepository.addToFavorites(product)
+                _selectedProduct.value = product.copy(isFavorite = true)
+            }
+            isFavoriteUpdating = false
+        }
+    }
+    fun isFavoriteUpdating(): Boolean {
+        return isFavoriteUpdating
     }
 }
 

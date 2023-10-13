@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.dilarakiraz.upschoolcapstoneproject.databinding.DialogPopUpBinding
+import com.google.android.material.snackbar.Snackbar
 
 
 fun View.visible() {
@@ -25,6 +26,9 @@ fun View.invisible(){
 
 fun setViewsVisible(vararg views: View) = views.forEach {
     it.visible()
+}
+fun View.showSnackBar(message: String, duration: Int = Snackbar.LENGTH_SHORT) {
+    Snackbar.make(this, message, duration).show()
 }
 
 fun View.gone() {

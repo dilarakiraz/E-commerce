@@ -23,4 +23,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="redLight">#D80707</color>
     <color name="redDark">#970202</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="blue">#0000ff</color>
+
+
 </resources>

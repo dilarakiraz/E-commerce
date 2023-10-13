@@ -33,7 +33,7 @@
     <string name="sign_in">Sign In</string>
     <string name="forgot_password">Forgot password</string>
     <string name="send">Send</string>
-    <string name="add_to_bag">Add to Bag</string>
+    <string name="add_to_cart">Add to Cart</string>
     <string name="add_to_favorites">Add to Favorites</string>
     <string name="email_sent">Email sent</string>
     <string name="cardholder_name">Cardholder Name</string>
