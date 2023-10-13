@@ -1,60 +1,131 @@
 package com.dilarakiraz.upschoolcapstoneproject.ui.search
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.speech.RecognitionListener
+import android.speech.RecognizerIntent
+import android.speech.SpeechRecognizer
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.dilarakiraz.upschoolcapstoneproject.R
+import com.dilarakiraz.upschoolcapstoneproject.common.gone
+import com.dilarakiraz.upschoolcapstoneproject.common.showPopup
+import com.dilarakiraz.upschoolcapstoneproject.common.viewBinding
+import com.dilarakiraz.upschoolcapstoneproject.common.visible
+import com.dilarakiraz.upschoolcapstoneproject.data.model.response.ProductUI
+import com.dilarakiraz.upschoolcapstoneproject.databinding.FragmentSearchBinding
+import com.dilarakiraz.upschoolcapstoneproject.ui.home.HomeFragmentDirections
+import dagger.hilt.android.AndroidEntryPoint
+import java.util.Locale
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+@AndroidEntryPoint
+class SearchFragment : Fragment(R.layout.fragment_search) {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SearchFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class SearchFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private val binding by viewBinding(FragmentSearchBinding::bind)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    private val viewModel: SearchViewModel by viewModels()
+
+    private val searchProductsAdapter by lazy {
+        SearchProductsAdapter(
+            ::onProductClick,
+            ::onFavoriteClick
+        )
+    }
+
+    private val REQUEST_CODE_SPEECH_INPUT = 50
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        with(binding) {
+            rvSearchProducts.adapter = searchProductsAdapter
+
+            searchView.setOnQueryTextListener(object :
+                androidx.appcompat.widget.SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    viewModel.searchProduct(newText)
+                    return false
+                }
+            })
+
+            icVoice.setOnClickListener {
+                initSpeech()
+            }
+        }
+
+        observeData()
+    }
+
+    private fun observeData() = with(binding) {
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is SearchState.Loading -> {
+                    progressBar.visible()
+                }
+
+                is SearchState.Success -> {
+                    searchProductsAdapter.submitList(state.products)
+                    progressBar.gone()
+                }
+
+                is SearchState.Error -> {
+                    showPopup(state.throwable.message)
+                    progressBar.gone()
+                }
+
+                is SearchState.EmptyScreen -> {
+                    progressBar.gone()
+                }
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false)
+    private fun onProductClick(id: Int) {
+        val action = SearchFragmentDirections.searchToDetail(id)
+        findNavController().navigate(action)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SearchFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SearchFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun onFavoriteClick(product: ProductUI) {
+        viewModel.setFavoriteState(product)
+    }
+
+    private fun initSpeech() {
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        intent.apply {
+            putExtra(
+                RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+            )
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+            putExtra(RecognizerIntent.EXTRA_PROMPT, "Kategori veya ürün ara")
+        }
+        try {
+            startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_SPEECH_INPUT) {
+            if (resultCode == Activity.RESULT_OK && data != null) {
+                val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+                if (!result.isNullOrEmpty()) {
+                    val query = result[0]
+                    binding.searchView.setQuery(query, true)
+                    viewModel.searchProduct(query)
                 }
             }
+        }
     }
 }

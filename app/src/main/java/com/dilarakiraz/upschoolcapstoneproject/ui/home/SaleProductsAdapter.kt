@@ -42,7 +42,6 @@ class SaleProductsAdapter(
         private val onFavoriteClick: (ProductUI) -> Unit,
     ): RecyclerView.ViewHolder(binding.root){
 
-
             fun bind(product: ProductUI) = with(binding){
             tvName.text = product.title
             tvPrice.text = "${product.price} ₺"

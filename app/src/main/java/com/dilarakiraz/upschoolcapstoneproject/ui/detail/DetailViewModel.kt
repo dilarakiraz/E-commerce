@@ -30,15 +30,6 @@ class DetailViewModel @Inject constructor(
     val selectedProduct: LiveData<ProductUI>
         get() = _selectedProduct
 
-//    fun getProductDetail(id: Int){
-//        viewModelScope.launch {
-//            _detailState.value = when(val result = productRepository.getProductDetail(id)){
-//                is Resource.Success -> DetailState.Success(result.data)
-//                is Resource.Error -> DetailState.Error(result.throwable)
-//                is Resource.Fail -> DetailState.EmptyScreen(result.message)
-//            }
-//        }
-//    }
 
     fun getProductDetail(id: Int) {
         viewModelScope.launch {
@@ -53,7 +44,6 @@ class DetailViewModel @Inject constructor(
             }
         }
     }
-
 }
 
 sealed interface DetailState{
