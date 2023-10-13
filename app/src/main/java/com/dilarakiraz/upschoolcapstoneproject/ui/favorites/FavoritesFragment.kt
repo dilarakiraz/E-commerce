@@ -33,6 +33,10 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
 
         with(binding){
             rvFavorites.adapter = favoritesAdapter
+
+            ivAllDelete.setOnClickListener {
+                viewModel.clearAllFavorites()
+            }
         }
 
         initObservers()
@@ -68,4 +72,5 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
     private fun onDeleteClick(product: ProductUI){
         viewModel.deleteFromFavorites(product)
     }
+
 }

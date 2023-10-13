@@ -23,6 +23,7 @@ class FavoritesViewModel @Inject constructor (
     val state: LiveData<FavoritesState>
         get() = _state
 
+
     fun getFavorites() = viewModelScope.launch {
         _state.value = when(val result = productRepository.getFavorites()){
             is Resource.Success -> FavoritesState.Success(result.data)
@@ -35,6 +36,20 @@ class FavoritesViewModel @Inject constructor (
         productRepository.deleteFromFavorites(product)
         getFavorites()
     }
+
+    fun clearAllFavorites() = viewModelScope.launch {
+        when (val result = productRepository.clearFavorites()) {
+            is Resource.Success -> {
+                _state.value = FavoritesState.Success(emptyList())
+            }
+            is Resource.Error -> {
+                _state.value = FavoritesState.Error(result.throwable)
+            }
+            else -> {
+            }
+        }
+    }
+
 }
 
 sealed interface FavoritesState{

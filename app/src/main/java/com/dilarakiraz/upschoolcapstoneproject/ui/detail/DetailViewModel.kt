@@ -62,6 +62,8 @@ class DetailViewModel @Inject constructor(
     fun isFavoriteUpdating(): Boolean {
         return isFavoriteUpdating
     }
+
+
 }
 
 sealed interface DetailState{

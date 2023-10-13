@@ -87,9 +87,14 @@ class ProductRepository(
             Resource.Error(e)
         }
 
-    suspend fun clearFavorites() {
+suspend fun clearFavorites(): Resource<Unit> {
+    return try {
         productDao.clearFavorites()
+        Resource.Success(Unit)
+    } catch (e: Throwable) {
+        Resource.Error(e)
     }
+}
 
     suspend fun getCartProducts(userId: String): Resource<List<ProductUI>> =
         try {
