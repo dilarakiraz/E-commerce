@@ -98,6 +98,7 @@ dependencies {
     //firebase
     implementation("com.google.firebase:firebase-auth-ktx:22.1.2")
     implementation(platform("com.google.firebase:firebase-bom:32.2.3"))
+    implementation ("com.google.firebase:firebase-firestore-ktx")
 
     implementation ("de.hdodenhof:circleimageview:3.1.0")
 }

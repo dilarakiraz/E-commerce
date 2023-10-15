@@ -15,7 +15,9 @@ import com.dilarakiraz.upschoolcapstoneproject.common.showSnackBar
 import com.dilarakiraz.upschoolcapstoneproject.common.viewBinding
 import com.dilarakiraz.upschoolcapstoneproject.common.visible
 import com.dilarakiraz.upschoolcapstoneproject.databinding.FragmentDetailBinding
+
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.tasks.await
 
 /**
  * Created on 8.10.2023
@@ -31,6 +33,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     private val args by navArgs<DetailFragmentArgs>()
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -39,11 +42,17 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         with(binding) {
             icDetailToHome.setOnClickListener {
                 findNavController().navigate(R.id.detailToHome)
+
+            }
+            btnAddToBag.setOnClickListener {
+
             }
         }
 
         observeData()
     }
+
+
 
     private fun observeData() = with(binding) {
         viewModel.detailState.observe(viewLifecycleOwner) { state ->
@@ -91,7 +100,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                         }
                     }
 
-
+                    ratingBar.rating = product.rate.toFloat()
                 }
 
                 is DetailState.Error -> {

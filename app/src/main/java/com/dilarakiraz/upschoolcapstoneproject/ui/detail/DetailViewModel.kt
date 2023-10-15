@@ -1,6 +1,5 @@
 package com.dilarakiraz.upschoolcapstoneproject.ui.detail
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val productRepository: ProductRepository
-) : ViewModel(){
+) : ViewModel() {
 
     private var _detailState = MutableLiveData<DetailState>(DetailState.Loading)
     val detailState: LiveData<DetailState>
@@ -40,6 +39,7 @@ class DetailViewModel @Inject constructor(
                     _detailState.value = DetailState.Success(result.data)
                     _selectedProduct.value = result.data // Seçilen ürünü güncelle
                 }
+
                 is Resource.Error -> _detailState.value = DetailState.Error(result.throwable)
                 is Resource.Fail -> _detailState.value = DetailState.EmptyScreen(result.message)
             }
@@ -59,6 +59,7 @@ class DetailViewModel @Inject constructor(
             isFavoriteUpdating = false
         }
     }
+
     fun isFavoriteUpdating(): Boolean {
         return isFavoriteUpdating
     }
@@ -66,9 +67,9 @@ class DetailViewModel @Inject constructor(
 
 }
 
-sealed interface DetailState{
+sealed interface DetailState {
     object Loading : DetailState
-    data class EmptyScreen(val message: String): DetailState
-    data class Success(val product: ProductUI): DetailState
-    data class Error(val throwable: Throwable): DetailState
+    data class EmptyScreen(val message: String) : DetailState
+    data class Success(val product: ProductUI) : DetailState
+    data class Error(val throwable: Throwable) : DetailState
 }

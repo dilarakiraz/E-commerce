@@ -9,6 +9,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_56sdp"
+            android:rotationX="180"
+            android:src="@drawable/bottom_header"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_all_products"
@@ -56,22 +66,33 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
             android:text="Sale"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ll_categories" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btn_out"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_marginEnd="10dp"
-            android:src="@drawable/off"
+            android:layout_marginEnd="60dp"
             android:background="@color/white"
+            android:src="@drawable/off"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/white"
+            android:src="@drawable/ic_cart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -92,7 +113,7 @@
             android:id="@+id/rv_sale_products"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
             android:padding="@dimen/_8sdp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

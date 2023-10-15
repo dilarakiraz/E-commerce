@@ -37,8 +37,8 @@
             android:fontFamily="cursive"
             android:gravity="center"
             android:text="Sign İn"
-            android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ic_sign_up_to_sign_in" />
 
@@ -62,7 +62,7 @@
             android:fontFamily="cursive"
             android:gravity="center"
             android:text="CHERRY"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="@+id/imageView"
             app:layout_constraintStart_toStartOf="@+id/imageView"
@@ -152,7 +152,7 @@
         android:background="@drawable/custom_btn"
         android:fontFamily="cursive"
         android:text="@string/sign_up"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="20sp"
         app:cornerRadius="20.80dp"
         app:layout_constraintBottom_toBottomOf="parent"
