@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="120dp"
     android:layout_margin="@dimen/_8sdp"
-    android:elevation="@dimen/_4sdp"
+    android:elevation="6dp"
     android:padding="@dimen/_12sdp"
     app:cornerLeftBottom="@dimen/_8sdp"
     app:cornerLeftTop="@dimen/_8sdp"
@@ -14,8 +14,9 @@
 
     <ImageView
         android:id="@+id/iv_product"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -25,34 +26,91 @@
         android:id="@+id/tv_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:ellipsize="end"
         android:gravity="center"
         android:lines="2"
         android:maxLines="2"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/tv_price"
+        android:text="Text"
         app:layout_constraintEnd_toStartOf="@+id/iv_delete"
         app:layout_constraintStart_toEndOf="@+id/iv_product"
-        app:layout_constraintTop_toTopOf="@+id/iv_product"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:layout_editor_absoluteY="-8dp"
+        tools:text="Name" />
 
-    <TextView
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_price"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_product"
-        app:layout_constraintEnd_toEndOf="@+id/tv_name"
-        app:layout_constraintStart_toStartOf="@+id/tv_name"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+        android:layout_marginEnd="@dimen/_2sdp"
+        android:layout_marginBottom="12dp"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_sale_price"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name"
+        app:layout_constraintVertical_bias="1.0"
+        tools:text="100.00" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_sale_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_price"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tv_price"
+        app:layout_constraintTop_toTopOf="@+id/tv_price"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="50.00" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_product_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        app:layout_constraintBottom_toBottomOf="@+id/img_decrease"
+        app:layout_constraintEnd_toStartOf="@+id/img_increase"
+        app:layout_constraintStart_toEndOf="@+id/img_decrease"
+        app:layout_constraintTop_toTopOf="@+id/img_decrease" />
+
+    <ImageView
+        android:id="@+id/img_increase"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:background="@drawable/bg_circle"
+        android:elevation="@dimen/_8sdp"
+        android:padding="@dimen/_2sdp"
+        android:src="@drawable/ic_increase"
+        app:layout_constraintBottom_toBottomOf="@+id/img_decrease"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/img_decrease"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/img_decrease"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_marginTop="35dp"
+        android:background="@drawable/bg_circle"
+        android:elevation="@dimen/_8sdp"
+        android:padding="@dimen/_2sdp"
+        android:src="@drawable/ic_decrease"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name"
+        tools:layout_editor_absoluteX="263dp" />
 
     <ImageView
         android:id="@+id/iv_delete"
         android:layout_width="32dp"
         android:layout_height="32dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="72dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

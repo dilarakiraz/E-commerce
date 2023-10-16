@@ -90,9 +90,6 @@
         <action
             android:id="@+id/detailToHome"
             app:destination="@id/homeFragment" />
-        <action
-            android:id="@+id/detailToCart"
-            app:destination="@id/cartFragment" />
     </fragment>
     <fragment
         android:id="@+id/favoritesFragment"

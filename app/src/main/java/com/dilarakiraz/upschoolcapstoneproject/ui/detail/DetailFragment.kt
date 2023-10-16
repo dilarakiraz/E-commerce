@@ -2,6 +2,7 @@ package com.dilarakiraz.upschoolcapstoneproject.ui.detail
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -44,8 +45,15 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                 findNavController().navigate(R.id.detailToHome)
 
             }
-            btnAddToBag.setOnClickListener {
 
+            btnAddToBag.setOnClickListener {
+                if (viewModel.isUserAuthenticated()) {
+                    val userId = viewModel.getUserUid()
+                    val productId = args.id
+                    viewModel.addToCart(userId, productId, requireContext())
+                } else {
+                    Toast.makeText(requireContext(), "Ürün eklemek için oturum açmalısınız.", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 

@@ -1,5 +1,9 @@
 package com.dilarakiraz.upschoolcapstoneproject.ui.detail
 
+
+
+import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,9 +11,11 @@ import androidx.lifecycle.viewModelScope
 import com.dilarakiraz.upschoolcapstoneproject.common.Resource
 import com.dilarakiraz.upschoolcapstoneproject.data.model.response.ProductUI
 import com.dilarakiraz.upschoolcapstoneproject.data.repository.ProductRepository
+import com.dilarakiraz.upschoolcapstoneproject.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 
 /**
  * Created on 8.10.2023
@@ -18,7 +24,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
-    private val productRepository: ProductRepository
+    private val productRepository: ProductRepository,
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     private var _detailState = MutableLiveData<DetailState>(DetailState.Loading)
@@ -64,8 +71,29 @@ class DetailViewModel @Inject constructor(
         return isFavoriteUpdating
     }
 
+    fun addToCart(userId: String, productId: Int, context: Context) {
+        viewModelScope.launch {
+            val result = productRepository.addToCart(userId, productId)
+            if (result is Resource.Success && result.data) {
+                Toast.makeText(context, "Ürün başarıyla sepete eklendi.", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Ürün sepete eklenemedi.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+
+
+    fun isUserAuthenticated(): Boolean {
+        return userRepository.isUserAuthenticated()
+    }
+
+    fun getUserUid(): String {
+        return userRepository.getUserUid()
+    }
 
 }
+
 
 sealed interface DetailState {
     object Loading : DetailState

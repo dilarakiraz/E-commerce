@@ -38,4 +38,8 @@ class UserRepository(
             Resource.Error(e)
         }
     }
+
+    fun isUserAuthenticated(): Boolean {
+        return firebaseAuth.currentUser != null
+    }
 }

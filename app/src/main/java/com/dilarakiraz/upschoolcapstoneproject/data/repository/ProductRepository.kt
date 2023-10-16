@@ -112,9 +112,15 @@ suspend fun clearFavorites(): Resource<Unit> {
             Resource.Error(e)
         }
 
-    suspend fun addToCart(userId: String, id: Int): Resource<BaseResponse> {
+    suspend fun addToCart(userId: String, id: Int): Resource<Boolean> {
         return try {
-            Resource.Success(productService.addToCart(AddToCartRequest(userId, id)))
+            val response = productService.addToCart(AddToCartRequest(userId, id))
+            if (response.status != null && response.status == 200) {
+                Resource.Success(true)
+            } else {
+                val errorMessage = response.message ?: "Ürün sepete eklenemedi."
+                Resource.Error(Exception(errorMessage))
+            }
         } catch (e: Exception) {
             Resource.Error(e)
         }
