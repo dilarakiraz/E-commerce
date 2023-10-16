@@ -14,39 +14,58 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class CartViewModel @Inject constructor (
+class CartViewModel @Inject constructor(
     private val productRepository: ProductRepository,
     private val userRepository: UserRepository,
-): ViewModel(){
+) : ViewModel() {
 
     private var _cartState = MutableLiveData<CartState>()
     val cartState: LiveData<CartState>
         get() = _cartState
 
+    private val _updatedCart = MutableLiveData<List<ProductUI>>() // Sepet verilerini temsil edecek LiveData
+    val updatedCart: LiveData<List<ProductUI>>
+        get() = _updatedCart
+
     fun getCartProducts() {
         viewModelScope.launch {
             _cartState.value = CartState.Loading
-            _cartState.value = when (val result = productRepository.getCartProducts(userRepository.getUserUid())) {
-                is Resource.Success -> CartState.Success(result.data)
-                is Resource.Error -> CartState.Error(result.throwable)
-                is Resource.Fail -> CartState.EmptyScreen(result.message)
-            }
+            _cartState.value =
+                when (val result = productRepository.getCartProducts(userRepository.getUserUid())) {
+                    is Resource.Success -> CartState.Success(result.data)
+                    is Resource.Error -> CartState.Error(result.throwable)
+                    is Resource.Fail -> CartState.EmptyScreen(result.message)
+
+                }
         }
     }
-
-
 
     fun deleteProductFromCart(id: Int) {
         viewModelScope.launch {
             productRepository.deleteFromCart(id)
             getCartProducts()
+            loadUpdatedCart()
         }
     }
 
-    fun clearCart() {
+        fun clearCart() {
         viewModelScope.launch {
             productRepository.clearCart(userRepository.getUserUid())
             getCartProducts()
+            loadUpdatedCart()
+        }
+    }
+
+    private fun loadUpdatedCart() {
+        viewModelScope.launch {
+            when (val result = productRepository.getCartProducts(userRepository.getUserUid())) {
+                is Resource.Success -> {
+                    _updatedCart.value = result.data
+                }
+                else -> {
+                    _updatedCart.value = emptyList()
+                }
+            }
         }
     }
 

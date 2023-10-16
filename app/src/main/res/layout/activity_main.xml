@@ -20,16 +20,34 @@
         app:layout_constraintVertical_bias="0.0"
         app:navGraph="@navigation/main_graph" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:src="@drawable/ic_search"
+        app:backgroundTint="@color/redLight"
+        app:borderWidth="4dp"
+        app:elevation="15dp"
+        app:fabCustomSize="@dimen/_48sdp"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
+        app:layout_constraintEnd_toEndOf="@+id/bottom_nav"
+        app:layout_constraintStart_toStartOf="@+id/bottom_nav"
+        app:layout_constraintTop_toTopOf="@+id/bottom_nav"
+        app:maxImageSize="@dimen/_24sdp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
-        android:layout_width="0dp"
-        android:background="#555152"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="@drawable/bg_bottom_nav"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
-        android:layout_height="wrap_content"
+        app:itemActiveIndicatorStyle="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_menu" />
 

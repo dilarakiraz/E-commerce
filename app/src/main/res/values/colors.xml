@@ -25,6 +25,7 @@
     <color name="redDark">#970202</color>
     <color name="yellow">#FFFF00</color>
     <color name="blue">#0000ff</color>
+    <color name="theme">#555152</color>
 
 
 </resources>

@@ -42,30 +42,25 @@
         android:id="@+id/tv_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/_2sdp"
+        android:layout_marginStart="16dp"
         android:layout_marginBottom="12dp"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tv_sale_price"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_product"
         app:layout_constraintTop_toBottomOf="@+id/tv_name"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.555"
         tools:text="100.00" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_sale_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/tv_price"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tv_price"
         app:layout_constraintTop_toTopOf="@+id/tv_price"
-        app:layout_constraintVertical_bias="0.0"
         tools:text="50.00" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -73,6 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ellipsize="end"
+        tools:text="5"
         app:layout_constraintBottom_toBottomOf="@+id/img_decrease"
         app:layout_constraintEnd_toStartOf="@+id/img_increase"
         app:layout_constraintStart_toEndOf="@+id/img_decrease"
@@ -82,6 +78,7 @@
         android:id="@+id/img_increase"
         android:layout_width="@dimen/_20sdp"
         android:layout_height="@dimen/_20sdp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/bg_circle"
         android:elevation="@dimen/_8sdp"
         android:padding="@dimen/_2sdp"
@@ -89,20 +86,21 @@
         app:layout_constraintBottom_toBottomOf="@+id/img_decrease"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/img_decrease"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/img_decrease"
         android:layout_width="@dimen/_20sdp"
         android:layout_height="@dimen/_20sdp"
-        android:layout_marginTop="35dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/bg_circle"
         android:elevation="@dimen/_8sdp"
         android:padding="@dimen/_2sdp"
         android:src="@drawable/ic_decrease"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_name"
-        tools:layout_editor_absoluteX="263dp" />
+        app:layout_constraintStart_toEndOf="@+id/tv_sale_price"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
 
     <ImageView
         android:id="@+id/iv_delete"

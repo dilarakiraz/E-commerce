@@ -2,6 +2,7 @@ package com.dilarakiraz.upschoolcapstoneproject.ui.cart
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -20,7 +21,13 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
 
     private val viewModel by viewModels<CartViewModel>()
 
-    private val cartProductsAdapter by lazy { CartProductsAdapter(::onProductClick, ::onDeleteClick) }
+    private val cartProductsAdapter by lazy {
+        CartProductsAdapter(
+            ::onProductClick,
+            ::onDeleteClick
+        )
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -63,14 +70,24 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                 else -> {}
             }
         }
+
+        viewModel.updatedCart.observe(viewLifecycleOwner) { updatedCart ->
+            // Güncellenmiş sepet verilerini kullanarak sayfayı güncelleyin
+            // Örneğin, RecyclerView içindeki veri listesini güncelleyebilirsiniz
+            cartProductsAdapter.submitList(updatedCart)
+        }
     }
+
 
     private fun onProductClick(id: Int) {
         val action = CartFragmentDirections.cartToDetail(id)
         findNavController().navigate(action)
     }
+
     private fun onDeleteClick(id: Int) {
         viewModel.deleteProductFromCart(id)
     }
+
+
 
 }

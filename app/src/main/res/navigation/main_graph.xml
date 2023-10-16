@@ -100,4 +100,8 @@
             android:id="@+id/favoritesToDetail"
             app:destination="@id/detailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.dilarakiraz.upschoolcapstoneproject.ui.profile.ProfileFragment"
+        android:label="ProfileFragment" />
 </navigation>

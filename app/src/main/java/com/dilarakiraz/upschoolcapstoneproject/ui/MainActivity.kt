@@ -31,10 +31,21 @@ class MainActivity : AppCompatActivity() {
                 R.id.homeFragment,
                 R.id.searchFragment,
                 R.id.cartFragment,
-                R.id.favoritesFragment -> binding.bottomNav.visible()
+                R.id.favoritesFragment,
+                R.id.profileFragment -> {
+                    binding.bottomNav.visible()
+                    binding.floatingActionButton.visible()
+                }
 
-                else -> binding.bottomNav.gone()
+                else -> {
+                    binding.bottomNav.gone()
+                    binding.floatingActionButton.gone()
+                }
             }
+        }
+
+        binding.floatingActionButton.setOnClickListener {
+                navController.navigate(R.id.searchFragment)
         }
     }
 }

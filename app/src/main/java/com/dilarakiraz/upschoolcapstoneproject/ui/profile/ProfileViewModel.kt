@@ -1,5 +1,6 @@
 package com.dilarakiraz.upschoolcapstoneproject.ui.profile
 
+import androidx.lifecycle.ViewModel
 
 
 /**
@@ -7,5 +8,5 @@ package com.dilarakiraz.upschoolcapstoneproject.ui.profile
  * @author Dilara Kiraz
  */
 
-class ProfileViewModel {
+class ProfileViewModel: ViewModel() {
 }
