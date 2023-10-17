@@ -2,7 +2,6 @@ package com.dilarakiraz.upschoolcapstoneproject.ui.cart
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -11,6 +10,7 @@ import com.dilarakiraz.upschoolcapstoneproject.common.gone
 import com.dilarakiraz.upschoolcapstoneproject.common.showPopup
 import com.dilarakiraz.upschoolcapstoneproject.common.viewBinding
 import com.dilarakiraz.upschoolcapstoneproject.common.visible
+import com.dilarakiraz.upschoolcapstoneproject.data.model.response.ProductUI
 import com.dilarakiraz.upschoolcapstoneproject.databinding.FragmentCartBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,7 +24,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
     private val cartProductsAdapter by lazy {
         CartProductsAdapter(
             ::onProductClick,
-            ::onDeleteClick
+            ::onDeleteClick,
         )
     }
 
@@ -41,6 +41,15 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
             }
             btnBuyNow.setOnClickListener {
                 findNavController().navigate(R.id.cartToPayment)
+            }
+        }
+
+        with(viewModel){
+            cartProductsAdapter.onIncreaseClick = {
+                increase(it)
+            }
+            cartProductsAdapter.onDecreaseClick= {
+                decrease(it)
             }
         }
         observeData()
@@ -73,7 +82,21 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
 
         viewModel.updatedCart.observe(viewLifecycleOwner) { updatedCart ->
             cartProductsAdapter.submitList(updatedCart)
+            updateTotalAmount(updatedCart)
         }
+    }
+
+    private fun updateTotalAmount(updatedCart: List<ProductUI>?) {
+        var totalAmount = 0.0
+
+        updatedCart?.let { cart ->
+            for (product in cart) {
+                totalAmount += product.price
+            }
+        }
+
+        val totalAmountText = String.format("%.3f₺", totalAmount)
+        binding.tvTotalAmount.text = totalAmountText
     }
 
     private fun onProductClick(id: Int) {

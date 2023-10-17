@@ -94,13 +94,14 @@
         android:layout_width="160dp"
         android:layout_height="@dimen/_45sdp"
         android:layout_marginHorizontal="@dimen/_10sdp"
-        android:layout_marginBottom="@dimen/_28sdp"
+        android:layout_marginBottom="32dp"
         android:backgroundTint="@color/redLight"
         android:text="@string/buy_now"
         android:textAllCaps="false"
         app:cornerRadius="@dimen/_20sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView

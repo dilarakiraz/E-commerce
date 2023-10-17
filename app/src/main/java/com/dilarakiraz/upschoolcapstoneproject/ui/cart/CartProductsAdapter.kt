@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.dilarakiraz.upschoolcapstoneproject.R
 import com.dilarakiraz.upschoolcapstoneproject.common.loadImage
 import com.dilarakiraz.upschoolcapstoneproject.common.setStrikeThrough
 import com.dilarakiraz.upschoolcapstoneproject.data.model.response.ProductUI
@@ -19,23 +20,27 @@ import com.dilarakiraz.upschoolcapstoneproject.databinding.ItemCartProductBindin
 class CartProductsAdapter(
     private val onProductClick: (Int) -> Unit,
     private val onDeleteClick: (Int) -> Unit,
-): ListAdapter<ProductUI, CartProductsAdapter.CartProductViewHolder>(ProductDiffCallBack()){
-
+) : ListAdapter<ProductUI, CartProductsAdapter.CartProductViewHolder>(ProductDiffCallBack()) {
+    var onIncreaseClick: (Double) -> Unit = {}
+    var onDecreaseClick: (Double) -> Unit = {}
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartProductViewHolder =
         CartProductViewHolder(
             ItemCartProductBinding.inflate(LayoutInflater.from(parent.context), parent, false),
             onProductClick,
-            onDeleteClick
+            onDeleteClick,
         )
 
-    override fun onBindViewHolder(holder: CartProductViewHolder, position: Int) = holder.bind(getItem(position))
-
+    override fun onBindViewHolder(holder: CartProductViewHolder, position: Int) =
+        holder.bind(getItem(position))
 
     class CartProductViewHolder(
         private val binding: ItemCartProductBinding,
         private val onProductClick: (Int) -> Unit,
-        private val onDeleteClick: (Int) -> Unit
+        private val onDeleteClick: (Int) -> Unit,
+
     ) : RecyclerView.ViewHolder(binding.root) {
+
+        private var totalAmount = 0.0 // Fiyat bilgisini tutar
 
         fun bind(product: ProductUI) = with(binding) {
             tvName.text = product.title
@@ -53,7 +58,6 @@ class CartProductsAdapter(
             root.setOnClickListener {
                 onProductClick(product.id)
             }
-
             ivDelete.setOnClickListener {
                 onDeleteClick(product.id)
             }
