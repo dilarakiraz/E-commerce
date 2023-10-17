@@ -20,18 +20,18 @@ import dagger.hilt.android.AndroidEntryPoint
  */
 
 @AndroidEntryPoint
-class PaymentFragment :Fragment(R.layout.fragment_payment){
+class PaymentFragment : Fragment(R.layout.fragment_payment) {
 
-    private val binding by viewBinding (FragmentPaymentBinding::bind)
+    private val binding by viewBinding(FragmentPaymentBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(binding){
+        with(binding) {
             btnPayNow.setOnClickListener {
-                if(isInputValid()){
+                if (isInputValid()) {
                     successFragment()
-                }else{
+                } else {
                     showErrorMessage()
                 }
             }
@@ -40,24 +40,23 @@ class PaymentFragment :Fragment(R.layout.fragment_payment){
                 findNavController().navigateUp()
             }
 
-            // Kredi kart sahibinin adını büyük harfe çevir
-//            etCardholderName.setOnFocusChangeListener { _, hasFocus ->
-//                if(!hasFocus){
-//                    etCardholderName.setText(etCardholderName.text.toString().toUpperCase())
-//                }
-//            }
-
             etCardholderName.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
                 override fun afterTextChanged(s: Editable?) {
                     val text = s.toString()
-                    if (!text.isBlank()){
+                    if (!text.isBlank()) {
                         val upperText = text.toUpperCase()
-                        if (text != upperText){
-                            if (text != upperText){
+                        if (text != upperText) {
+                            if (text != upperText) {
                                 etCardholderName.setText(upperText)
                                 etCardholderName.setSelection(upperText.length)
                             }
@@ -66,52 +65,84 @@ class PaymentFragment :Fragment(R.layout.fragment_payment){
                 }
             })
 
-
-            // Kredi kart numarasını sınırla
-            etCreditCardNumber.addTextChangedListener(object : TextWatcher{
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            etCreditCardNumber.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
                 override fun afterTextChanged(s: Editable?) {
-                    if (s?.length ?: 0 > 16) {
-                        val cardNumber = s.toString().substring(0, 16)
-                        binding.etCreditCardNumber.setText(cardNumber)
-                        binding.etCreditCardNumber.setSelection(16)
+                    val cleanText = s.toString().replace(" ", "")
+                    val formattedText = buildString {
+                        for (i in cleanText.indices) {
+                            if (i % 4 == 0 && i > 0) {
+                                append(" ") // Her 4 karakterden sonra boşluk ekler
+                            }
+                            append(cleanText[i])
+                        }
+                    }
+                    if (formattedText != s.toString()) {
+                        etCreditCardNumber.removeTextChangedListener(this)
+                        etCreditCardNumber.setText(formattedText)
+                        etCreditCardNumber.setSelection(formattedText.length)
+                        etCreditCardNumber.addTextChangedListener(this)
+                    }
+
+                    // Kart numarasının 16 haneyi geçmemesi
+                    if (formattedText.length > 19) {
+                        etCreditCardNumber.removeTextChangedListener(this)
+                        etCreditCardNumber.setText(formattedText.substring(0, 19))
+                        etCreditCardNumber.setSelection(19)
+                        etCreditCardNumber.addTextChangedListener(this)
                     }
                 }
             })
 
-            val monthList = arrayOf("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")
-            val monthAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, monthList)
+            val monthList =
+                arrayOf("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")
+            val monthAdapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                monthList
+            )
             actExpireOnMonth.setAdapter(monthAdapter)
 
             val yearList = (2023..2030).map { it.toString() }
-            val yearAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, yearList)
+            val yearAdapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                yearList
+            )
             actExpireOnYear.setAdapter(yearAdapter)
         }
     }
 
-    private fun isInputValid(): Boolean{
+    private fun isInputValid(): Boolean {
         val cardHolderName = binding.etCardholderName.text.toString()
-        val cardNumber = binding.etCreditCardNumber.text.toString()
+        val cardNumber = binding.etCreditCardNumber.text.toString().replace(" ", "")
         val expireMonth = binding.actExpireOnMonth.text.toString()
         val expireYear = binding.actExpireOnYear.text.toString()
         val cvcCode = binding.etCvcCode.text.toString()
         val address = binding.etAddress.text.toString()
 
-        if(cardHolderName.isBlank() || cardNumber.length !=16 || expireMonth.isEmpty() ||
-            expireYear.isEmpty() || cvcCode.length != 3 || address.isBlank()){
+        if (cardHolderName.isBlank() || cardNumber.length != 16 || expireMonth.isEmpty() ||
+            expireYear.isEmpty() || cvcCode.length != 3 || address.isBlank()
+        ) {
             return false
         }
         return true
     }
 
-    private fun successFragment(){
+    private fun successFragment() {
         findNavController().navigate(R.id.paymentToPaymentSuccess)
     }
 
-    private fun showErrorMessage(){
+    private fun showErrorMessage() {
         Snackbar.make(requireView(), "Lütfen geçerli bilgileri girin", Snackbar.LENGTH_SHORT).show()
     }
 }

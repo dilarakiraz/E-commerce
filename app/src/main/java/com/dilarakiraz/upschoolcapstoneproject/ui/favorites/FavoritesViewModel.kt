@@ -49,7 +49,6 @@ class FavoritesViewModel @Inject constructor (
             }
         }
     }
-
 }
 
 sealed interface FavoritesState{

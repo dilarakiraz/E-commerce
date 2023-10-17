@@ -1,11 +1,13 @@
 package com.dilarakiraz.upschoolcapstoneproject.ui.favorites
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dilarakiraz.upschoolcapstoneproject.common.loadImage
+import com.dilarakiraz.upschoolcapstoneproject.common.setStrikeThrough
 import com.dilarakiraz.upschoolcapstoneproject.data.model.response.ProductUI
 import com.dilarakiraz.upschoolcapstoneproject.databinding.ItemFavoriteProductBinding
 import com.dilarakiraz.upschoolcapstoneproject.ui.home.AllProductsAdapter
@@ -39,7 +41,15 @@ class FavoritesAdapter(
 
         fun bind(product: ProductUI) = with(binding) {
             tvName.text = product.title
-            tvPrice.text = "${product.price} ₺"
+
+            if (product.saleState) {
+                tvPrice.text = "${product.price} ₺"
+                tvPrice.setStrikeThrough()
+                tvSalePrice.text = "${product.salePrice} ₺"
+            } else {
+                tvPrice.text = "${product.price} ₺"
+                tvSalePrice.visibility = View.GONE
+            }
 
             ivProduct.loadImage(product.imageOne)
 
