@@ -23,7 +23,8 @@ class CartViewModel @Inject constructor(
     val cartState: LiveData<CartState>
         get() = _cartState
 
-    private val _updatedCart = MutableLiveData<List<ProductUI>>() // Sepet verilerini temsil edecek LiveData
+    private val _updatedCart =
+        MutableLiveData<List<ProductUI>>()
     val updatedCart: LiveData<List<ProductUI>>
         get() = _updatedCart
 
@@ -35,7 +36,6 @@ class CartViewModel @Inject constructor(
                     is Resource.Success -> CartState.Success(result.data)
                     is Resource.Error -> CartState.Error(result.throwable)
                     is Resource.Fail -> CartState.EmptyScreen(result.message)
-
                 }
         }
     }
@@ -48,7 +48,7 @@ class CartViewModel @Inject constructor(
         }
     }
 
-        fun clearCart() {
+    fun clearCart() {
         viewModelScope.launch {
             productRepository.clearCart(userRepository.getUserUid())
             getCartProducts()
@@ -62,13 +62,13 @@ class CartViewModel @Inject constructor(
                 is Resource.Success -> {
                     _updatedCart.value = result.data
                 }
+
                 else -> {
                     _updatedCart.value = emptyList()
                 }
             }
         }
     }
-
 }
 
 sealed interface CartState {

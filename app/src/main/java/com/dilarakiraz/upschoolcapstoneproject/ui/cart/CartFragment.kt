@@ -31,9 +31,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         viewModel.getCartProducts()
-
 
         with(binding) {
             rvCartProducts.adapter = cartProductsAdapter
@@ -41,8 +39,10 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
             tvClear.setOnClickListener {
                 viewModel.clearCart()
             }
+            btnBuyNow.setOnClickListener {
+                findNavController().navigate(R.id.cartToPayment)
+            }
         }
-
         observeData()
     }
 
@@ -72,12 +72,9 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
         }
 
         viewModel.updatedCart.observe(viewLifecycleOwner) { updatedCart ->
-            // Güncellenmiş sepet verilerini kullanarak sayfayı güncelleyin
-            // Örneğin, RecyclerView içindeki veri listesini güncelleyebilirsiniz
             cartProductsAdapter.submitList(updatedCart)
         }
     }
-
 
     private fun onProductClick(id: Int) {
         val action = CartFragmentDirections.cartToDetail(id)
@@ -87,7 +84,4 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
     private fun onDeleteClick(id: Int) {
         viewModel.deleteProductFromCart(id)
     }
-
-
-
 }

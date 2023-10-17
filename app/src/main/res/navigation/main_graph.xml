@@ -78,6 +78,9 @@
         <action
             android:id="@+id/cartToDetail"
             app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/cartToPayment"
+            app:destination="@id/paymentFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
@@ -104,4 +107,20 @@
         android:id="@+id/profileFragment"
         android:name="com.dilarakiraz.upschoolcapstoneproject.ui.profile.ProfileFragment"
         android:label="ProfileFragment" />
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="com.dilarakiraz.upschoolcapstoneproject.ui.payment.PaymentFragment"
+        android:label="PaymentFragment" >
+        <action
+            android:id="@+id/paymentToPaymentSuccess"
+            app:destination="@id/paymentSuccessFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/paymentSuccessFragment"
+        android:name="com.dilarakiraz.upschoolcapstoneproject.ui.paymentsuccess.PaymentSuccessFragment"
+        android:label="PaymentSuccessFragment" >
+        <action
+            android:id="@+id/successToHome"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>

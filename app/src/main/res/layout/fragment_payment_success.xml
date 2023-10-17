@@ -4,7 +4,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent">
 
-
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/progress_bar"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="success.json"
+        app:lottie_loop="true" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_continue_shopping"
@@ -12,11 +25,11 @@
         android:layout_height="@dimen/_44sdp"
         android:layout_marginHorizontal="@dimen/_40sdp"
         android:layout_marginBottom="@dimen/_28sdp"
-        android:backgroundTint="@color/blue"
+        android:backgroundTint="@color/redLight"
         android:text="@string/continue_shopping"
         android:textAllCaps="false"
         android:textSize="@dimen/_15ssp"
-        app:cornerRadius="@dimen/_6sdp"
+        app:cornerRadius="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

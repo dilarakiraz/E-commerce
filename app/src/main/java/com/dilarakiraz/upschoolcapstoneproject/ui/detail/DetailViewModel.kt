@@ -1,7 +1,6 @@
 package com.dilarakiraz.upschoolcapstoneproject.ui.detail
 
 
-
 import android.content.Context
 import android.widget.Toast
 import androidx.lifecycle.LiveData
@@ -82,8 +81,6 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-
-
     fun isUserAuthenticated(): Boolean {
         return userRepository.isUserAuthenticated()
     }
@@ -91,7 +88,6 @@ class DetailViewModel @Inject constructor(
     fun getUserUid(): String {
         return userRepository.getUserUid()
     }
-
 }
 
 

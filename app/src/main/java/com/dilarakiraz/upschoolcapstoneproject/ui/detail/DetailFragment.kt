@@ -43,7 +43,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         with(binding) {
             icDetailToHome.setOnClickListener {
                 findNavController().navigate(R.id.detailToHome)
-
             }
 
             btnAddToBag.setOnClickListener {
@@ -52,14 +51,16 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                     val productId = args.id
                     viewModel.addToCart(userId, productId, requireContext())
                 } else {
-                    Toast.makeText(requireContext(), "Ürün eklemek için oturum açmalısınız.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Ürün eklemek için oturum açmalısınız.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
-
         observeData()
     }
-
 
 
     private fun observeData() = with(binding) {
@@ -107,7 +108,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                             }
                         }
                     }
-
                     ratingBar.rating = product.rate.toFloat()
                 }
 
@@ -119,7 +119,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                 }
 
                 is DetailState.EmptyScreen -> {
-
                 }
             }
         }
