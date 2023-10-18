@@ -89,7 +89,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/img_bag"
+            android:id="@+id/img_cart"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
             android:layout_marginTop="20dp"
@@ -103,10 +103,10 @@
             android:id="@+id/imageView5"
             android:layout_width="@dimen/_18sdp"
             android:layout_height="@dimen/_18sdp"
-            app:layout_constraintBottom_toTopOf="@+id/img_bag"
-            app:layout_constraintEnd_toEndOf="@+id/img_bag"
-            app:layout_constraintStart_toEndOf="@+id/img_bag"
-            app:layout_constraintTop_toTopOf="@+id/img_bag"
+            app:layout_constraintBottom_toTopOf="@+id/img_cart"
+            app:layout_constraintEnd_toEndOf="@+id/img_cart"
+            app:layout_constraintStart_toEndOf="@+id/img_cart"
+            app:layout_constraintTop_toTopOf="@+id/img_cart"
             app:srcCompat="@drawable/bg_circle"
             app:tint="@color/redLight" />
 

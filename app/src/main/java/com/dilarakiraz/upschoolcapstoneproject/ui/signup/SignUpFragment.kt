@@ -13,6 +13,8 @@ import com.dilarakiraz.upschoolcapstoneproject.common.gone
 import com.dilarakiraz.upschoolcapstoneproject.common.viewBinding
 import com.dilarakiraz.upschoolcapstoneproject.common.visible
 import com.dilarakiraz.upschoolcapstoneproject.databinding.FragmentSignUpBinding
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -31,7 +33,10 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
                 val email = etEmail.text.toString()
                 val password = etPassword.text.toString()
 
-                viewModel.checkInfo(email,password)
+                val nickname = etNickname.text.toString()
+                val phoneNumber = etPhoneNumber.text.toString()
+
+                viewModel.checkInfo(email,password, nickname, phoneNumber)
             }
             icSignUpToSignIn.setOnClickListener{
                 findNavController().navigate(R.id.signUpToSignIn)

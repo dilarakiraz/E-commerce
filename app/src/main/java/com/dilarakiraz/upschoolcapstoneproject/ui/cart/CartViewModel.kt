@@ -31,6 +31,10 @@ class CartViewModel @Inject constructor(
     val updatedCart: LiveData<List<ProductUI>>
         get() = _updatedCart
 
+    private val _cartItems = MutableLiveData<List<ProductUI>>()
+    val cartItems: LiveData<List<ProductUI>> = _cartItems
+
+
     fun getCartProducts() {
         viewModelScope.launch {
             _cartState.value = CartState.Loading

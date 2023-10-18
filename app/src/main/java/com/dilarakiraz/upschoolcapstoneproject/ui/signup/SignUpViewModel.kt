@@ -11,6 +11,9 @@ import com.dilarakiraz.upschoolcapstoneproject.R
 import com.dilarakiraz.upschoolcapstoneproject.common.Resource
 import com.dilarakiraz.upschoolcapstoneproject.data.repository.UserRepository
 import com.dilarakiraz.upschoolcapstoneproject.utilities.ResourceProvider
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,15 +28,19 @@ class SignUpViewModel @Inject constructor(
     val state: LiveData<SignUpState>
         get() = _state
 
-    private fun signUp(email: String, password: String) {
+    private val db = Firebase.firestore
+
+    private fun signUp(email: String, password: String, nickname: String, phoneNumber: String) {
         viewModelScope.launch {
             _state.value = SignUpState.Loading
             when (val result = userRepository.signUp(email, password)) {
                 is Resource.Success -> {
-                    _state.value = if (result.data) {
-                        SignUpState.GoToHome
+                    // Eğer Firebase Authentication işlemi başarılıysa Firestore'a kullanıcı bilgilerini kaydet
+                    if (result.data) {
+                        saveUserDataToFirestore(email, nickname, phoneNumber)
                     } else {
-                        SignUpState.Error(Throwable(stringRes(R.string.something_went_wrong)))
+                        _state.value =
+                            SignUpState.Error(Throwable(stringRes(R.string.something_went_wrong)))
                     }
                 }
 
@@ -42,25 +49,42 @@ class SignUpViewModel @Inject constructor(
                 }
 
                 is Resource.Fail -> {
-
+                    // Hata işlemleri burada
                 }
 
-                else -> {}
+                else -> {
+                }
             }
         }
     }
 
-    fun checkInfo(email: String, password: String) {
-        when{
+    private fun saveUserDataToFirestore(email: String, nickname: String, phoneNumber: String) {
+        val user = hashMapOf(
+            "nickname" to nickname,
+            "phone_number" to phoneNumber
+        )
+        db.collection("users")
+            .document(FirebaseAuth.getInstance().currentUser!!.uid)
+            .set(user)
+            .addOnSuccessListener {
+                _state.value = SignUpState.GoToHome
+            }
+            .addOnFailureListener { e ->
+                _state.value = SignUpState.Error(e)
+            }
+    }
+
+    fun checkInfo(email: String, password: String, nickname: String, phoneNumber: String) {
+        when {
             Patterns.EMAIL_ADDRESS.matcher(email).matches().not() -> {
                 _state.value = SignUpState.Error(Throwable(stringRes(R.string.invalid_mail)))
             }
 
-            password.isEmpty() || password.length <= 6 ->{
+            password.isEmpty() || password.length <= 6 -> {
                 _state.value = SignUpState.Error(Throwable(stringRes(R.string.invalid_password)))
             }
 
-            else -> signUp(email,password)
+            else -> signUp(email, password, nickname, phoneNumber)
         }
     }
 }

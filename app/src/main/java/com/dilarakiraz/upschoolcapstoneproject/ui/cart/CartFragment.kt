@@ -47,9 +47,17 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
         with(viewModel) {
             cartProductsAdapter.onIncreaseClick = {
                 increase(it)
+                totalAmount.observe(viewLifecycleOwner) { totalAmount ->
+                    val totalAmountText = String.format("%.3f₺", totalAmount)
+                    binding.tvTotalAmount.text = totalAmountText
+                }
             }
-            cartProductsAdapter.onDecreaseClick = {
-                decrease(it)
+            cartProductsAdapter.onDecreaseClick = { price ->
+                decrease(price)
+                totalAmount.observe(viewLifecycleOwner) { totalAmount ->
+                    val totalAmountText = String.format("%.3f₺", totalAmount)
+                    binding.tvTotalAmount.text = totalAmountText
+                }
             }
         }
         observeData()
@@ -111,4 +119,5 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
     private fun onDeleteClick(id: Int) {
         viewModel.deleteProductFromCart(id)
     }
+
 }
