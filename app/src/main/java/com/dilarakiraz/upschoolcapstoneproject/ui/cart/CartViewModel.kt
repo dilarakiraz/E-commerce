@@ -79,10 +79,6 @@ class CartViewModel @Inject constructor(
     fun decrease(price: Double) {
         _totalAmount.value = _totalAmount.value?.minus(price)
     }
-
-    fun resetTotalAmount() {
-        _totalAmount.value = 0.0
-    }
 }
 
 sealed interface CartState {

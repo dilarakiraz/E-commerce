@@ -44,11 +44,11 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
             }
         }
 
-        with(viewModel){
+        with(viewModel) {
             cartProductsAdapter.onIncreaseClick = {
                 increase(it)
             }
-            cartProductsAdapter.onDecreaseClick= {
+            cartProductsAdapter.onDecreaseClick = {
                 decrease(it)
             }
         }
@@ -86,15 +86,19 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
         }
     }
 
-    private fun updateTotalAmount(updatedCart: List<ProductUI>?) {
+    fun updateTotalAmount(updatedCart: List<ProductUI>?) {
         var totalAmount = 0.0
 
         updatedCart?.let { cart ->
             for (product in cart) {
-                totalAmount += product.price
+                val price = if (product.salePrice != 0.0) {
+                    product.salePrice
+                } else {
+                    product.price
+                }
+                totalAmount += price
             }
         }
-
         val totalAmountText = String.format("%.3f₺", totalAmount)
         binding.tvTotalAmount.text = totalAmountText
     }

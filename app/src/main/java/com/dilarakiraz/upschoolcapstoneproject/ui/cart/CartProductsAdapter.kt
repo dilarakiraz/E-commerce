@@ -13,7 +13,7 @@ import com.dilarakiraz.upschoolcapstoneproject.data.model.response.ProductUI
 import com.dilarakiraz.upschoolcapstoneproject.databinding.ItemCartProductBinding
 
 /**
- * Created on 13.10.2023
+ * Created on 18.10.2023
  * @author Dilara Kiraz
  */
 
@@ -28,6 +28,8 @@ class CartProductsAdapter(
             ItemCartProductBinding.inflate(LayoutInflater.from(parent.context), parent, false),
             onProductClick,
             onDeleteClick,
+            onIncreaseClick,
+            onDecreaseClick
         )
 
     override fun onBindViewHolder(holder: CartProductViewHolder, position: Int) =
@@ -37,13 +39,15 @@ class CartProductsAdapter(
         private val binding: ItemCartProductBinding,
         private val onProductClick: (Int) -> Unit,
         private val onDeleteClick: (Int) -> Unit,
+        private val onIncreaseClick: (Double) -> Unit,
+        private val onDecreaseClick: (Double) -> Unit,
+        ) : RecyclerView.ViewHolder(binding.root) {
 
-    ) : RecyclerView.ViewHolder(binding.root) {
-
-        private var totalAmount = 0.0 // Fiyat bilgisini tutar
+        private var productCount = 1
 
         fun bind(product: ProductUI) = with(binding) {
             tvName.text = product.title
+
             if (product.saleState) {
                 tvPrice.text = "${product.price} ₺"
                 tvPrice.setStrikeThrough()
@@ -61,6 +65,23 @@ class CartProductsAdapter(
             ivDelete.setOnClickListener {
                 onDeleteClick(product.id)
             }
+
+            imgIncrease.setOnClickListener {
+                onIncreaseClick(product.price)
+                productCount++
+                tvProductCount.text = productCount.toString()
+
+            }
+            imgDecrease.setOnClickListener {
+                if(productCount != 1){
+                    onDecreaseClick(product.price)
+                    productCount--
+                    tvProductCount.text = productCount.toString()
+                }else{
+                    onDeleteClick(product.id)
+                }
+            }
+            tvProductCount.text = productCount.toString()
         }
     }
 
