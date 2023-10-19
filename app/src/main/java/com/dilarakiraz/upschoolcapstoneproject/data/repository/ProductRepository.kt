@@ -22,19 +22,19 @@ class ProductRepository(
 ) {
 
     suspend fun getAllProducts(): Resource<List<ProductUI>> =
-        try{
+        try {
             val result = productService.getProducts()
             val favoriteTitles = productDao.getFavoriteTitles()
 
-            if (result.status == 200){
+            if (result.status == 200) {
                 val productList = result.products.orEmpty().map {
                     it.mapToProductUI(favoriteTitles.contains(it.title))
                 }
                 Resource.Success(productList)
-            }else{
+            } else {
                 Resource.Fail(result.message.orEmpty())
             }
-        }catch (e:Exception){
+        } catch (e: Exception) {
             Resource.Error(throwable = e)
         }
 
@@ -87,14 +87,14 @@ class ProductRepository(
             Resource.Error(e)
         }
 
-suspend fun clearFavorites(): Resource<Unit> {
-    return try {
-        productDao.clearFavorites()
-        Resource.Success(Unit)
-    } catch (e: Throwable) {
-        Resource.Error(e)
+    suspend fun clearFavorites(): Resource<Unit> {
+        return try {
+            productDao.clearFavorites()
+            Resource.Success(Unit)
+        } catch (e: Throwable) {
+            Resource.Error(e)
+        }
     }
-}
 
     suspend fun getCartProducts(userId: String): Resource<List<ProductUI>> =
         try {
@@ -156,6 +156,13 @@ suspend fun clearFavorites(): Resource<Unit> {
             Resource.Error(e)
         }
 
+    suspend fun getCategories(): Resource<List<String>> =
+        try {
+            Resource.Success(productService.getCategories().categories.orEmpty())
+        } catch (e: Exception) {
+            Resource.Error(e)
+        }
+
     suspend fun searchProduct(query: String): Resource<List<ProductUI>> =
         try {
             val result = productService.searchProduct(query)
@@ -168,13 +175,6 @@ suspend fun clearFavorites(): Resource<Unit> {
                 },
                 onFail = { result.message }
             )
-        } catch (e: Exception) {
-            Resource.Error(e)
-        }
-
-    suspend fun getCategories(): Resource<List<String>> =
-        try {
-            Resource.Success(productService.getCategories().categories.orEmpty())
         } catch (e: Exception) {
             Resource.Error(e)
         }

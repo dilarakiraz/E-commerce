@@ -28,8 +28,9 @@ class HomeViewModel @Inject constructor(
 
     private fun getProducts() = viewModelScope.launch {
         _mainState.value = HomeState.Loading
-        val allProducts = async { productRepository.getAllProducts() }.await()
         val saleProducts = async { productRepository.getSaleProducts() }.await()
+        val allProducts = async { productRepository.getAllProducts() }.await()
+
 
         _mainState.value = when {
             allProducts is Resource.Error -> HomeState.Error(allProducts.throwable)

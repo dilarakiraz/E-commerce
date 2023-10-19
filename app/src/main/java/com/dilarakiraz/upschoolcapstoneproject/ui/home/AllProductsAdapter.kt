@@ -28,7 +28,6 @@ class AllProductsAdapter(
             onFavoriteClick
         )
 
-
    override fun onBindViewHolder(holder:ProductViewHolder, position: Int)  = holder.bind(getItem(position))
 
     class ProductViewHolder (

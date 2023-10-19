@@ -22,6 +22,21 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_sale_products"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:padding="@dimen/_8sdp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:itemCount="5"
+            tools:listitem="@layout/item_sale_product" />
+
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_all_products"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -145,21 +160,6 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rv_sale_products" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_sale_products"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            android:padding="@dimen/_8sdp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            tools:itemCount="5"
-            tools:listitem="@layout/item_sale_product" />
 
         <ProgressBar
             android:id="@+id/progressBar"

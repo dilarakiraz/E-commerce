@@ -100,5 +100,9 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.2.3"))
     implementation ("com.google.firebase:firebase-firestore-ktx")
 
+    //circleImage
     implementation ("de.hdodenhof:circleimageview:3.1.0")
+
+    //workManager
+    implementation("androidx.work:work-runtime-ktx:2.8.1")
 }

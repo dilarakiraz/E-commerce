@@ -35,7 +35,6 @@ class SignUpViewModel @Inject constructor(
             _state.value = SignUpState.Loading
             when (val result = userRepository.signUp(email, password)) {
                 is Resource.Success -> {
-                    // Eğer Firebase Authentication işlemi başarılıysa Firestore'a kullanıcı bilgilerini kaydet
                     if (result.data) {
                         saveUserDataToFirestore(email, nickname, phoneNumber)
                     } else {
