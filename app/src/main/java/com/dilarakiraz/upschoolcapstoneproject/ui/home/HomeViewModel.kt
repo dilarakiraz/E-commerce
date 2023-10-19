@@ -16,22 +16,22 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val productRepository: ProductRepository
-):ViewModel(){
+) : ViewModel() {
 
     private var _mainState = MutableLiveData<HomeState>()
-    val mainState : LiveData<HomeState>
+    val mainState: LiveData<HomeState>
         get() = _mainState
 
-    init{
+    init {
         getProducts()
     }
 
-    private fun getProducts() = viewModelScope.launch{
+    private fun getProducts() = viewModelScope.launch {
         _mainState.value = HomeState.Loading
         val allProducts = async { productRepository.getAllProducts() }.await()
         val saleProducts = async { productRepository.getSaleProducts() }.await()
 
-        _mainState.value = when{
+        _mainState.value = when {
             allProducts is Resource.Error -> HomeState.Error(allProducts.throwable)
             allProducts is Resource.Fail -> HomeState.EmptyScreen(allProducts.message)
             saleProducts is Resource.Error -> HomeState.Error(saleProducts.throwable)
@@ -52,9 +52,9 @@ class HomeViewModel @Inject constructor(
     }
 }
 
-sealed interface HomeState{
+sealed interface HomeState {
     object Loading : HomeState
-    data class EmptyScreen(val message : String) : HomeState
-    data class Error(val throwable: Throwable) :HomeState
-    data class Success(val saleProducts: List<ProductUI>, val products: List<ProductUI>):HomeState
+    data class EmptyScreen(val message: String) : HomeState
+    data class Error(val throwable: Throwable) : HomeState
+    data class Success(val saleProducts: List<ProductUI>, val products: List<ProductUI>) : HomeState
 }

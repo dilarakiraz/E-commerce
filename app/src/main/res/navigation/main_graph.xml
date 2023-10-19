@@ -106,7 +106,11 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.dilarakiraz.upschoolcapstoneproject.ui.profile.ProfileFragment"
-        android:label="ProfileFragment" />
+        android:label="ProfileFragment" >
+        <action
+            android:id="@+id/profileToSignIn"
+            app:destination="@id/signInFragment" />
+    </fragment>
     <fragment
         android:id="@+id/paymentFragment"
         android:name="com.dilarakiraz.upschoolcapstoneproject.ui.payment.PaymentFragment"

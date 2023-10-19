@@ -13,6 +13,9 @@ import com.dilarakiraz.upschoolcapstoneproject.common.viewBinding
 import com.dilarakiraz.upschoolcapstoneproject.common.visible
 import com.dilarakiraz.upschoolcapstoneproject.data.model.response.ProductUI
 import com.dilarakiraz.upschoolcapstoneproject.databinding.FragmentHomeBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,43 +25,35 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val viewModel by viewModels<HomeViewModel>()
 
-    private val saleProductsAdapter by lazy { SaleProductsAdapter(::onProductClick, ::onFavoriteClick) }
+    private val saleProductsAdapter by lazy {
+        SaleProductsAdapter(
+            ::onProductClick,
+            ::onFavoriteClick
+        )
+    }
 
-    private val allProductsAdapter by lazy { AllProductsAdapter(::onProductClick, ::onFavoriteClick)}
+    private val allProductsAdapter by lazy {
+        AllProductsAdapter(
+            ::onProductClick,
+            ::onFavoriteClick
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(binding){
-            btnOut.setOnClickListener{
-                showLogoutDialog()
-            }
+        with(binding) {
             rvSaleProducts.adapter = saleProductsAdapter
             rvAllProducts.adapter = allProductsAdapter
         }
-
         observeData()
+
+        loadUserNickname()
     }
 
-    private fun showLogoutDialog(){
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Çıkış Yap!")
-        builder.setMessage("Çıkış yapmak istediğinize emin misiniz?")
-
-        builder.setPositiveButton("Evet"){ _, _ ->
-            findNavController().navigate(R.id.homeToSignIn)
-        }
-        builder.setNegativeButton("Hayır"){ dialog, _ ->
-            dialog.dismiss()
-        }
-
-        val dialog = builder.create()
-        dialog.show()
-    }
-
-    private fun observeData() = with(binding){
-        viewModel.mainState.observe(viewLifecycleOwner){state ->
-            when(state){
+    private fun observeData() = with(binding) {
+        viewModel.mainState.observe(viewLifecycleOwner) { state ->
+            when (state) {
                 is HomeState.Loading -> progressBar.visible()
 
                 is HomeState.Success -> {
@@ -78,17 +73,32 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
                 else -> {}
             }
-
         }
     }
 
-    private fun onProductClick(id:Int){
+    private fun loadUserNickname() {
+        val user = FirebaseAuth.getInstance().currentUser
+
+        if (user != null) {
+            val db = Firebase.firestore
+            db.collection("users").document(user.uid)
+                .get()
+                .addOnSuccessListener { document ->
+                    val nickName = document.getString("nickname")
+                    if (nickName != null) {
+                        binding.tvNickname.text = nickName
+                    }
+                }
+                .addOnFailureListener {}
+        }
+    }
+
+    private fun onProductClick(id: Int) {
         val action = HomeFragmentDirections.homeToDetail(id)
         findNavController().navigate(action)
     }
 
-    private fun onFavoriteClick(product: ProductUI){
+    private fun onFavoriteClick(product: ProductUI) {
         viewModel.setFavoriteState(product)
     }
-
 }
