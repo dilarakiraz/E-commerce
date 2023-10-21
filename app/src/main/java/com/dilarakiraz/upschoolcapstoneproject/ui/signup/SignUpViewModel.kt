@@ -3,6 +3,7 @@ package com.dilarakiraz.upschoolcapstoneproject.ui.signup
 import android.content.Context
 import android.util.Patterns
 import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -51,8 +52,7 @@ class SignUpViewModel @Inject constructor(
                     // Hata işlemleri burada
                 }
 
-                else -> {
-                }
+                else -> {}
             }
         }
     }
@@ -74,17 +74,20 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun checkInfo(email: String, password: String, nickname: String, phoneNumber: String) {
-        when {
-            Patterns.EMAIL_ADDRESS.matcher(email).matches().not() -> {
-                _state.value = SignUpState.Error(Throwable(stringRes(R.string.invalid_mail)))
-            }
-
-            password.isEmpty() || password.length <= 6 -> {
-                _state.value = SignUpState.Error(Throwable(stringRes(R.string.invalid_password)))
-            }
-
-            else -> signUp(email, password, nickname, phoneNumber)
+        if (email.isEmpty() || password.isEmpty() || nickname.isEmpty() || phoneNumber.isEmpty()) {
+            showError(R.string.fill_all_fields)
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            showError(R.string.invalid_mail)
+        } else if (password.length <= 6) {
+            showError(R.string.invalid_password)
+        }else {
+            signUp(email, password, nickname, phoneNumber)
         }
+    }
+
+    private fun showError(@StringRes errorMessageResId: Int) {
+        val errorMessage = stringRes(errorMessageResId)
+        _state.value = SignUpState.Error(Throwable(errorMessage))
     }
 }
 

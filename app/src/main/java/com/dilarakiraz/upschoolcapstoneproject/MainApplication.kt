@@ -10,14 +10,14 @@ import java.util.concurrent.TimeUnit
 @HiltAndroidApp
 class MainApplication : Application(){
 
-    override fun onCreate() {
-        super.onCreate()
-
-        val workRequest = PeriodicWorkRequestBuilder<Worker>(
-            1,
-            TimeUnit.MINUTES
-        ).build()
-
-        WorkManager.getInstance(this).enqueue(workRequest)
-    }
+//    override fun onCreate() {
+//        super.onCreate()
+//
+//        val workRequest = PeriodicWorkRequestBuilder<Worker>(
+//            1,
+//            TimeUnit.MINUTES
+//        ).build()
+//
+//        WorkManager.getInstance(this).enqueue(workRequest)
+//    }
 }

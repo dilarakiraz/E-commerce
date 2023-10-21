@@ -63,8 +63,6 @@ class SearchProductsAdapter(
             ivFavorite.setOnClickListener {
                 onFavoriteClick(product)
             }
-
-
         }
     }
 

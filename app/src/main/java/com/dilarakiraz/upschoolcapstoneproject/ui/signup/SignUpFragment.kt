@@ -1,10 +1,8 @@
 package com.dilarakiraz.upschoolcapstoneproject.ui.signup
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -13,8 +11,6 @@ import com.dilarakiraz.upschoolcapstoneproject.common.gone
 import com.dilarakiraz.upschoolcapstoneproject.common.viewBinding
 import com.dilarakiraz.upschoolcapstoneproject.common.visible
 import com.dilarakiraz.upschoolcapstoneproject.databinding.FragmentSignUpBinding
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -28,17 +24,16 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(binding){
+        with(binding) {
             btnSignUp.setOnClickListener {
                 val email = etEmail.text.toString()
-                val password = etPassword.text.toString()
-
+                val password = etPassword.text.toString().trim()
                 val nickname = etNickname.text.toString()
                 val phoneNumber = etPhoneNumber.text.toString()
 
-                viewModel.checkInfo(email,password, nickname, phoneNumber)
+                viewModel.checkInfo(email, password, nickname, phoneNumber)
             }
-            icSignUpToSignIn.setOnClickListener{
+            icSignUpToSignIn.setOnClickListener {
                 findNavController().navigate(R.id.signUpToSignIn)
             }
         }
@@ -47,8 +42,8 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
     }
 
     private fun initObservers() = with(binding) {
-        viewModel.state.observe(viewLifecycleOwner) { state->
-            when(state){
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            when (state) {
                 SignUpState.Loading -> progressBar.visible()
 
                 SignUpState.GoToHome -> findNavController().navigate(R.id.signUpToHome)
@@ -63,11 +58,11 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
         }
     }
 
-    private fun showErrorMessage(message: String){
+    private fun showErrorMessage(message: String) {
         AlertDialog.Builder(requireContext())
             .setTitle("Error")
             .setMessage(message)
-            .setPositiveButton("OK"){ dialog, _ ->
+            .setPositiveButton("OK") { dialog, _ ->
                 dialog.dismiss()
             }.show()
     }

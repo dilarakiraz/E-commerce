@@ -43,7 +43,7 @@ class CartViewModel @Inject constructor(
                     is Resource.Success -> CartState.Success(result.data)
                     is Resource.Error -> CartState.Error(result.throwable)
                     is Resource.Fail -> CartState.EmptyScreen(result.message)
-            }
+                }
         }
         loadUpdatedCart()
     }

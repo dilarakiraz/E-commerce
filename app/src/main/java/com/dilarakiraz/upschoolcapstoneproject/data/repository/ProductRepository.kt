@@ -42,15 +42,15 @@ class ProductRepository(
     suspend fun getSaleProducts(): Resource<List<ProductUI>> =
         try {
             val result = productService.getSaleProducts()
-            val favoriteTitles = productDao.getFavoriteTitles()
-            result.call(
-                onSuccess = {
-                    result.products.orEmpty().map {
-                        it.mapToProductUI(favoriteTitles.contains(it.title))
-                    }
-                },
-                onFail = { result.message }
-            )
+            if (result.status == 200) {
+                val favoriteTitles = productDao.getFavoriteTitles()
+                val productUIList = result.products.orEmpty().map {
+                    it.mapToProductUI(favoriteTitles.contains(it.title))
+                }
+                Resource.Success(productUIList)
+            } else {
+                Resource.Fail(result.message.orEmpty())
+            }
         } catch (e: Exception) {
             Resource.Error(e)
         }
@@ -58,13 +58,14 @@ class ProductRepository(
     suspend fun getProductDetail(id: Int): Resource<ProductUI> =
         try {
             val result = productService.getProductDetail(id)
-            val favoriteTitles = productDao.getFavoriteTitles()
-            result.call(
-                onSuccess = {
-                    result.product?.mapToProductUI(favoriteTitles.contains(result.product.title))!!
-                },
-                onFail = { result.message }
-            )
+            if (result.status == 200 && result.product != null) {
+                val favoriteTitles = productDao.getFavoriteTitles()
+                val productUI =
+                    result.product.mapToProductUI(favoriteTitles.contains(result.product.title))
+                Resource.Success(productUI)
+            } else {
+                Resource.Fail(result.message.orEmpty())
+            }
         } catch (e: Exception) {
             Resource.Error(e)
         }
@@ -99,15 +100,15 @@ class ProductRepository(
     suspend fun getCartProducts(userId: String): Resource<List<ProductUI>> =
         try {
             val result = productService.getCartProducts(userId)
-            val favoriteTitles = productDao.getFavoriteTitles()
-            result.call(
-                onSuccess = {
-                    result.products.orEmpty().map {
-                        it.mapToProductUI(favoriteTitles.contains(it.title))
-                    }
-                },
-                onFail = { result.message }
-            )
+            if (result.status == 200) {
+                val favoriteTitles = productDao.getFavoriteTitles()
+                val productUIList = result.products.orEmpty().map {
+                    it.mapToProductUI(favoriteTitles.contains(it.title))
+                }
+                Resource.Success(productUIList)
+            } else {
+                Resource.Fail(result.message.orEmpty())
+            }
         } catch (e: Exception) {
             Resource.Error(e)
         }
@@ -143,15 +144,15 @@ class ProductRepository(
     suspend fun getProductsByCategory(category: String): Resource<List<ProductUI>> =
         try {
             val result = productService.getProductsByCategory(category)
-            val favoriteTitles = productDao.getFavoriteTitles()
-            result.call(
-                onSuccess = {
-                    result.products.orEmpty().map {
-                        it.mapToProductUI(favoriteTitles.contains(it.title))
-                    }
-                },
-                onFail = { result.message }
-            )
+            if (result.status == 200) {
+                val favoriteTitles = productDao.getFavoriteTitles()
+                val productUIList = result.products.orEmpty().map {
+                    it.mapToProductUI(favoriteTitles.contains(it.title))
+                }
+                Resource.Success(productUIList)
+            } else {
+                Resource.Fail(result.message.orEmpty())
+            }
         } catch (e: Exception) {
             Resource.Error(e)
         }
@@ -166,28 +167,17 @@ class ProductRepository(
     suspend fun searchProduct(query: String): Resource<List<ProductUI>> =
         try {
             val result = productService.searchProduct(query)
-            val favoriteTitles = productDao.getFavoriteTitles()
-            result.call(
-                onSuccess = {
+            if (result.status == 200) {
+                val favoriteTitles = productDao.getFavoriteTitles()
+                Resource.Success(
                     result.products.orEmpty().map {
                         it.mapToProductUI(favoriteTitles.contains(it.title))
                     }
-                },
-                onFail = { result.message }
-            )
+                )
+            } else {
+                Resource.Fail(result.message.orEmpty())
+            }
         } catch (e: Exception) {
             Resource.Error(e)
         }
-
-    private fun <T : Any> BaseResponse.call(
-        onSuccess: () -> T,
-        onFail: () -> String?
-    ): Resource<T> {
-        return if (status == 200) {
-            Resource.Success(onSuccess())
-        } else {
-            Resource.Fail(onFail().orEmpty())
-        }
-    }
-
 }

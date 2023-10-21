@@ -21,6 +21,11 @@
     <string name="social_sign_up">Or sign up with social account</string>
     <string name="social_login">Or login with social account</string>
     <string name="forgot_password_text">Please, enter your email address. You will receive a link to create a new password via email.</string>
+    <string name="nickname_required">Nickname is required</string>
+    <string name="verify_password_required">Verify password is required</string>
+    <string name="passwords_do_not_match">Passwords do not match</string>
+    <string name="phone_number_required">Phone number is required</string>
+    <string name="fill_all_fields">Fill all fields</string>
 
     <string name="name">Name</string>
     <string name="email">Email</string>
