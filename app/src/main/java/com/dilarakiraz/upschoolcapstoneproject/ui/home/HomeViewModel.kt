@@ -22,8 +22,17 @@ class HomeViewModel @Inject constructor(
     val mainState: LiveData<HomeState>
         get() = _mainState
 
+    private var _categoryList = MutableLiveData<List<String>>()
+    val categoryList: LiveData<List<String>>
+        get() = _categoryList
+
+    private var _productsByCategory = MutableLiveData<List<ProductUI>>()
+    val productsByCategory: LiveData<List<ProductUI>>
+        get() = _productsByCategory
+
     init {
         getProducts()
+        getCategories()
     }
 
     private fun getProducts() = viewModelScope.launch {
@@ -43,6 +52,22 @@ class HomeViewModel @Inject constructor(
                 val sale = (saleProducts as Resource.Success)
                 HomeState.Success(product.data, sale.data)
             }
+        }
+    }
+
+    fun getProductsByCategory(category: String) = viewModelScope.launch {
+        val productsByCategoryResource = productRepository.getProductsByCategory(category)
+        if (productsByCategoryResource is Resource.Success) {
+            val products = productsByCategoryResource.data
+            _productsByCategory.value = products
+        }
+    }
+
+    fun getCategories() = viewModelScope.launch {
+        val categoriesResource = productRepository.getCategories()
+        if (categoriesResource is Resource.Success) {
+            val categories = categoriesResource.data
+            _categoryList.value = categories
         }
     }
 

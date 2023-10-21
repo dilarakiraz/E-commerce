@@ -13,6 +13,7 @@ import com.dilarakiraz.upschoolcapstoneproject.common.viewBinding
 import com.dilarakiraz.upschoolcapstoneproject.common.visible
 import com.dilarakiraz.upschoolcapstoneproject.data.model.response.ProductUI
 import com.dilarakiraz.upschoolcapstoneproject.databinding.FragmentHomeBinding
+import com.dilarakiraz.upschoolcapstoneproject.ui.categories.CategoryProductsAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -39,16 +40,22 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         )
     }
 
+    private val categoryProductsAdapter by lazy { CategoryProductsAdapter(::onCategoryClick) }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
             rvSaleProducts.adapter = saleProductsAdapter
             rvAllProducts.adapter = allProductsAdapter
+            rvCategoryProducts.adapter = categoryProductsAdapter
         }
         observeData()
-
         loadUserNickname()
+
+        viewModel.categoryList.observe(viewLifecycleOwner) { list ->
+            categoryProductsAdapter.updateCategoryList(list)
+        }
     }
 
     private fun observeData() = with(binding) {
@@ -73,6 +80,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
                 else -> {}
             }
+        }
+        viewModel.productsByCategory.observe(viewLifecycleOwner) { categoryProducts ->
+            allProductsAdapter.submitList(categoryProducts)
         }
     }
 
@@ -100,5 +110,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun onFavoriteClick(product: ProductUI) {
         viewModel.setFavoriteState(product)
+    }
+
+    private fun onCategoryClick(category: String) {
+        viewModel.getProductsByCategory(category)
     }
 }
