@@ -10,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import com.dilarakiraz.upschoolcapstoneproject.R
 import com.dilarakiraz.upschoolcapstoneproject.common.viewBinding
 import com.dilarakiraz.upschoolcapstoneproject.databinding.FragmentPaymentBinding
-import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -52,14 +51,11 @@ class PaymentFragment : Fragment(R.layout.fragment_payment) {
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
                 override fun afterTextChanged(s: Editable?) {
-                    val text = s.toString()
-                    if (!text.isBlank()) {
-                        val upperText = text.toUpperCase()
-                        if (text != upperText) {
-                            if (text != upperText) {
-                                etCardholderName.setText(upperText)
-                                etCardholderName.setSelection(upperText.length)
-                            }
+                    s?.let { editable ->
+                        val newText = editable.toString().toUpperCase()
+                        if (editable.toString() != newText) {
+                            editable.replace(0, editable.length, newText, 0, newText.length)
+                            etCardholderName.setSelection(newText.length)
                         }
                     }
                 }
@@ -77,28 +73,30 @@ class PaymentFragment : Fragment(R.layout.fragment_payment) {
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
                 override fun afterTextChanged(s: Editable?) {
-                    val cleanText = s.toString().replace(" ", "")
-                    val formattedText = buildString {
-                        for (i in cleanText.indices) {
-                            if (i % 4 == 0 && i > 0) {
-                                append(" ") // Her 4 karakterden sonra boşluk ekler
-                            }
-                            append(cleanText[i])
-                        }
-                    }
-                    if (formattedText != s.toString()) {
-                        etCreditCardNumber.removeTextChangedListener(this)
-                        etCreditCardNumber.setText(formattedText)
-                        etCreditCardNumber.setSelection(formattedText.length)
-                        etCreditCardNumber.addTextChangedListener(this)
-                    }
+                    s?.let { editable ->
+                        val cleanText = editable.toString().replace(" ", "")
+                        val formattedText = cleanText.chunked(4)
+                            .joinToString(" ") // Her 4 karakterden sonra boşluk ekle
 
-                    // Kart numarasının 16 haneyi geçmemesi
-                    if (formattedText.length > 19) {
-                        etCreditCardNumber.removeTextChangedListener(this)
-                        etCreditCardNumber.setText(formattedText.substring(0, 19))
-                        etCreditCardNumber.setSelection(19)
-                        etCreditCardNumber.addTextChangedListener(this)
+                        if (formattedText != editable.toString()) {
+                            editable.replace(
+                                0,
+                                editable.length,
+                                formattedText,
+                                0,
+                                formattedText.length
+                            )
+                        }
+
+                        if (formattedText.length > 19) { // Kart numarasının 16 haneyi geçmesin
+                            editable.replace(
+                                0,
+                                editable.length,
+                                formattedText.substring(0, 19),
+                                0,
+                                19
+                            )
+                        }
                     }
                 }
             })
@@ -123,19 +121,14 @@ class PaymentFragment : Fragment(R.layout.fragment_payment) {
     }
 
     private fun isInputValid(): Boolean {
-        val cardHolderName = binding.etCardholderName.text.toString()
-        val cardNumber = binding.etCreditCardNumber.text.toString().replace(" ", "")
-        val expireMonth = binding.actExpireOnMonth.text.toString()
-        val expireYear = binding.actExpireOnYear.text.toString()
-        val cvcCode = binding.etCvcCode.text.toString()
-        val address = binding.etAddress.text.toString()
-
-        if (cardHolderName.isBlank() || cardNumber.length != 16 || expireMonth.isEmpty() ||
-            expireYear.isEmpty() || cvcCode.length != 3 || address.isBlank()
-        ) {
-            return false
+        with(binding) {
+            return etCardholderName.text.toString().isNotBlank() &&
+                    etCreditCardNumber.text.toString().replace(" ", "").length == 16 &&
+                    actExpireOnMonth.text.isNotBlank() &&
+                    actExpireOnYear.text.isNotBlank() &&
+                    etCvcCode.text.toString().length == 3 &&
+                    etAddress.text.toString().isNotBlank()
         }
-        return true
     }
 
     private fun successFragment() {
@@ -143,6 +136,6 @@ class PaymentFragment : Fragment(R.layout.fragment_payment) {
     }
 
     private fun showErrorMessage() {
-        Snackbar.make(requireView(), "Lütfen geçerli bilgileri girin", Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(requireView(), R.string.enter_valid_information, Snackbar.LENGTH_SHORT).show()
     }
 }

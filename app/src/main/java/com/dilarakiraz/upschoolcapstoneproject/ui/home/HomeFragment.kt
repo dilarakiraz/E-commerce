@@ -1,6 +1,5 @@
 package com.dilarakiraz.upschoolcapstoneproject.ui.home
 
-import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -49,13 +48,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        observeData()
+        loadUserNickname()
+
         with(binding) {
             rvSaleProducts.adapter = saleProductsAdapter
             rvAllProducts.adapter = allProductsAdapter
             rvCategoryProducts.adapter = categoryProductsAdapter
         }
-        observeData()
-        loadUserNickname()
 
         viewModel.categoryList.observe(viewLifecycleOwner) { list ->
             categoryProductsAdapter.updateCategoryList(list)

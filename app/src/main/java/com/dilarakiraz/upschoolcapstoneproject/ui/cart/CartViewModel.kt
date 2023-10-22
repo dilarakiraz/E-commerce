@@ -31,13 +31,21 @@ class CartViewModel @Inject constructor(
             _cartState.value = CartState.Loading
 
             when (val result = productRepository.getCartProducts(userRepository.getUserUid())) {
+
                 is Resource.Success -> {
-                    _cartState.value = CartState.Success(result.data) // Düzeltme yapıldı
+                    _cartState.value = CartState.Success(result.data)
                     _totalAmount.value = result.data.sumOf { it.price }
                 }
 
                 is Resource.Error -> CartState.Error(result.throwable)
-                is Resource.Fail -> CartState.EmptyScreen(result.message)
+
+                is Resource.Fail -> {
+                    if (result.message.contains("Cart is empty", true)) {
+                        _cartState.value = CartState.EmptyScreen("Sepetiniz şu an boş.")
+                    } else {
+                        _cartState.value = CartState.Error(Throwable(result.message))
+                    }
+                }
             }
         }
     }

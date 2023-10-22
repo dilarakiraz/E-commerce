@@ -2,9 +2,7 @@ package com.dilarakiraz.upschoolcapstoneproject.ui.favorites
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.dilarakiraz.upschoolcapstoneproject.R
@@ -20,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
 
-    private val binding by viewBinding (FragmentFavoritesBinding::bind)
+    private val binding by viewBinding(FragmentFavoritesBinding::bind)
 
     private val viewModel: FavoritesViewModel by viewModels()
 
@@ -31,20 +29,19 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
 
         viewModel.getFavorites()
 
-        with(binding){
+        with(binding) {
             rvFavorites.adapter = favoritesAdapter
 
             ivAllDelete.setOnClickListener {
                 viewModel.clearAllFavorites()
             }
         }
-
         initObservers()
     }
 
     private fun initObservers() = with(binding) {
-        viewModel.state.observe(viewLifecycleOwner){ state ->
-            when(state) {
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            when (state) {
                 is FavoritesState.Loading -> progressBar.visible()
 
                 is FavoritesState.Success -> {
@@ -64,13 +61,12 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
         }
     }
 
-    private fun onProductClick(id: Int){
+    private fun onProductClick(id: Int) {
         val action = FavoritesFragmentDirections.favoritesToDetail(id)
         findNavController().navigate(action)
     }
 
-    private fun onDeleteClick(product: ProductUI){
+    private fun onDeleteClick(product: ProductUI) {
         viewModel.deleteFromFavorites(product)
     }
-
 }

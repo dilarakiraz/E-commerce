@@ -32,7 +32,6 @@ class FavoritesAdapter(
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) =
         holder.bind(getItem(position))
 
-
     class ProductViewHolder(
         private val binding: ItemFavoriteProductBinding,
         private val onProductClick: (Int) -> Unit,

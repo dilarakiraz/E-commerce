@@ -62,4 +62,5 @@
     <string name="sale">Sale</string>
     <string name="error">Error</string>
     <string name="product_added_to_cart">Product added to cart</string>
+    <string name="enter_valid_information">Please Enter Valid Information</string>
 </resources>

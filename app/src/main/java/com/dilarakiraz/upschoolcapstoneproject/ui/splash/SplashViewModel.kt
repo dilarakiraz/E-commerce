@@ -19,15 +19,16 @@ class SplashViewModel @Inject constructor(
         get() = _state
 
     fun checkUserLogin() = viewModelScope.launch {
-        if (userRepository.checkUserLogin()){
+        val userUid = userRepository.getUserUid()
+        if (userUid.isNotEmpty()) {
             _state.value = SplashState.GoToHome
-        }else{
+        } else {
             _state.value = SplashState.GoToSignIn
         }
     }
 }
 
-sealed interface SplashState{
+sealed interface SplashState {
     object GoToHome : SplashState
     object GoToSignIn : SplashState
 }

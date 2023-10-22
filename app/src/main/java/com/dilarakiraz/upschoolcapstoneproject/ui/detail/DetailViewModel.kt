@@ -63,23 +63,18 @@ class DetailViewModel @Inject constructor(
 
     fun addToCart(productId: Int) {
         viewModelScope.launch {
-            when (val result = productRepository.addToCart(getUserUid(), productId)) {
-                is Resource.Success -> {
-                    val productValue = product.value
-                    if (productValue != null) {
-                        _detailState.value =
-                            DetailState.Success(productValue, "Ürün sepete eklendi.")
-                    } else {}
+            val result = productRepository.addToCart(getUserUid(), productId)
+
+            if (result is Resource.Success) {
+                val productValue = product.value
+                if (productValue != null) {
+                    _detailState.value = DetailState.Success(productValue, "Ürün sepete eklendi.")
                 }
-
-                is Resource.Fail -> {}
-
-                is Resource.Error -> {}
             }
         }
     }
 
-    fun getUserUid(): String {
+     fun getUserUid(): String {
         return userRepository.getUserUid()
     }
 }

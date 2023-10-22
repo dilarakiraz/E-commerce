@@ -14,18 +14,17 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FavoritesViewModel @Inject constructor (
+class FavoritesViewModel @Inject constructor(
     private val productRepository: ProductRepository,
     private val stringRes: ResourceProvider
-) : ViewModel(){
+) : ViewModel() {
 
     private var _state = MutableLiveData<FavoritesState>(FavoritesState.Loading)
     val state: LiveData<FavoritesState>
         get() = _state
 
-
     fun getFavorites() = viewModelScope.launch {
-        _state.value = when(val result = productRepository.getFavorites()){
+        _state.value = when (val result = productRepository.getFavorites()) {
             is Resource.Success -> FavoritesState.Success(result.data)
             is Resource.Error -> FavoritesState.Error(result.throwable)
             is Resource.Fail -> FavoritesState.EmptyData(stringRes(R.string.something_went_wrong))
@@ -42,17 +41,19 @@ class FavoritesViewModel @Inject constructor (
             is Resource.Success -> {
                 _state.value = FavoritesState.Success(emptyList())
             }
+
             is Resource.Error -> {
                 _state.value = FavoritesState.Error(result.throwable)
             }
+
             else -> {
             }
         }
     }
 }
 
-sealed interface FavoritesState{
-    object Loading: FavoritesState
+sealed interface FavoritesState {
+    object Loading : FavoritesState
     data class Success(val favoriteProducts: List<ProductUI>) : FavoritesState
     data class Error(val throwable: Throwable) : FavoritesState
     data class EmptyData(val message: String) : FavoritesState

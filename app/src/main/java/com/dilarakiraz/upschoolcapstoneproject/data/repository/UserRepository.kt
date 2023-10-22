@@ -7,9 +7,6 @@ import kotlinx.coroutines.tasks.await
 class UserRepository(
     private val firebaseAuth: FirebaseAuth,
 ) {
-    fun checkUserLogin(): Boolean = firebaseAuth.currentUser != null
-
-    fun getUserUid(): String = firebaseAuth.currentUser?.uid.orEmpty()
 
     suspend fun signUp(email: String, password: String): Resource<Boolean> {
         return try {
@@ -39,7 +36,5 @@ class UserRepository(
         }
     }
 
-    fun isUserAuthenticated(): Boolean {
-        return firebaseAuth.currentUser != null
-    }
+    fun getUserUid(): String = firebaseAuth.currentUser?.uid.orEmpty()
 }

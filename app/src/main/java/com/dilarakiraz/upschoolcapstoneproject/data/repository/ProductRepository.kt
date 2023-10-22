@@ -89,16 +89,6 @@ class ProductRepository(
         }
     }
 
-//    suspend fun addToCart(userId: String, id: Int): Resource<Boolean> {
-//        return try {
-//            productService.addToCart(AddToCartRequest(userId, id)).call {
-//                true
-//            }
-//        } catch (e: Exception) {
-//            Resource.Error(e)
-//        }
-//    }
-
     suspend fun addToCart(userId: String, id: Int): Resource<Unit> {
         val result = productService.addToCart(AddToCartRequest(userId, id))
         return result.call {}
