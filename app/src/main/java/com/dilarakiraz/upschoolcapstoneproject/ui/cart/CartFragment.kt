@@ -34,32 +34,28 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
         viewModel.getCartProducts()
 
         with(binding) {
-            rvCartProducts.adapter = cartProductsAdapter
+            with(viewModel) {
 
-            tvClear.setOnClickListener {
-                viewModel.clearCart()
-            }
-            btnBuyNow.setOnClickListener {
-                findNavController().navigate(R.id.cartToPayment)
-            }
-        }
+                rvCartProducts.adapter = cartProductsAdapter
 
-        with(viewModel) {
-            cartProductsAdapter.onIncreaseClick = {
-                increase(it)
-                totalAmount.observe(viewLifecycleOwner) { totalAmount ->
-                    val totalAmountText = String.format("%.3f₺", totalAmount)
-                    binding.tvTotalAmount.text = totalAmountText
+                tvClear.setOnClickListener {
+                    clearCart()
                 }
-            }
-            cartProductsAdapter.onDecreaseClick = { price ->
-                decrease(price)
-                totalAmount.observe(viewLifecycleOwner) { totalAmount ->
-                    val totalAmountText = String.format("%.3f₺", totalAmount)
-                    binding.tvTotalAmount.text = totalAmountText
+
+                btnBuyNow.setOnClickListener {
+                    findNavController().navigate(R.id.cartToPayment)
+                }
+
+                cartProductsAdapter.onIncreaseClick = {
+                    increase(it)
+                }
+
+                cartProductsAdapter.onDecreaseClick = { price ->
+                    decrease(price)
                 }
             }
         }
+
         observeData()
     }
 
@@ -88,27 +84,10 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
             }
         }
 
-        viewModel.updatedCart.observe(viewLifecycleOwner) { updatedCart ->
-            cartProductsAdapter.submitList(updatedCart)
-            updateTotalAmount(updatedCart)
+        viewModel.totalAmount.observe(viewLifecycleOwner) { totalAmount ->
+            val totalAmountText = String.format("%.3f₺", totalAmount)
+            binding.tvTotalAmount.text = totalAmountText
         }
-    }
-
-    fun updateTotalAmount(updatedCart: List<ProductUI>?) {
-        var totalAmount = 0.0
-
-        updatedCart?.let { cart ->
-            for (product in cart) {
-                val price = if (product.salePrice != 0.0) {
-                    product.salePrice
-                } else {
-                    product.price
-                }
-                totalAmount += price
-            }
-        }
-        val totalAmountText = String.format("%.3f₺", totalAmount)
-        binding.tvTotalAmount.text = totalAmountText
     }
 
     private fun onProductClick(id: Int) {

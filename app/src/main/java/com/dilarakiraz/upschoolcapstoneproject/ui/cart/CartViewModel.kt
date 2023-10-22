@@ -26,33 +26,26 @@ class CartViewModel @Inject constructor(
     private val _totalAmount = MutableLiveData(0.0)
     val totalAmount: LiveData<Double> = _totalAmount
 
-    private val _updatedCart =
-        MutableLiveData<List<ProductUI>>()
-    val updatedCart: LiveData<List<ProductUI>>
-        get() = _updatedCart
-
-    private val _cartItems = MutableLiveData<List<ProductUI>>()
-    val cartItems: LiveData<List<ProductUI>> = _cartItems
-
-
     fun getCartProducts() {
         viewModelScope.launch {
             _cartState.value = CartState.Loading
-            _cartState.value =
-                when (val result = productRepository.getCartProducts(userRepository.getUserUid())) {
-                    is Resource.Success -> CartState.Success(result.data)
-                    is Resource.Error -> CartState.Error(result.throwable)
-                    is Resource.Fail -> CartState.EmptyScreen(result.message)
+
+            when (val result = productRepository.getCartProducts(userRepository.getUserUid())) {
+                is Resource.Success -> {
+                    _cartState.value = CartState.Success(result.data) // Düzeltme yapıldı
+                    _totalAmount.value = result.data.sumOf { it.price }
                 }
+
+                is Resource.Error -> CartState.Error(result.throwable)
+                is Resource.Fail -> CartState.EmptyScreen(result.message)
+            }
         }
-        loadUpdatedCart()
     }
 
     fun deleteProductFromCart(id: Int) {
         viewModelScope.launch {
             productRepository.deleteFromCart(id)
             getCartProducts()
-            loadUpdatedCart()
         }
     }
 
@@ -60,22 +53,9 @@ class CartViewModel @Inject constructor(
         viewModelScope.launch {
             productRepository.clearCart(userRepository.getUserUid())
             getCartProducts()
-            loadUpdatedCart()
         }
     }
 
-    private fun loadUpdatedCart() {
-        viewModelScope.launch {
-            when (val result = productRepository.getCartProducts(userRepository.getUserUid())) {
-                is Resource.Success -> {
-                    _updatedCart.value = result.data
-                }
-                else -> {
-                    _updatedCart.value = emptyList()
-                }
-            }
-        }
-    }
     fun increase(price: Double) {
         _totalAmount.value = _totalAmount.value?.plus(price)
     }

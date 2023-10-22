@@ -1,8 +1,6 @@
 package com.dilarakiraz.upschoolcapstoneproject.ui.detail
 
 
-import android.content.Context
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,15 +25,13 @@ class DetailViewModel @Inject constructor(
     private val userRepository: UserRepository
 ) : ViewModel() {
 
-    private var _detailState = MutableLiveData<DetailState>(DetailState.Loading)
+    private var _detailState = MutableLiveData<DetailState>(DetailState.EmptyScreen(""))
     val detailState: LiveData<DetailState>
         get() = _detailState
 
-    private var _selectedProduct = MutableLiveData<ProductUI>()
-    val selectedProduct: LiveData<ProductUI>
-        get() = _selectedProduct
-
-    private var isFavoriteUpdating = false
+    private var _product = MutableLiveData<ProductUI>()
+    val product: LiveData<ProductUI>
+        get() = _product
 
     fun getProductDetail(id: Int) {
         viewModelScope.launch {
@@ -43,7 +39,7 @@ class DetailViewModel @Inject constructor(
             when (val result = productRepository.getProductDetail(id)) {
                 is Resource.Success -> {
                     _detailState.value = DetailState.Success(result.data)
-                    _selectedProduct.value = result.data // Seçilen ürünü güncelle
+                    _product.value = result.data // Seçilen ürünü güncelle
                 }
 
                 is Resource.Error -> _detailState.value = DetailState.Error(result.throwable)
@@ -52,37 +48,35 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    fun toggleFavorite(product: ProductUI) {
-        isFavoriteUpdating = true
+    fun toggleFavorite() {
         viewModelScope.launch {
-            if (product.isFavorite) {
-                productRepository.deleteFromFavorites(product)
-                _selectedProduct.value = product.copy(isFavorite = false)
-            } else {
-                productRepository.addToFavorites(product)
-                _selectedProduct.value = product.copy(isFavorite = true)
-            }
-            isFavoriteUpdating = false
-        }
-    }
-
-    fun isFavoriteUpdating(): Boolean {
-        return isFavoriteUpdating
-    }
-
-    fun addToCart(userId: String, productId: Int, context: Context) {
-        viewModelScope.launch {
-            val result = productRepository.addToCart(userId, productId)
-            if (result is Resource.Success && result.data) {
-                Toast.makeText(context, "Ürün başarıyla sepete eklendi.", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(context, "Ürün sepete eklenemedi.", Toast.LENGTH_SHORT).show()
+            product.value?.let {
+                if (it.isFavorite) {
+                    productRepository.deleteFromFavorites(it)
+                } else {
+                    productRepository.addToFavorites(it)
+                }
+                getProductDetail(it.id)
             }
         }
     }
 
-    fun isUserAuthenticated(): Boolean {
-        return userRepository.isUserAuthenticated()
+    fun addToCart(productId: Int) {
+        viewModelScope.launch {
+            when (val result = productRepository.addToCart(getUserUid(), productId)) {
+                is Resource.Success -> {
+                    val productValue = product.value
+                    if (productValue != null) {
+                        _detailState.value =
+                            DetailState.Success(productValue, "Ürün sepete eklendi.")
+                    } else {}
+                }
+
+                is Resource.Fail -> {}
+
+                is Resource.Error -> {}
+            }
+        }
     }
 
     fun getUserUid(): String {
@@ -94,6 +88,6 @@ class DetailViewModel @Inject constructor(
 sealed interface DetailState {
     object Loading : DetailState
     data class EmptyScreen(val message: String) : DetailState
-    data class Success(val product: ProductUI) : DetailState
+    data class Success(val product: ProductUI, val toastMessage: String? = null) : DetailState
     data class Error(val throwable: Throwable) : DetailState
 }

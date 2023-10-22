@@ -8,5 +8,4 @@ package com.dilarakiraz.upschoolcapstoneproject.data.model.request
 data class AddToCartRequest (
     val userId: String,
     val productId: Int
-){
-}
+)

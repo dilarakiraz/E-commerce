@@ -36,18 +36,32 @@
             tools:itemCount="5"
             tools:listitem="@layout/item_sale_product" />
 
+        <TextView
+            android:id="@+id/tv_categories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:text="Categories"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rv_sale_products" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_category_products"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/white"
             android:orientation="horizontal"
-            tools:listitem="@layout/item_category"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.333"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rv_sale_products"/>
+            app:layout_constraintTop_toBottomOf="@+id/tv_categories"
+            tools:listitem="@layout/item_category" />
 
         <TextView
             android:id="@+id/textView2"
@@ -55,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
-            android:text="All Products"
+            android:text="@string/all_products"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -95,7 +109,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="TextView"
+            android:text="@string/error"
             android:textSize="20sp"
             android:textStyle="bold"
             android:visibility="gone"
@@ -111,9 +125,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
-            android:text="Sale"
+            android:text="@string/sale"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView3" />

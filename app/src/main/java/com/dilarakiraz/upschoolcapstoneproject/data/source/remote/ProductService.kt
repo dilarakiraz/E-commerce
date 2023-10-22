@@ -1,5 +1,15 @@
 package com.dilarakiraz.upschoolcapstoneproject.data.source.remote
 
+import com.dilarakiraz.upschoolcapstoneproject.common.Constants.EndPoints.ADD_TO_CART
+import com.dilarakiraz.upschoolcapstoneproject.common.Constants.EndPoints.CLEAR_CART
+import com.dilarakiraz.upschoolcapstoneproject.common.Constants.EndPoints.DELETE_FROM_CART
+import com.dilarakiraz.upschoolcapstoneproject.common.Constants.EndPoints.GET_CART_PRODUCTS
+import com.dilarakiraz.upschoolcapstoneproject.common.Constants.EndPoints.GET_CATEGORIES
+import com.dilarakiraz.upschoolcapstoneproject.common.Constants.EndPoints.GET_PRODUCTS
+import com.dilarakiraz.upschoolcapstoneproject.common.Constants.EndPoints.GET_PRODUCTS_BY_CATEGORY
+import com.dilarakiraz.upschoolcapstoneproject.common.Constants.EndPoints.GET_PRODUCT_DETAIL
+import com.dilarakiraz.upschoolcapstoneproject.common.Constants.EndPoints.GET_SALE_PRODUCTS
+import com.dilarakiraz.upschoolcapstoneproject.common.Constants.EndPoints.SEARCH_PRODUCT
 import com.dilarakiraz.upschoolcapstoneproject.data.model.request.AddToCartRequest
 import com.dilarakiraz.upschoolcapstoneproject.data.model.request.ClearCartRequest
 import com.dilarakiraz.upschoolcapstoneproject.data.model.request.DeleteFromCartRequest
@@ -17,46 +27,46 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface ProductService {
-    @POST("add_to_cart.php")
+    @POST(ADD_TO_CART)
     suspend fun addToCart(
         @Body addToCartRequest: AddToCartRequest
     ): BaseResponse
 
-    @POST("delete_from_cart.php")
+    @POST(DELETE_FROM_CART)
     suspend fun deleteFromCart(
         @Body deleteFromCartRequest: DeleteFromCartRequest
     ): BaseResponse
 
-    @GET("get_cart_products.php")
+    @GET(GET_CART_PRODUCTS)
     suspend fun getCartProducts(
         @Query("userId") userId: String
     ): GetCartProductsResponse
 
-    @POST("clear_cart.php")
+    @POST(CLEAR_CART)
     suspend fun clearCart(
         @Body clearCartRequest: ClearCartRequest
     ): BaseResponse
 
-    @GET("get_products.php")
+    @GET(GET_PRODUCTS)
     suspend fun getProducts(): GetProductsResponse
 
-    @GET("get_products_by_category.php")
+    @GET(GET_PRODUCTS_BY_CATEGORY)
     suspend fun getProductsByCategory(
         @Query("category") category: String
     ): GetProductsByCategoryResponse
 
-    @GET("get_sale_products.php")
+    @GET(GET_SALE_PRODUCTS)
     suspend fun getSaleProducts(): GetSaleProductsResponse
 
-    @GET("search_product.php")
+    @GET(SEARCH_PRODUCT)
     suspend fun searchProduct(
         @Query("query") query: String
     ): SearchProductResponse
 
-    @GET("get_categories.php")
+    @GET(GET_CATEGORIES)
     suspend fun getCategories(): GetCategoriesResponse
 
-    @POST("get_product_detail.php")
+    @POST(GET_PRODUCT_DETAIL)
     suspend fun getProductDetail(
         @Query("id") id: Int
     ): GetProductDetailResponse

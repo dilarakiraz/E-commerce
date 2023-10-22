@@ -17,5 +17,4 @@ data class ProductUI(
     val count: Int,
     val saleState: Boolean,
     val isFavorite: Boolean = false
-){
-}
+)

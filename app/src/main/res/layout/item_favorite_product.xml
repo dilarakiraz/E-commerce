@@ -30,7 +30,7 @@
         android:gravity="center"
         android:lines="2"
         android:maxLines="2"
-        android:text="TextView"
+        android:text="@string/product_name"
         app:layout_constraintBottom_toTopOf="@+id/tv_price"
         app:layout_constraintEnd_toStartOf="@+id/iv_delete"
         app:layout_constraintStart_toEndOf="@+id/iv_product"

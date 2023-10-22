@@ -59,6 +59,7 @@ class HomeViewModel @Inject constructor(
         val productsByCategoryResource = productRepository.getProductsByCategory(category)
         if (productsByCategoryResource is Resource.Success) {
             val products = productsByCategoryResource.data
+
             _productsByCategory.value = products
         }
     }

@@ -56,4 +56,10 @@
     <string name="continue_shopping">Continue Shopping</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="category">category</string>
+    <string name="product_name">Product Name</string>
+    <string name="all_products">All Products</string>
+    <string name="sale">Sale</string>
+    <string name="error">Error</string>
+    <string name="product_added_to_cart">Product added to cart</string>
 </resources>

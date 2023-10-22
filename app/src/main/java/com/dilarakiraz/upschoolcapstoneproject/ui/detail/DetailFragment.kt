@@ -11,14 +11,11 @@ import com.dilarakiraz.upschoolcapstoneproject.R
 import com.dilarakiraz.upschoolcapstoneproject.common.gone
 import com.dilarakiraz.upschoolcapstoneproject.common.loadImage
 import com.dilarakiraz.upschoolcapstoneproject.common.setStrikeThrough
-import com.dilarakiraz.upschoolcapstoneproject.common.showPopup
-import com.dilarakiraz.upschoolcapstoneproject.common.showSnackBar
 import com.dilarakiraz.upschoolcapstoneproject.common.viewBinding
 import com.dilarakiraz.upschoolcapstoneproject.common.visible
 import com.dilarakiraz.upschoolcapstoneproject.databinding.FragmentDetailBinding
 
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.tasks.await
 
 /**
  * Created on 8.10.2023
@@ -34,7 +31,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     private val args by navArgs<DetailFragmentArgs>()
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -46,17 +42,11 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             }
 
             btnAddToBag.setOnClickListener {
-                if (viewModel.isUserAuthenticated()) {
-                    val userId = viewModel.getUserUid()
-                    val productId = args.id
-                    viewModel.addToCart(userId, productId, requireContext())
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "Ürün eklemek için oturum açmalısınız.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                viewModel.addToCart(args.id)
+            }
+
+            ivFavorite.setOnClickListener {
+                viewModel.toggleFavorite()
             }
         }
         observeData()
@@ -72,43 +62,41 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
                 is DetailState.Success -> {
                     progressBar.gone()
-                    val product = state.product
-                    tvTitle.text = product.title
-                    tvDescription.text = product.description
 
-                    if (product.saleState) {
-                        tvPrice.text = "${product.price} ₺"
-                        tvPrice.setStrikeThrough()
-                        tvSalePrice.text = "${product.salePrice} ₺"
-                    } else {
-                        tvPrice.text = "${product.price} ₺"
-                        tvSalePrice.visibility = View.GONE
-                    }
+                    state.product.let { product ->
+                        tvTitle.text = product.title
+                        tvDescription.text = product.description
 
-                    ivProduct.loadImage(product.imageOne)
+                        if (product.saleState) {
+                            tvPrice.text = "${product.price} ₺"
+                            tvPrice.setStrikeThrough()
+                            tvSalePrice.text = "${product.salePrice} ₺"
+                        } else {
+                            tvPrice.text = "${product.price} ₺"
+                            tvSalePrice.visibility = View.GONE
+                        }
 
-                    if (product.isFavorite) {
-                        ivFavorite.setImageResource(R.drawable.ic_fav)
-                    } else {
-                        ivFavorite.setImageResource(R.drawable.ic_unfav)
-                    }
+                        if (product.isFavorite) {
+                            ivFavorite.setImageResource(R.drawable.ic_unfav)
+                        } else {
+                            ivFavorite.setImageResource(R.drawable.ic_fav)
+                        }
 
-                    ivFavorite.setOnClickListener {
-                        val product = viewModel.selectedProduct.value
-                        if (product != null) {
-                            if (!viewModel.isFavoriteUpdating()) {
-                                viewModel.toggleFavorite(product)
-                                if (product.isFavorite) {
-                                    ivFavorite.setImageResource(R.drawable.ic_unfav)
-                                    showPopup("Ürün favorilerden kaldırıldı")
-                                } else {
-                                    ivFavorite.setImageResource(R.drawable.ic_fav)
-                                    view?.showSnackBar("Ürün favorilere eklendi")
-                                }
-                            }
+                        ivProduct.loadImage(product.imageOne)
+
+                        if (product.isFavorite) {
+                            ivFavorite.setImageResource(R.drawable.ic_fav)
+                        } else {
+                            ivFavorite.setImageResource(R.drawable.ic_unfav)
+                        }
+
+                        ratingBar.rating = product.rate.toFloat()
+
+                        if (state.toastMessage != null) {
+                            Toast.makeText(requireContext(), state.toastMessage, Toast.LENGTH_SHORT)
+                                .show()
                         }
                     }
-                    ratingBar.rating = product.rate.toFloat()
                 }
 
                 is DetailState.Error -> {
@@ -119,6 +107,11 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                 }
 
                 is DetailState.EmptyScreen -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "Üzgünüz, veri bulunamadı.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }

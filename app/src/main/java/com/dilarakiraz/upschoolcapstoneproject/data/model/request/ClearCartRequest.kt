@@ -7,5 +7,4 @@ package com.dilarakiraz.upschoolcapstoneproject.data.model.request
 
 data class ClearCartRequest(
     val userId: String
-) {
-}
+)

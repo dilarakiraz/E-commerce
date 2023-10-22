@@ -40,7 +40,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         )
     }
 
-    private val categoryProductsAdapter by lazy { CategoryProductsAdapter(::onCategoryClick) }
+    private val categoryProductsAdapter by lazy {
+        CategoryProductsAdapter(
+            ::onCategoryClick
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
