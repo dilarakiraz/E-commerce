@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.dilarakiraz.upschoolcapstoneproject.common.Resource
 import com.dilarakiraz.upschoolcapstoneproject.data.model.response.ProductUI
 import com.dilarakiraz.upschoolcapstoneproject.data.repository.ProductRepository
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -30,6 +31,7 @@ class HomeViewModel @Inject constructor(
     val productsByCategory: LiveData<List<ProductUI>>
         get() = _productsByCategory
 
+
     init {
         getProducts()
         getCategories()
@@ -39,7 +41,6 @@ class HomeViewModel @Inject constructor(
         _mainState.value = HomeState.Loading
         val saleProducts = async { productRepository.getSaleProducts() }.await()
         val allProducts = async { productRepository.getAllProducts() }.await()
-
 
         _mainState.value = when {
             allProducts is Resource.Error -> HomeState.Error(allProducts.throwable)
@@ -59,7 +60,6 @@ class HomeViewModel @Inject constructor(
         val productsByCategoryResource = productRepository.getProductsByCategory(category)
         if (productsByCategoryResource is Resource.Success) {
             val products = productsByCategoryResource.data
-
             _productsByCategory.value = products
         }
     }

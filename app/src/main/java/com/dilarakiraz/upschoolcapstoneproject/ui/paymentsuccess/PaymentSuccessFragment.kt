@@ -24,7 +24,6 @@ class PaymentSuccessFragment : Fragment(R.layout.fragment_payment_success) {
 
     private val paymentSuccessViewModel: PaymentSuccessViewModel by viewModels()
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

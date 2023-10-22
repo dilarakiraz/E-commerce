@@ -55,10 +55,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             rvSaleProducts.adapter = saleProductsAdapter
             rvAllProducts.adapter = allProductsAdapter
             rvCategoryProducts.adapter = categoryProductsAdapter
+
         }
 
         viewModel.categoryList.observe(viewLifecycleOwner) { list ->
             categoryProductsAdapter.updateCategoryList(list)
+        }
+        viewModel.productsByCategory.observe(viewLifecycleOwner) { categoryProducts ->
+            allProductsAdapter.submitList(categoryProducts)
         }
     }
 
@@ -84,9 +88,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
                 else -> {}
             }
-        }
-        viewModel.productsByCategory.observe(viewLifecycleOwner) { categoryProducts ->
-            allProductsAdapter.submitList(categoryProducts)
         }
     }
 

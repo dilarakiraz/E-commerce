@@ -21,7 +21,7 @@ import javax.inject.Inject
 class PaymentSuccessViewModel @Inject constructor(
     private val productRepository: ProductRepository,
     private val userRepository: UserRepository,
-) : ViewModel(){
+) : ViewModel() {
 
     private val _result = MutableLiveData<Resource<BaseResponse>>()
     val result: LiveData<Resource<BaseResponse>> = _result
@@ -30,8 +30,14 @@ class PaymentSuccessViewModel @Inject constructor(
         viewModelScope.launch {
             val result = productRepository.clearCart(userRepository.getUserUid())
 
-            _result.value = when (result){
-                is Resource.Success -> Resource.Success(BaseResponse(status = 200, message = "Cart cleared successfully"))
+            _result.value = when (result) {
+                is Resource.Success -> Resource.Success(
+                    BaseResponse(
+                        status = 200,
+                        message = "Cart cleared successfully"
+                    )
+                )
+
                 is Resource.Error -> Resource.Error(result.throwable)
                 else -> Resource.Error(Throwable("Clearing cart failed"))
             }
