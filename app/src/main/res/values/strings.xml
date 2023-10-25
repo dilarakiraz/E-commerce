@@ -63,4 +63,5 @@
     <string name="error">Error</string>
     <string name="product_added_to_cart">Product added to cart</string>
     <string name="enter_valid_information">Please Enter Valid Information</string>
+    <string name="prompt_text">Kategori veya ürün ara</string>
 </resources>

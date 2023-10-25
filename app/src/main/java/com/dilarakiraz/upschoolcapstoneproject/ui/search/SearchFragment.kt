@@ -3,14 +3,9 @@ package com.dilarakiraz.upschoolcapstoneproject.ui.search
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
-import android.speech.SpeechRecognizer
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.dilarakiraz.upschoolcapstoneproject.R
@@ -20,7 +15,6 @@ import com.dilarakiraz.upschoolcapstoneproject.common.viewBinding
 import com.dilarakiraz.upschoolcapstoneproject.common.visible
 import com.dilarakiraz.upschoolcapstoneproject.data.model.response.ProductUI
 import com.dilarakiraz.upschoolcapstoneproject.databinding.FragmentSearchBinding
-import com.dilarakiraz.upschoolcapstoneproject.ui.home.HomeFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 
@@ -38,7 +32,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         )
     }
 
-    private val REQUEST_CODE_SPEECH_INPUT = 50
+    private val requestCodeSpeechInput = 50
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -47,12 +42,12 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
             searchView.setOnQueryTextListener(object :
                 androidx.appcompat.widget.SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    return false
-                }
+                override fun onQueryTextSubmit(query: String?): Boolean = false
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-                    viewModel.searchProduct(newText)
+                    if ((newText?.length ?: 0) >= 3) {
+                        viewModel.searchProduct(newText)
+                    }
                     return false
                 }
             })
@@ -68,9 +63,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private fun observeData() = with(binding) {
         viewModel.state.observe(viewLifecycleOwner) { state ->
             when (state) {
-                is SearchState.Loading -> {
-                    progressBar.visible()
-                }
+                is SearchState.Loading -> progressBar.visible()
 
                 is SearchState.Success -> {
                     searchProductsAdapter.submitList(state.products)
@@ -82,9 +75,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                     progressBar.gone()
                 }
 
-                is SearchState.EmptyScreen -> {
-                    progressBar.gone()
-                }
+                is SearchState.EmptyScreen -> progressBar.gone()
             }
         }
     }
@@ -106,10 +97,10 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
             )
             putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-            putExtra(RecognizerIntent.EXTRA_PROMPT, "Kategori veya ürün ara")
+            putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.prompt_text))
         }
         try {
-            startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT)
+            startActivityForResult(intent, requestCodeSpeechInput)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -117,14 +108,12 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE_SPEECH_INPUT) {
-            if (resultCode == Activity.RESULT_OK && data != null) {
-                val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-                if (!result.isNullOrEmpty()) {
-                    val query = result[0]
-                    binding.searchView.setQuery(query, true)
-                    viewModel.searchProduct(query)
-                }
+        if (requestCode == requestCodeSpeechInput && resultCode == Activity.RESULT_OK && data != null) {
+            val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+            if (!result.isNullOrEmpty()) {
+                val query = result[0]
+                binding.searchView.setQuery(query, true)
+                viewModel.searchProduct(query)
             }
         }
     }

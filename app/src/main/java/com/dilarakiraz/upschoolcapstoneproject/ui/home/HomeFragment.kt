@@ -31,38 +31,39 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             ::onFavoriteClick
         )
     }
-
     private val allProductsAdapter by lazy {
         AllProductsAdapter(
             ::onProductClick,
             ::onFavoriteClick
         )
     }
-
-    private val categoryProductsAdapter by lazy {
-        CategoryProductsAdapter(
-            ::onCategoryClick
-        )
-    }
+    private val categoryProductsAdapter by lazy { CategoryProductsAdapter(::onCategoryClick) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         observeData()
-        loadUserNickname()
 
         with(binding) {
             rvSaleProducts.adapter = saleProductsAdapter
             rvAllProducts.adapter = allProductsAdapter
             rvCategoryProducts.adapter = categoryProductsAdapter
-
         }
 
-        viewModel.categoryList.observe(viewLifecycleOwner) { list ->
-            categoryProductsAdapter.updateCategoryList(list)
-        }
-        viewModel.productsByCategory.observe(viewLifecycleOwner) { categoryProducts ->
-            allProductsAdapter.submitList(categoryProducts)
+        viewModel.apply {
+            categoryList.observe(viewLifecycleOwner, categoryProductsAdapter::updateCategoryList)
+            productsByCategory.observe(viewLifecycleOwner, allProductsAdapter::submitList)
+
+            loadUserNickname().observe(viewLifecycleOwner) { nickname ->
+                if (nickname != null) {
+                    binding.tvNickname.text = nickname
+                }
+            }
+
+            cartProductsCount.observe(viewLifecycleOwner) { count ->
+                binding.tvBagProductsCount.text = "$count"
+            }
+            fetchCartProductsCount()
         }
     }
 
@@ -88,23 +89,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
                 else -> {}
             }
-        }
-    }
-
-    private fun loadUserNickname() {
-        val user = FirebaseAuth.getInstance().currentUser
-
-        if (user != null) {
-            val db = Firebase.firestore
-            db.collection("users").document(user.uid)
-                .get()
-                .addOnSuccessListener { document ->
-                    val nickName = document.getString("nickname")
-                    if (nickName != null) {
-                        binding.tvNickname.text = nickName
-                    }
-                }
-                .addOnFailureListener {}
         }
     }
 

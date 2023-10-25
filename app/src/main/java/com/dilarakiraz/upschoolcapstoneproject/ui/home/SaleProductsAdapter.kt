@@ -1,7 +1,6 @@
 package com.dilarakiraz.upschoolcapstoneproject.ui.home
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -22,7 +21,7 @@ import com.dilarakiraz.upschoolcapstoneproject.databinding.ItemSaleProductBindin
 class SaleProductsAdapter(
     private val onProductClick: (Int) -> Unit,
     private val onFavoriteClick: (ProductUI) -> Unit,
-): ListAdapter<ProductUI, SaleProductsAdapter.SaleProductViewHolder>(ProductDiffCallBack()) {
+) : ListAdapter<ProductUI, SaleProductsAdapter.SaleProductViewHolder>(ProductDiffCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SaleProductViewHolder =
         SaleProductViewHolder(
@@ -40,9 +39,9 @@ class SaleProductsAdapter(
         private val binding: ItemSaleProductBinding,
         private val onProductClick: (Int) -> Unit,
         private val onFavoriteClick: (ProductUI) -> Unit,
-    ): RecyclerView.ViewHolder(binding.root){
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-            fun bind(product: ProductUI) = with(binding){
+        fun bind(product: ProductUI) = with(binding) {
             tvName.text = product.title
             tvPrice.text = "${product.price} ₺"
 
@@ -50,7 +49,7 @@ class SaleProductsAdapter(
                 tvSalePrice.text = "${product.salePrice} ₺"
                 tvSalePrice.visible()
                 tvPrice.setStrikeThrough()
-            }else {
+            } else {
                 tvSalePrice.text = ""
                 tvSalePrice.invisible()
             }
@@ -72,7 +71,7 @@ class SaleProductsAdapter(
         }
     }
 
-    class ProductDiffCallBack: DiffUtil.ItemCallback<ProductUI>(){
+    class ProductDiffCallBack : DiffUtil.ItemCallback<ProductUI>() {
         override fun areItemsTheSame(oldItem: ProductUI, newItem: ProductUI): Boolean {
             return oldItem.id == newItem.id
         }

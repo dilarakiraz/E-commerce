@@ -28,15 +28,16 @@ class AllProductsAdapter(
             onFavoriteClick
         )
 
-   override fun onBindViewHolder(holder:ProductViewHolder, position: Int)  = holder.bind(getItem(position))
+    override fun onBindViewHolder(holder: ProductViewHolder, position: Int) =
+        holder.bind(getItem(position))
 
-    class ProductViewHolder (
+    class ProductViewHolder(
         private val binding: ItemProductBinding,
         private val onProductClick: (Int) -> Unit,
         private val onFavoriteClick: (ProductUI) -> Unit,
-    ): RecyclerView.ViewHolder(binding.root){
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(product: ProductUI) = with(binding){
+        fun bind(product: ProductUI) = with(binding) {
             tvName.text = product.title
             tvPrice.text = "${product.price} ₺"
             tvSalePrice.text = "${product.salePrice} ₺"

@@ -8,6 +8,8 @@ import com.dilarakiraz.upschoolcapstoneproject.common.Resource
 import com.dilarakiraz.upschoolcapstoneproject.data.model.response.ProductUI
 import com.dilarakiraz.upschoolcapstoneproject.data.repository.ProductRepository
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -31,6 +33,9 @@ class HomeViewModel @Inject constructor(
     val productsByCategory: LiveData<List<ProductUI>>
         get() = _productsByCategory
 
+    private val _cartProductsCount = MutableLiveData<Int>()
+    val cartProductsCount: LiveData<Int>
+        get() = _cartProductsCount
 
     init {
         getProducts()
@@ -76,6 +81,40 @@ class HomeViewModel @Inject constructor(
         if (product.isFavorite) productRepository.deleteFromFavorites(product)
         else productRepository.addToFavorites(product)
         getProducts()
+    }
+
+    fun loadUserNickname(): MutableLiveData<String?> {
+        val user = FirebaseAuth.getInstance().currentUser
+        val nicknameLiveData = MutableLiveData<String?>()
+
+        if (user != null) {
+            val db = Firebase.firestore
+            db.collection("users").document(user.uid)
+                .get()
+                .addOnSuccessListener { document ->
+                    val nickName = document.getString("nickname")
+                    if (nickName != null) {
+                        nicknameLiveData.value = nickName
+                    }
+                }
+                .addOnFailureListener {}
+        }
+        return nicknameLiveData
+    }
+
+    fun fetchCartProductsCount() {
+        viewModelScope.launch {
+            val userId = FirebaseAuth.getInstance().currentUser?.uid
+            if (userId != null) {
+                val cartProducts = productRepository.getCartProducts(userId)
+                if (cartProducts is Resource.Success) {
+                    val count = cartProducts.data.size
+                    _cartProductsCount.value = count
+                } else {
+                    _cartProductsCount.value = 0
+                }
+            }
+        }
     }
 }
 
