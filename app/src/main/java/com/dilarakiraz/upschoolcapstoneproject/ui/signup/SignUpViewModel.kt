@@ -1,8 +1,6 @@
 package com.dilarakiraz.upschoolcapstoneproject.ui.signup
 
-import android.content.Context
 import android.util.Patterns
-import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -49,10 +47,8 @@ class SignUpViewModel @Inject constructor(
                 }
 
                 is Resource.Fail -> {
-                    // Hata işlemleri burada
+                    _state.value = SignUpState.Error(Throwable(stringRes(R.string.network_error)))
                 }
-
-                else -> {}
             }
         }
     }
@@ -80,7 +76,7 @@ class SignUpViewModel @Inject constructor(
             showError(R.string.invalid_mail)
         } else if (password.length <= 6) {
             showError(R.string.invalid_password)
-        }else {
+        } else {
             signUp(email, password, nickname, phoneNumber)
         }
     }

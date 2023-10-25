@@ -64,4 +64,6 @@
     <string name="product_added_to_cart">Product added to cart</string>
     <string name="enter_valid_information">Please Enter Valid Information</string>
     <string name="prompt_text">Kategori veya ürün ara</string>
+    <string name="network_error">Network Error</string>
+    <string name="error_unknown">Unknown Error</string>
 </resources>

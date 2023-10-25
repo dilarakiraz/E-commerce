@@ -33,6 +33,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
 
                 viewModel.checkInfo(email, password, nickname, phoneNumber)
             }
+
             icSignUpToSignIn.setOnClickListener {
                 findNavController().navigate(R.id.signUpToSignIn)
             }
@@ -50,10 +51,8 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
 
                 is SignUpState.Error -> {
                     progressBar.gone()
-                    showErrorMessage(state.throwable.message ?: "Unknown Error")
+                    showErrorMessage(state.throwable.message ?: getString(R.string.error_unknown))
                 }
-
-                else -> {}
             }
         }
     }
