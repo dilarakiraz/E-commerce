@@ -37,8 +37,6 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
                 SplashState.GoToSignIn -> {
                     findNavController().navigate(R.id.splashToSignIn)
                 }
-
-                else -> {}
             }
         }
     }

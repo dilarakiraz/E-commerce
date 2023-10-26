@@ -13,9 +13,6 @@ import com.dilarakiraz.upschoolcapstoneproject.common.visible
 import com.dilarakiraz.upschoolcapstoneproject.data.model.response.ProductUI
 import com.dilarakiraz.upschoolcapstoneproject.databinding.FragmentHomeBinding
 import com.dilarakiraz.upschoolcapstoneproject.ui.categories.CategoryProductsAdapter
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -53,17 +50,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         viewModel.apply {
             categoryList.observe(viewLifecycleOwner, categoryProductsAdapter::updateCategoryList)
             productsByCategory.observe(viewLifecycleOwner, allProductsAdapter::submitList)
-
-            loadUserNickname().observe(viewLifecycleOwner) { nickname ->
-                if (nickname != null) {
-                    binding.tvNickname.text = nickname
+            userNickname.observe(viewLifecycleOwner) { nickname ->
+                nickname?.let {
+                    binding.tvNickname.text = it
                 }
             }
-
             cartProductsCount.observe(viewLifecycleOwner) { count ->
                 binding.tvBagProductsCount.text = "$count"
             }
-            fetchCartProductsCount()
         }
     }
 
@@ -86,8 +80,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 is HomeState.EmptyScreen -> {
                     progressBar.gone()
                 }
-
-                else -> {}
             }
         }
     }

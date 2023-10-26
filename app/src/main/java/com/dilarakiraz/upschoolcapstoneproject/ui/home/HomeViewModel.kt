@@ -13,6 +13,9 @@ import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
@@ -33,13 +36,25 @@ class HomeViewModel @Inject constructor(
     val productsByCategory: LiveData<List<ProductUI>>
         get() = _productsByCategory
 
+    private val _userNickname = MutableLiveData<String?>()
+    val userNickname: LiveData<String?>
+        get() = _userNickname
+
     private val _cartProductsCount = MutableLiveData<Int>()
     val cartProductsCount: LiveData<Int>
         get() = _cartProductsCount
 
+    private val db = Firebase.firestore
+    private val auth = FirebaseAuth.getInstance()
+    private val user = auth.currentUser
+
     init {
         getProducts()
         getCategories()
+
+        viewModelScope.launch {
+            performUserOperations()
+        }
     }
 
     private fun getProducts() = viewModelScope.launch {
@@ -53,11 +68,10 @@ class HomeViewModel @Inject constructor(
             saleProducts is Resource.Error -> HomeState.Error(saleProducts.throwable)
             saleProducts is Resource.Fail -> HomeState.EmptyScreen(saleProducts.message)
 
-            else -> {
-                val product = (allProducts as Resource.Success)
-                val sale = (saleProducts as Resource.Success)
-                HomeState.Success(product.data, sale.data)
-            }
+            else -> HomeState.Success(
+                (allProducts as Resource.Success).data,
+                (saleProducts as Resource.Success).data
+            )
         }
     }
 
@@ -69,7 +83,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getCategories() = viewModelScope.launch {
+    private fun getCategories() = viewModelScope.launch {
         val categoriesResource = productRepository.getCategories()
         if (categoriesResource is Resource.Success) {
             val categories = categoriesResource.data
@@ -83,38 +97,28 @@ class HomeViewModel @Inject constructor(
         getProducts()
     }
 
-    fun loadUserNickname(): MutableLiveData<String?> {
-        val user = FirebaseAuth.getInstance().currentUser
-        val nicknameLiveData = MutableLiveData<String?>()
+    private suspend fun performUserOperations() {
+        val userId = user?.uid.orEmpty()
 
-        if (user != null) {
-            val db = Firebase.firestore
-            db.collection("users").document(user.uid)
-                .get()
-                .addOnSuccessListener { document ->
-                    val nickName = document.getString("nickname")
-                    if (nickName != null) {
-                        nicknameLiveData.value = nickName
-                    }
-                }
-                .addOnFailureListener {}
-        }
-        return nicknameLiveData
-    }
-
-    fun fetchCartProductsCount() {
-        viewModelScope.launch {
-            val userId = FirebaseAuth.getInstance().currentUser?.uid
-            if (userId != null) {
-                val cartProducts = productRepository.getCartProducts(userId)
-                if (cartProducts is Resource.Success) {
-                    val count = cartProducts.data.size
-                    _cartProductsCount.value = count
-                } else {
-                    _cartProductsCount.value = 0
+        val nickname = withContext(Dispatchers.IO) {
+            if (userId.isEmpty()) null
+            else {
+                try {
+                    val document = db.collection("users").document(userId).get().await()
+                    document.getString("nickname")
+                } catch (e: Exception) {
+                    null
                 }
             }
         }
+        _userNickname.value = nickname
+
+        val cartProductsResource = productRepository.getCartProducts(userId)
+        val count = if (cartProductsResource is Resource.Success) {
+            cartProductsResource.data.size
+        } else 0
+
+        _cartProductsCount.value = count
     }
 }
 

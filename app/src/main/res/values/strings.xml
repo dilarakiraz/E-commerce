@@ -66,4 +66,6 @@
     <string name="prompt_text">Kategori veya ürün ara</string>
     <string name="network_error">Network Error</string>
     <string name="error_unknown">Unknown Error</string>
+    <string name="empty_card">Sepetiniz şu an boş.</string>
+    <string name="unexpected_error_message">Beklenmeyen bir hata oluştu.</string>
 </resources>

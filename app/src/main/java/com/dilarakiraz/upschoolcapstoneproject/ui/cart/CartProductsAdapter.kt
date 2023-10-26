@@ -80,6 +80,7 @@ class CartProductsAdapter(
                     onDeleteClick(product.id)
                 }
             }
+
             tvProductCount.text = productCount.toString()
         }
     }

@@ -1,6 +1,7 @@
 package com.dilarakiraz.upschoolcapstoneproject.ui.home
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -39,9 +40,15 @@ class AllProductsAdapter(
 
         fun bind(product: ProductUI) = with(binding) {
             tvName.text = product.title
-            tvPrice.text = "${product.price} ₺"
-            tvSalePrice.text = "${product.salePrice} ₺"
-            tvPrice.setStrikeThrough()
+
+            if (product.saleState) {
+                tvPrice.text = "${product.price} ₺"
+                tvPrice.setStrikeThrough()
+                tvSalePrice.text = "${product.salePrice} ₺"
+            } else {
+                tvPrice.text = "${product.price} ₺"
+                tvSalePrice.visibility = View.GONE
+            }
 
             if (product.isFavorite) {
                 ivFavorite.setImageResource(R.drawable.ic_fav)

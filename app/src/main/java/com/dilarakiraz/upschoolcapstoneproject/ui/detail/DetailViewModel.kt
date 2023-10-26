@@ -39,11 +39,14 @@ class DetailViewModel @Inject constructor(
             when (val result = productRepository.getProductDetail(id)) {
                 is Resource.Success -> {
                     _detailState.value = DetailState.Success(result.data)
-                    _product.value = result.data // Seçilen ürünü güncelle
+                    _product.value = result.data
                 }
 
-                is Resource.Error -> _detailState.value = DetailState.Error(result.throwable)
-                is Resource.Fail -> _detailState.value = DetailState.EmptyScreen(result.message)
+                is Resource.Error -> DetailState.ShowPopUp(
+                    result.throwable.message ?: "Beklenmeyen bir hata oluştu."
+                )
+
+                is Resource.Fail -> DetailState.EmptyScreen(result.message)
             }
         }
     }
@@ -74,15 +77,15 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-     fun getUserUid(): String {
+    fun getUserUid(): String {
         return userRepository.getUserUid()
     }
 }
-
 
 sealed interface DetailState {
     object Loading : DetailState
     data class EmptyScreen(val message: String) : DetailState
     data class Success(val product: ProductUI, val toastMessage: String? = null) : DetailState
     data class Error(val throwable: Throwable) : DetailState
+    data class ShowPopUp(val errorMessage: String) : DetailState
 }

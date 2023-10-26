@@ -14,7 +14,7 @@ import com.dilarakiraz.upschoolcapstoneproject.common.setStrikeThrough
 import com.dilarakiraz.upschoolcapstoneproject.common.viewBinding
 import com.dilarakiraz.upschoolcapstoneproject.common.visible
 import com.dilarakiraz.upschoolcapstoneproject.databinding.FragmentDetailBinding
-
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -51,7 +51,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         }
         observeData()
     }
-
 
     private fun observeData() = with(binding) {
         viewModel.detailState.observe(viewLifecycleOwner) { state ->
@@ -99,20 +98,19 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                     }
                 }
 
-                is DetailState.Error -> {
-                    ivError.visible()
-                    tvError.visible()
-                    tvError.text = state.throwable.message.orEmpty()
+                is DetailState.EmptyScreen -> {
                     progressBar.gone()
+                    ivEmpty.visible()
+                    tvEmpty.visible()
+                    tvEmpty.text = state.message
                 }
 
-                is DetailState.EmptyScreen -> {
-                    Toast.makeText(
-                        requireContext(),
-                        "Üzgünüz, veri bulunamadı.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                is DetailState.ShowPopUp -> {
+                    progressBar.gone()
+                    Snackbar.make(requireView(), state.errorMessage, 1000).show()
                 }
+
+                else -> {}
             }
         }
     }

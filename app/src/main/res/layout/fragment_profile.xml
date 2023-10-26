@@ -29,7 +29,17 @@
                     android:background="@drawable/top_background"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent" >
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="152dp"
+                        android:layout_marginEnd="116dp"
+                        android:src="@drawable/ic_edit"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/img_profile"
@@ -117,7 +127,7 @@
                         android:layout_height="34dp"
                         android:layout_margin="20dp"
                         android:background="#E8E3E3"
-                        android:elevation="10dp"
+                        android:elevation="20dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -137,7 +147,7 @@
                             android:text="Phone Number"
                             android:textAlignment="viewEnd"
                             android:textColor="#000000"
-                            android:textSize="15dp" />
+                            android:textSize="17dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -145,7 +155,7 @@
                         android:layout_height="107dp"
                         android:layout_margin="20dp"
                         android:background="#E8E3E3"
-                        android:elevation="20dp"
+                        android:elevation="30dp"
                         android:orientation="horizontal">
 
                         <TextView

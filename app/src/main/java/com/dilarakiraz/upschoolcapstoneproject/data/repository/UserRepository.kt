@@ -2,6 +2,7 @@ package com.dilarakiraz.upschoolcapstoneproject.data.repository
 
 import com.dilarakiraz.upschoolcapstoneproject.common.Resource
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
 class UserRepository(
