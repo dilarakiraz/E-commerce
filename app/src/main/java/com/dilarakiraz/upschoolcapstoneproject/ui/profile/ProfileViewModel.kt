@@ -27,16 +27,21 @@ class ProfileViewModel @Inject constructor(
     private val _userProfile = MutableLiveData<Resource<DocumentSnapshot>>()
     val userProfile: LiveData<Resource<DocumentSnapshot>> = _userProfile
 
-    fun performProfileAction(imageUri: Uri? = null) {
+    fun performProfileAction(imageUri: Uri? = null, address: String? = null) {
         val user = firebaseAuth.currentUser
 
         user?.let { currentUser ->
             val userId = currentUser.uid
             val userDocRef = firestore.collection("users").document(userId)
 
-            if (imageUri != null) {
-                userDocRef.update("profileImageUrl", imageUri.toString())
+            if (imageUri != null || address != null) {
+                val updateMap = mutableMapOf<String, Any>()
+                imageUri?.let { updateMap["profileImageUrl"] = it.toString() }
+                address?.let { updateMap["address"] = it }
+
+                userDocRef.update(updateMap)
                     .addOnSuccessListener {
+
                     }
                     .addOnFailureListener { e ->
                         _userProfile.value = Resource.Error(e)
@@ -54,8 +59,9 @@ class ProfileViewModel @Inject constructor(
     }
 }
 
-sealed interface DetailState {
-    object Loading : DetailState
-    data class Success(val product: ProductUI) : DetailState
-    data class Error(val throwable: Throwable) : DetailState
+sealed interface ProfileState {
+    object Loading : ProfileState
+    data class Success(val product: ProductUI) : ProfileState
+    data class Error(val throwable: Throwable) : ProfileState
+    data class EmptyScreen(val message: String) : ProfileState
 }

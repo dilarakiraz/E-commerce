@@ -38,11 +38,22 @@ class ProductRepository(
         val favoriteTitles = productDao.getFavoriteTitles()
 
         return result.call {
-            result.products.orEmpty().map {
+            result.products.orEmpty().filter { (it.salePrice ?: 0.0) > 0.0 }.map {
                 it.mapToProductUI(favoriteTitles.contains(it.title))
             }
         }
     }
+
+//    suspend fun getSaleProducts(): Resource<List<ProductUI>> {
+//        val result = productService.getSaleProducts()
+//        val favoriteTitles = productDao.getFavoriteTitles()
+//
+//        return result.call {
+//            result.products.orEmpty().map {
+//                it.mapToProductUI(favoriteTitles.contains(it.title))
+//            }
+//        }
+//    }
 
     suspend fun getProductDetail(id: Int): Resource<ProductUI> {
         val result = productService.getProductDetail(id)

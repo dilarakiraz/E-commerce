@@ -3,6 +3,7 @@ package com.dilarakiraz.upschoolcapstoneproject.ui.categories
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.dilarakiraz.upschoolcapstoneproject.R
 import com.dilarakiraz.upschoolcapstoneproject.databinding.ItemCategoryBinding
 
 /**
@@ -22,8 +23,15 @@ class CategoryProductsAdapter(private val onCategoryItemClick: (String) -> Unit)
             }
         }
 
-        fun bind(item: String) {
-            binding.categoryText.text = item
+        fun bind(categoryName: String) {
+            binding.categoryText.text = categoryName
+            val categoryImage = binding.categoryImage
+
+            when (categoryName) {
+                "Chocolate" -> categoryImage.setImageResource(R.drawable.chocolate)
+                "Flower" -> categoryImage.setImageResource(R.drawable.flower)
+                "Gift" -> categoryImage.setImageResource(R.drawable.gift)
+            }
         }
     }
 

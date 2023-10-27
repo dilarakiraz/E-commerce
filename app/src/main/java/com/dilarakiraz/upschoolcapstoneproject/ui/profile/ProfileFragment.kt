@@ -3,9 +3,9 @@ package com.dilarakiraz.upschoolcapstoneproject.ui.profile
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -31,7 +31,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private val profileViewModel: ProfileViewModel by viewModels()
 
-    private val REQUEST_CODE = 1
     private var selectedImageUri: Uri? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,6 +42,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         with(binding) {
             imgProfile.setOnClickListener { selectImageFromGallery() }
             btnSignOut.setOnClickListener { showSignOutDialog() }
+            btnSaveAddress.setOnClickListener { onSaveAddressClicked() }
         }
     }
 
@@ -51,20 +51,22 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             when (userProfile) {
                 is Resource.Success -> {
                     val document = userProfile.data
-                    val userNickname = document.getString("nickname")
-                    val userPhoneNumber = document.getString("phone_number")
-                    val profileImageUrl = document.getString("profileImageUrl")
-
-                    tvNickname.text = userNickname
-                    tvPhoneNumber.text = userPhoneNumber
+                    tvNickname.text = document.getString("nickname")
+                    tvPhoneNumber.text = document.getString("phone_number")
 
                     val userEmail = FirebaseAuth.getInstance().currentUser?.email
                     tvEmail.text = userEmail
+
+                    val profileImageUrl = document.getString("profileImageUrl")
 
                     if (profileImageUrl != null) {
                         Glide.with(root)
                             .load(profileImageUrl)
                             .into(imgProfile)
+                    }
+                    val address = document.getString("address")
+                    if (address != null) {
+                        tvAddress.text = Editable.Factory.getInstance().newEditable(address)
                     }
                 }
 
@@ -72,9 +74,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                     userProfile.throwable.message ?: "Bir hata oluştu."
                 }
 
-                is Resource.Fail -> {
-
-                }
+                is Resource.Fail -> ProfileState.EmptyScreen("Bir hata oluştu.")
             }
         }
     }
@@ -91,31 +91,24 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             .show()
     }
 
-    private val galleryLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val data: Intent? = result.data
-            val selectedImageUri = data?.data
-            binding.imgProfile.setImageURI(selectedImageUri)
-            profileViewModel.performProfileAction(selectedImageUri)
-        }
+    private fun onSaveAddressClicked() {
+        val newAddress = binding.tvAddress.text.toString()
+        profileViewModel.performProfileAction(address = newAddress)
     }
+
+    private val galleryLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                val selectedImageUri = data?.data
+                binding.imgProfile.setImageURI(selectedImageUri)
+                profileViewModel.performProfileAction(selectedImageUri)
+            }
+        }
 
     private fun selectImageFromGallery() {
         val galleryIntent = Intent(Intent.ACTION_PICK)
         galleryIntent.type = "image/*"
         galleryLauncher.launch(galleryIntent)
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                selectImageFromGallery()
-            }
-        }
     }
 }

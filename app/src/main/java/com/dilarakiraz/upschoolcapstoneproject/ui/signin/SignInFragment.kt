@@ -33,7 +33,7 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
             }
 
             ivGoToSignUp.setOnClickListener {
-                findNavController().navigate(R.id.signInToSignUp)
+                findNavController().navigate(R.id.signInToForgotPassword)
             }
 
             btnSignUp.setOnClickListener {

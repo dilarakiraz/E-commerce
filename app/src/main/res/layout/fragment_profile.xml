@@ -45,14 +45,15 @@
                     android:id="@+id/img_profile"
                     android:layout_width="@dimen/_140sdp"
                     android:layout_height="@dimen/_140sdp"
+                    android:layout_marginTop="5dp"
                     android:elevation="80dp"
-                    android:src="@drawable/ic_user"
 
+                    android:src="@drawable/ic_user"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.502"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_chainStyle="packed"/>
+                    app:layout_constraintVertical_chainStyle="packed" />
 
                 <TextView
                     android:id="@+id/tv_nickname"
@@ -96,7 +97,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="35dp"
                         android:layout_margin="20dp"
                         android:background="#E8E3E3"
                         android:elevation="10dp"
@@ -104,8 +105,8 @@
 
                         <TextView
                             android:id="@+id/textView4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="8dp"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:text="Password"
                             android:textColor="#EC4343"
@@ -114,7 +115,7 @@
                         <TextView
                             android:id="@+id/tv_password"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:text="*******"
                             android:textAlignment="viewEnd"
@@ -124,7 +125,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="34dp"
+                        android:layout_height="47dp"
                         android:layout_margin="20dp"
                         android:background="#E8E3E3"
                         android:elevation="20dp"
@@ -132,8 +133,8 @@
 
                         <TextView
                             android:id="@+id/phone"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="37dp"
+                            android:layout_height="47dp"
                             android:layout_weight="1"
                             android:text="Phone Number"
                             android:textColor="#EC4343"
@@ -141,8 +142,8 @@
 
                         <TextView
                             android:id="@+id/tv_phone_number"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="41dp"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:text="Phone Number"
                             android:textAlignment="viewEnd"
@@ -150,39 +151,65 @@
                             android:textSize="17dp" />
                     </LinearLayout>
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="107dp"
+                        android:layout_height="119dp"
                         android:layout_margin="20dp"
                         android:background="#E8E3E3"
-                        android:elevation="30dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/address"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Address"
-                            android:textColor="#EC4343"
-                            android:textSize="15dp" />
+                        android:elevation="80dp">
 
                         <EditText
                             android:id="@+id/tv_address"
-                            android:layout_width="234dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:focusableInTouchMode="true"
+                            android:layout_width="338dp"
+                            android:layout_height="70dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="1dp"
+                            android:layout_marginTop="-1dp"
+                            android:layout_marginEnd="0dp"
+                            android:gravity="top"
+                            android:hint="Enter your address"
+                            android:inputType="textMultiLine"
+                            android:padding="12dp"
                             android:textColor="#000000"
-                            android:textSize="15dp" />
+                            android:textColorHint="@color/redLight"
+                            android:textSize="16sp" />
 
                         <ImageView
+                            android:id="@+id/editIcon"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginEnd="2dp"
+                            android:contentDescription="Edit Address"
                             android:src="@drawable/ic_edit" />
-                    </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/btnSaveAddress"
+                            android:layout_width="70dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginEnd="138dp"
+                            android:layout_marginBottom="4dp"
+                            android:src="@drawable/ic_check">
+                        </ImageView>
+
+                        <TextView
+                            android:layout_width="70dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginEnd="69dp"
+                            android:layout_marginBottom="4dp"
+                            android:text="Save"
+                            android:textSize="15dp"
+                            android:textColor="#EE75F35F" />
+                    </RelativeLayout>
+
                 </LinearLayout>
 
                 <com.google.android.material.button.MaterialButton
