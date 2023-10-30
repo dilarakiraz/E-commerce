@@ -14,19 +14,16 @@
     <string name="invalid_cvc_code">"Please enter CVC code"</string>
     <string name="invalid_address">"Please enter address"</string>
     <string name="invalid_bag_products">"There are no products in the cart"</string>
-
     <string name="something_went_wrong">"Something went wrong"</string>
-
     <string name="already_have_account">Already have an account?</string>
     <string name="social_sign_up">Or sign up with social account</string>
     <string name="social_login">Or login with social account</string>
-    <string name="forgot_password_text">Please, enter your email address. You will receive a link to create a new password via email.</string>
+    <string name="forgot_password_text">Please, enter your email address.\nWe will send you link to create a new password.</string>
     <string name="nickname_required">Nickname is required</string>
     <string name="verify_password_required">Verify password is required</string>
     <string name="passwords_do_not_match">Passwords do not match</string>
     <string name="phone_number_required">Phone number is required</string>
     <string name="fill_all_fields">Fill all fields</string>
-
     <string name="name">Name</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
@@ -69,4 +66,8 @@
     <string name="empty_card">Sepetiniz şu an boş.</string>
     <string name="unexpected_error_message">Beklenmeyen bir hata oluştu.</string>
     <string name="categories">Categories</string>
+    <string name="favorites">Favorites</string>
+    <string name="productitle">Product Title\n</string>
+    <string name="you_don_t_have_a_favorite_product">You don\'t have a favorite product</string>
+    <string name="cherry_shopping">CHERRY SHOPPING</string>
 </resources>

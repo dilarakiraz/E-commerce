@@ -4,7 +4,7 @@ import com.dilarakiraz.upschoolcapstoneproject.data.model.response.Product
 import com.dilarakiraz.upschoolcapstoneproject.data.model.response.ProductEntity
 import com.dilarakiraz.upschoolcapstoneproject.data.model.response.ProductUI
 
-fun Product?.mapToProductUI(isFavorite: Boolean): ProductUI {
+fun Product?.mapToProductUI(isFavorite: List<Int>): ProductUI {
     return ProductUI(
         id = this?.id ?: 1,
         title = this?.title.orEmpty(),
@@ -16,7 +16,7 @@ fun Product?.mapToProductUI(isFavorite: Boolean): ProductUI {
         rate = this?.rate ?: 0.0,
         count = this?.count ?: 0,
         saleState = this?.saleState ?: false,
-        isFavorite = isFavorite
+        isFavorite = isFavorite.contains(this?.id)
     )
 }
 

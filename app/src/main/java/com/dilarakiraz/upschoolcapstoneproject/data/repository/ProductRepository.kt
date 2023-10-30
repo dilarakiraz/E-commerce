@@ -23,23 +23,23 @@ class ProductRepository(
 ) {
 
     suspend fun getAllProducts(): Resource<List<ProductUI>> {
+        val favorites = productDao.getProductIds()
         val result = productService.getProducts()
-        val favoriteTitles = productDao.getFavoriteTitles()
 
         return result.call {
             result.products.orEmpty().map {
-                it.mapToProductUI(favoriteTitles.contains(it.title))
+                it.mapToProductUI(favorites)
             }
         }
     }
 
     suspend fun getSaleProducts(): Resource<List<ProductUI>> {
+        val favorites = productDao.getProductIds()
         val result = productService.getSaleProducts()
-        val favoriteTitles = productDao.getFavoriteTitles()
 
         return result.call {
             result.products.orEmpty().filter { (it.salePrice ?: 0.0) > 0.0 }.map {
-                it.mapToProductUI(favoriteTitles.contains(it.title))
+                it.mapToProductUI(favorites)
             }
         }
     }
@@ -56,11 +56,11 @@ class ProductRepository(
 //    }
 
     suspend fun getProductDetail(id: Int): Resource<ProductUI> {
+        val favorites = productDao.getProductIds()
         val result = productService.getProductDetail(id)
-        val favoriteTitles = productDao.getFavoriteTitles()
 
         return result.call {
-            result.product.mapToProductUI(favoriteTitles.contains(result.product?.title))
+            result.product.mapToProductUI(favorites)
         }
     }
 
@@ -90,12 +90,13 @@ class ProductRepository(
     }
 
     suspend fun getCartProducts(userId: String): Resource<List<ProductUI>> {
+        val favorites = productDao.getProductIds()
         val result = productService.getCartProducts(userId)
-        val favoriteTitles = productDao.getFavoriteTitles()
 
         return result.call {
             result.products.orEmpty().map {
-                it.mapToProductUI(favoriteTitles.contains(it.title))
+                it.mapToProductUI(favorites)
+
             }
         }
     }
@@ -116,12 +117,12 @@ class ProductRepository(
     }
 
     suspend fun getProductsByCategory(category: String): Resource<List<ProductUI>> {
+        val favorites = productDao.getProductIds()
         val result = productService.getProductsByCategory(category)
-        val favoriteTitles = productDao.getFavoriteTitles()
 
         return result.call {
             result.products.orEmpty().map {
-                it.mapToProductUI(favoriteTitles.contains(it.title))
+                it.mapToProductUI(favorites)
             }
         }
     }
@@ -134,12 +135,13 @@ class ProductRepository(
         }
 
     suspend fun searchProduct(query: String): Resource<List<ProductUI>> {
+        val favorites = productDao.getProductIds()
         val result = productService.searchProduct(query)
-        val favoriteTitles = productDao.getFavoriteTitles()
 
         return result.call {
             result.products.orEmpty().map {
-                it.mapToProductUI(favoriteTitles.contains(it.title))
+                it.mapToProductUI(favorites)
+
             }
         }
     }

@@ -20,6 +20,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/dancingscript"
+            android:text="@string/cherry_shopping"
+            android:textColor="@color/white"
+            android:textSize="23sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/iv_error" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_sale_products"
             android:layout_width="0dp"
@@ -43,8 +56,9 @@
             android:layout_marginTop="16dp"
             android:text="@string/categories"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="30sp"
             android:textStyle="bold"
+            android:fontFamily="@font/dancingscript"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rv_sale_products" />
 
@@ -70,8 +84,9 @@
             android:layout_marginTop="24dp"
             android:text="@string/all_products"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="30sp"
             android:textStyle="bold"
+            android:fontFamily="@font/dancingscript"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rv_category_products" />
 
@@ -126,8 +141,9 @@
             android:layout_marginTop="24dp"
             android:text="@string/sale"
             android:textColor="@color/black"
-            android:textSize="25sp"
+            android:textSize="35sp"
             android:textStyle="bold"
+            android:fontFamily="@font/dancingscript"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
@@ -166,27 +182,28 @@
             tools:text="10" />
 
         <ImageView
-            android:id="@+id/img_user"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp"
+            android:id="@+id/profile_user"
+            android:layout_width="45dp"
+            android:layout_height="35dp"
             android:layout_marginStart="16dp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+            android:elevation="80dp"
+            android:src="@drawable/ic_user"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.29"
-            app:srcCompat="@drawable/ic_user"
-            app:tint="@color/white" />
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <TextView
             android:id="@+id/tv_nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="1dp"
-            android:layout_marginTop="10dp"
+            android:fontFamily="@font/dancingscript"
             android:textColor="@color/white"
-            app:layout_constraintStart_toEndOf="@+id/img_user"
-            app:layout_constraintTop_toTopOf="@+id/img_user"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_profile"
             tools:text="Dilara Kiraz" />
+
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyle"

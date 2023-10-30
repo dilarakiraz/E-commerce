@@ -12,6 +12,7 @@ import com.dilarakiraz.upschoolcapstoneproject.common.viewBinding
 import com.dilarakiraz.upschoolcapstoneproject.common.visible
 import com.dilarakiraz.upschoolcapstoneproject.data.model.response.ProductUI
 import com.dilarakiraz.upschoolcapstoneproject.databinding.FragmentFavoritesBinding
+import com.dilarakiraz.upschoolcapstoneproject.ui.cart.CartState
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -46,6 +47,8 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
 
                 is FavoritesState.Success -> {
                     favoritesAdapter.submitList(state.favoriteProducts)
+                    ivEmpty.gone()
+                    tvEmpty.gone()
                     progressBar.gone()
                 }
 
@@ -56,6 +59,14 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
 
                 is FavoritesState.EmptyData -> {
                     progressBar.gone()
+                }
+
+                is FavoritesState.EmptyScreen -> {
+                    progressBar.gone()
+                    ivEmpty.visible()
+                    tvEmpty.visible()
+                    rvFavorites.gone()
+                    tvEmpty.text = state.message
                 }
             }
         }

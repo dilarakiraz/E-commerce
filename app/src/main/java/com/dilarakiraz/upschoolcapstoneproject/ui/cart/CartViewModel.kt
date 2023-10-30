@@ -40,11 +40,7 @@ class CartViewModel @Inject constructor(
                 is Resource.Error -> CartState.Error(result.throwable)
 
                 is Resource.Fail -> {
-                    if (result.message.contains("Cart is empty", true)) {
-                        _cartState.value = CartState.EmptyScreen("Sepetiniz şu an boş.")
-                    } else {
-                        _cartState.value = CartState.Error(Throwable(result.message))
-                    }
+                    _cartState.value = CartState.Error(Throwable(result.message))
                 }
             }
         }

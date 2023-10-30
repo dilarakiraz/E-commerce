@@ -50,11 +50,10 @@ class AllProductsAdapter(
                 tvSalePrice.visibility = View.GONE
             }
 
-            if (product.isFavorite) {
-                ivFavorite.setImageResource(R.drawable.ic_fav)
-            } else {
-                ivFavorite.setImageResource(R.drawable.ic_unfav)
-            }
+            ivFavorite.setBackgroundResource(
+                if(product.isFavorite) R.drawable.ic_fav
+                else R.drawable.ic_unfav
+            )
 
             ivProduct.loadImage(product.imageOne)
 

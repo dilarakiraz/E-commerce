@@ -86,6 +86,6 @@ sealed interface DetailState {
     object Loading : DetailState
     data class EmptyScreen(val message: String) : DetailState
     data class Success(val product: ProductUI, val toastMessage: String? = null) : DetailState
-    data class Error(val throwable: Throwable) : DetailState
+    //data class Error(val throwable: Throwable) : DetailState
     data class ShowPopUp(val errorMessage: String) : DetailState
 }

@@ -8,6 +8,7 @@ import com.dilarakiraz.upschoolcapstoneproject.R
 import com.dilarakiraz.upschoolcapstoneproject.common.Resource
 import com.dilarakiraz.upschoolcapstoneproject.data.model.response.ProductUI
 import com.dilarakiraz.upschoolcapstoneproject.data.repository.ProductRepository
+import com.dilarakiraz.upschoolcapstoneproject.ui.cart.CartState
 import com.dilarakiraz.upschoolcapstoneproject.utilities.ResourceProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -46,7 +47,8 @@ class FavoritesViewModel @Inject constructor(
                 _state.value = FavoritesState.Error(result.throwable)
             }
 
-            else -> {
+            is Resource.Fail -> {
+                _state.value = FavoritesState.Error(Throwable(result.message))
             }
         }
     }
@@ -57,4 +59,5 @@ sealed interface FavoritesState {
     data class Success(val favoriteProducts: List<ProductUI>) : FavoritesState
     data class Error(val throwable: Throwable) : FavoritesState
     data class EmptyData(val message: String) : FavoritesState
+    data class EmptyScreen(val message: String) : FavoritesState
 }

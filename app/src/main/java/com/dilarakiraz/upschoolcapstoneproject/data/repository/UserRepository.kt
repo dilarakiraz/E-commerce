@@ -2,7 +2,6 @@ package com.dilarakiraz.upschoolcapstoneproject.data.repository
 
 import com.dilarakiraz.upschoolcapstoneproject.common.Resource
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
 class UserRepository(
@@ -38,4 +37,13 @@ class UserRepository(
     }
 
     fun getUserUid(): String = firebaseAuth.currentUser?.uid.orEmpty()
+
+    suspend fun sendPasswordResetEmail(email: String): Resource<Unit> {
+        return try {
+            firebaseAuth.sendPasswordResetEmail(email).await()
+            Resource.Success(Unit)
+        } catch (e: Exception) {
+            Resource.Error(e)
+        }
+    }
 }

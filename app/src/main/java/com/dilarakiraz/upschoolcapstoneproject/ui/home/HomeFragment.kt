@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.dilarakiraz.upschoolcapstoneproject.R
 import com.dilarakiraz.upschoolcapstoneproject.common.gone
 import com.dilarakiraz.upschoolcapstoneproject.common.showPopup
@@ -58,6 +59,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             cartProductsCount.observe(viewLifecycleOwner) { count ->
                 binding.tvBagProductsCount.text = "$count"
             }
+
+//            userNickname.observe(viewLifecycleOwner) { imageUrl ->
+//                imageUrl?.let {
+//                    Glide.with(this@HomeFragment)
+//                        .load(imageUrl)
+//                        .into(profileUser)
+//                }
+//            }
         }
     }
 

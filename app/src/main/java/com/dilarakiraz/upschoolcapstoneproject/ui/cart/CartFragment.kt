@@ -7,7 +7,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.dilarakiraz.upschoolcapstoneproject.R
 import com.dilarakiraz.upschoolcapstoneproject.common.gone
-import com.dilarakiraz.upschoolcapstoneproject.common.showPopup
 import com.dilarakiraz.upschoolcapstoneproject.common.viewBinding
 import com.dilarakiraz.upschoolcapstoneproject.common.visible
 import com.dilarakiraz.upschoolcapstoneproject.databinding.FragmentCartBinding
@@ -67,19 +66,22 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
 
                 is CartState.Success -> {
                     cartProductsAdapter.submitList(state.products)
+                    ivEmpty.gone()
+                    tvEmpty.gone()
                     progressBar.gone()
                 }
 
                 is CartState.Error -> {
-                    showPopup(state.throwable.message)
                     progressBar.gone()
                 }
 
                 is CartState.EmptyScreen -> {
                     progressBar.gone()
+                    ivEmpty.visible()
+                    tvEmpty.visible()
+                    rvCartProducts.gone()
+                    tvEmpty.text = state.message
                 }
-
-                else -> {}
             }
         }
 

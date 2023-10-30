@@ -75,19 +75,12 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                             tvSalePrice.visibility = View.GONE
                         }
 
-                        if (product.isFavorite) {
-                            ivFavorite.setImageResource(R.drawable.ic_unfav)
-                        } else {
-                            ivFavorite.setImageResource(R.drawable.ic_fav)
-                        }
-
                         ivProduct.loadImage(product.imageOne)
 
-                        if (product.isFavorite) {
-                            ivFavorite.setImageResource(R.drawable.ic_fav)
-                        } else {
-                            ivFavorite.setImageResource(R.drawable.ic_unfav)
-                        }
+                        ivFavorite.setBackgroundResource(
+                            if (product.isFavorite) R.drawable.ic_fav
+                            else R.drawable.ic_unfav
+                        )
 
                         ratingBar.rating = product.rate.toFloat()
 

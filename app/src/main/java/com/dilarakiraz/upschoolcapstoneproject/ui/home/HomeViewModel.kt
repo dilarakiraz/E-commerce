@@ -8,6 +8,7 @@ import com.dilarakiraz.upschoolcapstoneproject.common.Resource
 import com.dilarakiraz.upschoolcapstoneproject.data.model.response.ProductUI
 import com.dilarakiraz.upschoolcapstoneproject.data.repository.ProductRepository
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,9 +37,9 @@ class HomeViewModel @Inject constructor(
     val productsByCategory: LiveData<List<ProductUI>>
         get() = _productsByCategory
 
-    private val _userNickname = MutableLiveData<String?>()
+    private val _user = MutableLiveData<String?>()
     val userNickname: LiveData<String?>
-        get() = _userNickname
+        get() = _user
 
     private val _cartProductsCount = MutableLiveData<Int>()
     val cartProductsCount: LiveData<Int>
@@ -70,7 +71,7 @@ class HomeViewModel @Inject constructor(
 
             else -> HomeState.Success(
                 (allProducts as Resource.Success).data,
-                (saleProducts as Resource.Success).data
+                (saleProducts as Resource.Success).data,
             )
         }
     }
@@ -97,28 +98,53 @@ class HomeViewModel @Inject constructor(
         getProducts()
     }
 
+//    private suspend fun performUserOperations() {
+//        val userId = user?.uid.orEmpty()
+//
+//        val nickname = withContext(Dispatchers.IO) {
+//            if (userId.isEmpty()) null
+//            else {
+//                try {
+//                    val document = db.collection("users").document(userId).get().await()
+//                    document.getString("nickname")
+//                } catch (e: Exception) {
+//                    null
+//                }
+//            }
+//        }
+//        _userNickname.value = nickname
+//
+//        val cartProductsResource = productRepository.getCartProducts(userId)
+//        val count = if (cartProductsResource is Resource.Success) {
+//            cartProductsResource.data.size
+//        } else 0
+//        _cartProductsCount.value = count
+//    }
+
     private suspend fun performUserOperations() {
         val userId = user?.uid.orEmpty()
 
-        val nickname = withContext(Dispatchers.IO) {
-            if (userId.isEmpty()) null
-            else {
-                try {
-                    val document = db.collection("users").document(userId).get().await()
-                    document.getString("nickname")
-                } catch (e: Exception) {
-                    null
-                }
-            }
-        }
-        _userNickname.value = nickname
+        val userDocument = getUserDocument(userId)
+
+        val nickname = userDocument?.getString("nickname")
+        _user.value = nickname
 
         val cartProductsResource = productRepository.getCartProducts(userId)
         val count = if (cartProductsResource is Resource.Success) {
             cartProductsResource.data.size
         } else 0
-
         _cartProductsCount.value = count
+
+        val profileImageUrl = userDocument?.getString("profileImageUrl")
+    }
+
+    private suspend fun getUserDocument(userId: String): DocumentSnapshot? = withContext(Dispatchers.IO) {
+        if (userId.isEmpty()) return@withContext null
+        try {
+            db.collection("users").document(userId).get().await()
+        } catch (e: Exception) {
+            null
+        }
     }
 }
 

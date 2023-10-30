@@ -47,7 +47,6 @@
                     android:layout_height="@dimen/_140sdp"
                     android:layout_marginTop="5dp"
                     android:elevation="80dp"
-
                     android:src="@drawable/ic_user"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.502"
@@ -62,7 +61,8 @@
                     android:layout_marginTop="24dp"
                     android:text="Nickname"
                     android:textColor="@color/white"
-                    android:textSize="20sp"
+                    android:fontFamily="@font/dancingscript"
+                    android:textSize="35sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="@+id/img_profile"
                     app:layout_constraintStart_toStartOf="@+id/img_profile"
@@ -109,8 +109,9 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:text="Password"
+                            android:fontFamily="@font/agbalumo"
                             android:textColor="#EC4343"
-                            android:textSize="15dp" />
+                            android:textSize="17dp" />
 
                         <TextView
                             android:id="@+id/tv_password"
@@ -137,8 +138,9 @@
                             android:layout_height="47dp"
                             android:layout_weight="1"
                             android:text="Phone Number"
+                            android:fontFamily="@font/agbalumo"
                             android:textColor="#EC4343"
-                            android:textSize="15dp" />
+                            android:textSize="17dp" />
 
                         <TextView
                             android:id="@+id/tv_phone_number"
@@ -170,11 +172,12 @@
                             android:layout_marginEnd="0dp"
                             android:gravity="top"
                             android:hint="Enter your address"
+                            android:fontFamily="@font/agbalumo"
                             android:inputType="textMultiLine"
                             android:padding="12dp"
                             android:textColor="#000000"
-                            android:textColorHint="@color/redLight"
-                            android:textSize="16sp" />
+                            android:textColorHint="#EC4343"
+                            android:textSize="17sp" />
 
                         <ImageView
                             android:id="@+id/editIcon"
@@ -222,6 +225,8 @@
                     android:text="@string/sign_out"
                     android:textAllCaps="false"
                     app:icon="@drawable/ic_sign_out"
+                    android:fontFamily="@font/agbalumo"
+                    android:textSize="17dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

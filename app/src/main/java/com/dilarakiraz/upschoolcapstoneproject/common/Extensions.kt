@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
+import android.util.Patterns
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -14,6 +15,8 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.dilarakiraz.upschoolcapstoneproject.databinding.DialogPopUpBinding
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 
 
 fun View.visible() {
@@ -41,6 +44,17 @@ fun TextView.setStrikeThrough() {
 
 fun ImageView.loadImage(url: String?) {
     Glide.with(this.context).load(url).into(this)
+}
+
+fun TextInputEditText.isValidEmail(errorString: String): Boolean {
+    val textInputLayout = this.parent.parent as TextInputLayout
+    return if (Patterns.EMAIL_ADDRESS.matcher(text.toString()).matches()) {
+        textInputLayout.isErrorEnabled = false
+        true
+    } else {
+        textInputLayout.error = errorString
+        false
+    }
 }
 
 fun Fragment.showPopup(
