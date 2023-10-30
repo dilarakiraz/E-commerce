@@ -33,12 +33,10 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
 
                 viewModel.checkInfo(email, password, nickname, phoneNumber)
             }
-
             icSignUpToSignIn.setOnClickListener {
                 findNavController().navigate(R.id.signUpToSignIn)
             }
         }
-
         initObservers()
     }
 

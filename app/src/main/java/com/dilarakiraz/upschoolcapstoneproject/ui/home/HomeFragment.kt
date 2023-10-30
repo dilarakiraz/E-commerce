@@ -51,22 +51,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         viewModel.apply {
             categoryList.observe(viewLifecycleOwner, categoryProductsAdapter::updateCategoryList)
             productsByCategory.observe(viewLifecycleOwner, allProductsAdapter::submitList)
-            userNickname.observe(viewLifecycleOwner) { nickname ->
-                nickname?.let {
-                    binding.tvNickname.text = it
-                }
-            }
-            cartProductsCount.observe(viewLifecycleOwner) { count ->
-                binding.tvBagProductsCount.text = "$count"
-            }
 
-//            userNickname.observe(viewLifecycleOwner) { imageUrl ->
-//                imageUrl?.let {
-//                    Glide.with(this@HomeFragment)
-//                        .load(imageUrl)
-//                        .into(profileUser)
-//                }
-//            }
+            userData.observe(viewLifecycleOwner) { userData ->
+                Glide.with(requireContext())
+                    .load(userData.profileImageUrl)
+                    .placeholder(R.drawable.ic_user)
+                    .into(binding.imgProfile)
+
+                val nickname = userData.nickname
+                if (!nickname.isNullOrEmpty()) {
+                    binding.tvNickname.text = nickname
+                }
+
+                val cartProductsCount = userData.cartProductsCount
+                binding.tvBagProductsCount.text = "$cartProductsCount"
+            }
         }
     }
 

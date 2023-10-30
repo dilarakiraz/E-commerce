@@ -8,28 +8,18 @@
 
     <ImageView
         android:id="@+id/imageView4"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginHorizontal="83.20dp"
-        android:layout_marginVertical="234.00dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="227dp"
+        android:layout_height="299dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/cherry" />
 
-    <TextView
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:fontFamily="cursive"
-        android:gravity="center"
-        android:text="CHERRY SHOPPİNG"
-        android:textColor="@color/white"
-        android:textSize="35sp"
+        android:layout_height="270dp"
+        android:src="@drawable/text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView4" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

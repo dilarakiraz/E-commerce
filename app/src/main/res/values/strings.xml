@@ -69,5 +69,9 @@
     <string name="favorites">Favorites</string>
     <string name="productitle">Product Title\n</string>
     <string name="you_don_t_have_a_favorite_product">You don\'t have a favorite product</string>
-    <string name="cherry_shopping">CHERRY SHOPPING</string>
+    <string name="cherry_shopping">CHERRY\nSHOPPING</string>
+    <string name="okay">Okay</string>
+    <string name="cart">Cart</string>
+    <string name="clear">Clear</string>
+    <string name="empty_list">Empty list</string>
 </resources>
