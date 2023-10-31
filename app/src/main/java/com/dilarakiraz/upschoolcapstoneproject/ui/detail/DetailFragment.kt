@@ -83,6 +83,9 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                         )
 
                         ratingBar.rating = product.rate.toFloat()
+                        tvRatingValue.text = "${product.rate}"
+
+                        tvCount.text = "Count: ${product.count}"
 
                         if (state.toastMessage != null) {
                             Toast.makeText(requireContext(), state.toastMessage, Toast.LENGTH_SHORT)

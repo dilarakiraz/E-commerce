@@ -30,7 +30,6 @@
         android:gravity="center"
         android:lines="2"
         android:maxLines="2"
-        android:text="Text"
         android:fontFamily="@font/agbalumo"
         android:textSize="13sp"
         app:layout_constraintEnd_toStartOf="@+id/iv_delete"
@@ -38,7 +37,6 @@
         app:layout_constraintVertical_chainStyle="packed"
         tools:layout_editor_absoluteY="-8dp"
         tools:text="Name" />
-
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_price"

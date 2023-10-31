@@ -74,4 +74,11 @@
     <string name="cart">Cart</string>
     <string name="clear">Clear</string>
     <string name="empty_list">Empty list</string>
+    <string name="save">Save</string>
+    <string name="edit_address">Edit Address</string>
+    <string name="password_secret">*******</string>
+    <string name="gmail_com">dilarakiraz@gmail.com</string>
+    <string name="search">Search</string>
+    <string name="cherry">CHERRY</string>
+    <string name="producttitle">ProductTitle</string>
 </resources>

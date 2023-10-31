@@ -31,19 +31,21 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_16sdp"
         android:layout_marginTop="28dp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:fontFamily="@font/agbalumo"
         android:gravity="center"
         android:lines="2"
         android:maxLines="2"
-        android:fontFamily="@font/agbalumo"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.625"
+        app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_product"
         tools:text="Title" />
@@ -79,24 +81,69 @@
         app:layout_constraintVertical_bias="1.0"
         tools:text="50.00" />
 
+    <ImageView
+        android:id="@+id/img_background"
+        android:layout_width="@dimen/_84sdp"
+        android:layout_height="@dimen/_24sdp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/tv_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+        app:srcCompat="@drawable/bg_rating" />
+
     <RatingBar
         android:id="@+id/ratingBar"
         style="@android:style/Widget.Material.RatingBar.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_width="83dp"
+        android:layout_height="22dp"
         android:isIndicator="true"
         android:numStars="5"
         android:progressTint="@color/yellow"
         android:secondaryProgressTint="@color/blue"
         android:stepSize="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/img_background"
+        app:layout_constraintEnd_toEndOf="@+id/img_background"
+        app:layout_constraintStart_toStartOf="@+id/img_background"
+        app:layout_constraintTop_toTopOf="@+id/img_background" />
+
+    <TextView
+        android:id="@+id/tvRatingValue"
+        android:layout_width="79dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="12dp"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.07"
+        app:layout_constraintStart_toEndOf="@+id/img_background"
         app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
     <TextView
+        android:id="@+id/tv_count"
+        android:layout_width="79dp"
+        android:layout_height="29dp"
+        android:layout_marginEnd="28dp"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/tvRatingValue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_add_to_bag"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tv_title"
+        app:layout_constraintTop_toBottomOf="@+id/img_background">
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_description"
-        android:layout_width="363dp"
-        android:layout_height="264dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/btn_add_to_bag"
@@ -104,6 +151,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_title"
         tools:text="Description" />
+    </ScrollView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_add_to_bag"
@@ -149,7 +197,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="TextView"
         android:textSize="20sp"
         android:textStyle="bold"
         android:visibility="gone"
@@ -203,6 +250,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_back_arrow" />
-
-
 </com.tistory.zladnrms.roundablelayout.RoundableLayout>

@@ -66,8 +66,7 @@
         android:layout_marginBottom="@dimen/_8sdp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="@{product.title}"
-        android:hint="ProductTitle"
+        android:hint="@string/producttitle"
         android:fontFamily="@font/agbalumo"
         android:textSize="17sp"
         android:textAlignment="center"
@@ -85,5 +84,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_unfav" />
-
 </com.tistory.zladnrms.roundablelayout.RoundableLayout>

@@ -59,7 +59,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="Nickname"
+                    android:text="@string/nickname"
                     android:textColor="@color/white"
                     android:fontFamily="@font/dancingscript"
                     android:textSize="35sp"
@@ -73,7 +73,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="dilarakiraz@gmail.com"
+                    android:text="@string/gmail_com"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="@+id/tv_nickname"
@@ -108,20 +108,20 @@
                             android:layout_width="8dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="Password"
+                            android:text="@string/password"
                             android:fontFamily="@font/agbalumo"
                             android:textColor="#EC4343"
-                            android:textSize="17dp" />
+                            android:textSize="17sp" />
 
                         <TextView
                             android:id="@+id/tv_password"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="*******"
+                            android:text="@string/password_secret"
                             android:textAlignment="viewEnd"
                             android:textColor="#000000"
-                            android:textSize="15dp" />
+                            android:textSize="15sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -137,20 +137,20 @@
                             android:layout_width="37dp"
                             android:layout_height="47dp"
                             android:layout_weight="1"
-                            android:text="Phone Number"
+                            android:text="@string/phone_number"
                             android:fontFamily="@font/agbalumo"
                             android:textColor="#EC4343"
-                            android:textSize="17dp" />
+                            android:textSize="17sp" />
 
                         <TextView
                             android:id="@+id/tv_phone_number"
                             android:layout_width="41dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="Phone Number"
+                            android:text="@string/phone_number"
                             android:textAlignment="viewEnd"
                             android:textColor="#000000"
-                            android:textSize="17dp" />
+                            android:textSize="17sp" />
                     </LinearLayout>
 
                     <RelativeLayout
@@ -171,7 +171,7 @@
                             android:layout_marginTop="-1dp"
                             android:layout_marginEnd="0dp"
                             android:gravity="top"
-                            android:hint="Enter your address"
+                            android:hint="@string/address"
                             android:fontFamily="@font/agbalumo"
                             android:inputType="textMultiLine"
                             android:padding="12dp"
@@ -187,7 +187,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_marginTop="0dp"
                             android:layout_marginEnd="2dp"
-                            android:contentDescription="Edit Address"
+                            android:contentDescription="@string/edit_address"
                             android:src="@drawable/ic_edit" />
 
                         <ImageView
@@ -208,8 +208,8 @@
                             android:layout_alignParentBottom="true"
                             android:layout_marginEnd="69dp"
                             android:layout_marginBottom="4dp"
-                            android:text="Save"
-                            android:textSize="15dp"
+                            android:text="@string/save"
+                            android:textSize="15sp"
                             android:textColor="#EE75F35F" />
                     </RelativeLayout>
 
@@ -226,7 +226,7 @@
                     android:textAllCaps="false"
                     app:icon="@drawable/ic_sign_out"
                     android:fontFamily="@font/agbalumo"
-                    android:textSize="17dp"
+                    android:textSize="17sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

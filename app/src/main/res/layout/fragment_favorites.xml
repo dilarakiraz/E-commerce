@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_marginEnd="32dp"
-            android:text="Clear"
+            android:text="@string/clear"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/iv_all_delete"
@@ -99,5 +99,4 @@
         app:lottie_autoPlay="true"
         app:lottie_fileName="loading.json"
         app:lottie_loop="true" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

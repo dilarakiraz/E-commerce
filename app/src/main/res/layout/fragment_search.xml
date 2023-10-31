@@ -21,7 +21,7 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Search"
+            android:text="@string/search"
             android:textColor="@color/white"
             android:fontFamily="@font/dancingscript"
             android:textSize="40sp"
