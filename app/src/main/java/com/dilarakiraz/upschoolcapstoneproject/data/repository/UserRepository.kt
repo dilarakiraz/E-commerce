@@ -1,12 +1,17 @@
 package com.dilarakiraz.upschoolcapstoneproject.data.repository
 
 import com.dilarakiraz.upschoolcapstoneproject.common.Resource
+import com.dilarakiraz.upschoolcapstoneproject.data.model.response.UserData
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 
 class UserRepository(
     private val firebaseAuth: FirebaseAuth,
+    private val productRepository: ProductRepository
 ) {
+    private val db = Firebase.firestore
 
     suspend fun signUp(email: String, password: String): Resource<Boolean> {
         return try {
@@ -42,6 +47,26 @@ class UserRepository(
         return try {
             firebaseAuth.sendPasswordResetEmail(email).await()
             Resource.Success(Unit)
+        } catch (e: Exception) {
+            Resource.Error(e)
+        }
+    }
+
+    suspend fun getUserData(userId: String): Resource<UserData> {
+        return try {
+            val userDocument = db.collection("users").document(userId).get().await()
+            val nickname = userDocument?.getString("nickname")
+            val profileImageUrl = userDocument?.getString("profileImageUrl")
+
+            val cartProductsResource = productRepository.getCartProducts(userId)
+            val cartProductsCount =
+                if (cartProductsResource is Resource.Success) {
+                    cartProductsResource.data.size
+                } else {
+                    0
+                }
+
+            Resource.Success(UserData(nickname, profileImageUrl, cartProductsCount))
         } catch (e: Exception) {
             Resource.Error(e)
         }

@@ -34,7 +34,8 @@ class CartViewModel @Inject constructor(
 
                 is Resource.Success -> {
                     _cartState.value = CartState.Success(result.data)
-                    _totalAmount.value = result.data.sumOf { it.price }
+                    //_totalAmount.value = result.data.sumOf { it.price }
+                    updateTotalAmount(result.data)
                 }
 
                 is Resource.Error -> CartState.Error(result.throwable)
@@ -66,6 +67,13 @@ class CartViewModel @Inject constructor(
 
     fun decrease(price: Double) {
         _totalAmount.value = _totalAmount.value?.minus(price)
+    }
+
+    private fun updateTotalAmount(products: List<ProductUI>) {
+        val totalAmount = products.sumByDouble { product ->
+            if (product.salePrice != null) product.salePrice else product.price
+        }
+        _totalAmount.value = totalAmount
     }
 }
 

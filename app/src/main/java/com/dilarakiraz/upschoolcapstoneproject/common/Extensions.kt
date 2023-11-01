@@ -38,12 +38,20 @@ fun View.gone() {
     this.visibility = View.GONE
 }
 
+fun setViewsGone(vararg views: View) = views.forEach {
+    it.gone()
+}
+
 fun TextView.setStrikeThrough() {
     paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
 }
 
-fun ImageView.loadImage(url: String?) {
-    Glide.with(this.context).load(url).into(this)
+fun ImageView.loadImage(url: String?, placeholder: Int? = null) {
+    if (placeholder != null) {
+        Glide.with(this.context).load(url).placeholder(placeholder).into(this)
+    } else {
+        Glide.with(this.context).load(url).into(this)
+    }
 }
 
 fun TextInputEditText.isValidEmail(errorString: String): Boolean {

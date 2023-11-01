@@ -10,7 +10,7 @@
         android:id="@+id/roundableLayout"
         android:layout_width="0dp"
         app:backgroundColor="#555152"
-        android:layout_height="@dimen/_40sdp"
+        android:layout_height="70dp"
         android:elevation="@dimen/_12sdp"
         app:cornerLeftBottom="@dimen/_12sdp"
         app:cornerRightBottom="@dimen/_12sdp"
@@ -32,24 +32,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/iv_all_delete"
-            android:layout_width="30dp"
-            android:layout_height="@dimen/_24sdp"
-            android:layout_marginEnd="32dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_delete_white" />
-
         <TextView
+            android:id="@+id/iv_all_delete"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_marginEnd="32dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
             android:text="@string/clear"
+            android:gravity="center"
             android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/iv_all_delete"
-            app:layout_constraintTop_toBottomOf="@+id/iv_all_delete" />
+            app:layout_constraintTop_toTopOf="parent" />
     </com.tistory.zladnrms.roundablelayout.RoundableLayout>
 
     <androidx.recyclerview.widget.RecyclerView

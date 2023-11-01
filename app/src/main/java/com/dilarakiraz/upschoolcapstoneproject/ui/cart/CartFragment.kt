@@ -7,6 +7,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.dilarakiraz.upschoolcapstoneproject.R
 import com.dilarakiraz.upschoolcapstoneproject.common.gone
+import com.dilarakiraz.upschoolcapstoneproject.common.setViewsGone
+import com.dilarakiraz.upschoolcapstoneproject.common.setViewsVisible
 import com.dilarakiraz.upschoolcapstoneproject.common.viewBinding
 import com.dilarakiraz.upschoolcapstoneproject.common.visible
 import com.dilarakiraz.upschoolcapstoneproject.databinding.FragmentCartBinding
@@ -32,25 +34,22 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
         viewModel.getCartProducts()
 
         with(binding) {
-            with(viewModel) {
+            rvCartProducts.adapter = cartProductsAdapter
 
-                rvCartProducts.adapter = cartProductsAdapter
+            tvClear.setOnClickListener {
+                viewModel.clearCart()
+            }
 
-                tvClear.setOnClickListener {
-                    clearCart()
-                }
+            btnBuyNow.setOnClickListener {
+                findNavController().navigate(R.id.cartToPayment)
+            }
 
-                btnBuyNow.setOnClickListener {
-                    findNavController().navigate(R.id.cartToPayment)
-                }
+            cartProductsAdapter.onIncreaseClick = { price ->
+                viewModel.increase(price)
+            }
 
-                cartProductsAdapter.onIncreaseClick = {
-                    increase(it)
-                }
-
-                cartProductsAdapter.onDecreaseClick = { price ->
-                    decrease(price)
-                }
+            cartProductsAdapter.onDecreaseClick = { price ->
+                viewModel.decrease(price)
             }
         }
 
@@ -66,9 +65,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
 
                 is CartState.Success -> {
                     cartProductsAdapter.submitList(state.products)
-                    ivEmpty.gone()
-                    tvEmpty.gone()
-                    progressBar.gone()
+                    setViewsGone(tvEmpty, ivEmpty, progressBar)
                 }
 
                 is CartState.Error -> {
@@ -76,10 +73,8 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                 }
 
                 is CartState.EmptyScreen -> {
-                    progressBar.gone()
-                    ivEmpty.visible()
-                    tvEmpty.visible()
-                    rvCartProducts.gone()
+                    setViewsGone(progressBar, rvCartProducts)
+                    setViewsVisible(ivEmpty, tvEmpty)
                     tvEmpty.text = state.message
                 }
             }

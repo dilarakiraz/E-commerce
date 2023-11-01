@@ -5,9 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
 import com.dilarakiraz.upschoolcapstoneproject.R
 import com.dilarakiraz.upschoolcapstoneproject.common.gone
+import com.dilarakiraz.upschoolcapstoneproject.common.loadImage
 import com.dilarakiraz.upschoolcapstoneproject.common.showPopup
 import com.dilarakiraz.upschoolcapstoneproject.common.viewBinding
 import com.dilarakiraz.upschoolcapstoneproject.common.visible
@@ -47,46 +47,57 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             rvAllProducts.adapter = allProductsAdapter
             rvCategoryProducts.adapter = categoryProductsAdapter
         }
-
-        viewModel.apply {
-            categoryList.observe(viewLifecycleOwner, categoryProductsAdapter::updateCategoryList)
-            productsByCategory.observe(viewLifecycleOwner, allProductsAdapter::submitList)
-
-            userData.observe(viewLifecycleOwner) { userData ->
-                Glide.with(requireContext())
-                    .load(userData.profileImageUrl)
-                    .placeholder(R.drawable.ic_user)
-                    .into(binding.imgProfile)
-
-                val nickname = userData.nickname
-                if (!nickname.isNullOrEmpty()) {
-                    binding.tvNickname.text = nickname
-                }
-
-                val cartProductsCount = userData.cartProductsCount
-                binding.tvBagProductsCount.text = "$cartProductsCount"
-            }
-        }
     }
 
     private fun observeData() = with(binding) {
-        viewModel.mainState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is HomeState.Loading -> progressBar.visible()
+        with(viewModel) {
+            mainState.observe(viewLifecycleOwner) { state ->
+                when (state) {
+                    is HomeState.Loading -> progressBar.visible()
 
-                is HomeState.Success -> {
-                    saleProductsAdapter.submitList(state.saleProducts)
-                    allProductsAdapter.submitList(state.products)
-                    progressBar.gone()
-                }
+                    is HomeState.Success -> {
+                        saleProductsAdapter.submitList(state.saleProducts)
+                        allProductsAdapter.submitList(state.products)
+                        progressBar.gone()
+                    }
 
-                is HomeState.Error -> {
-                    showPopup(state.throwable.message)
-                    progressBar.gone()
-                }
+                    is HomeState.User -> {
+                        binding.imgProfile.loadImage(
+                            state.userData.profileImageUrl,
+                            R.drawable.ic_user
+                        )
 
-                is HomeState.EmptyScreen -> {
-                    progressBar.gone()
+                        val nickname = state.userData.nickname
+                        if (!nickname.isNullOrEmpty()) {
+                            binding.tvNickname.text = nickname
+                        }
+
+                        val cartProductsCount = state.userData.cartProductsCount
+                        binding.tvBagProductsCount.text = "$cartProductsCount"
+                    }
+
+                    is HomeState.Category -> {
+                        categoryProductsAdapter.updateCategoryList(state.categoryList)
+
+                        if (state.categoryList.isEmpty()) {
+                            tvCategories.visibility = View.GONE
+                        } else {
+                            tvCategories.visibility = View.VISIBLE
+                        }
+                    }
+
+                    is HomeState.ProductsByCategory -> {
+                        allProductsAdapter.submitList(state.productsByCategory)
+                    }
+
+                    is HomeState.Error -> {
+                        showPopup(state.throwable.message)
+                        progressBar.gone()
+                    }
+
+                    is HomeState.EmptyScreen -> {
+                        progressBar.gone()
+                    }
                 }
             }
         }

@@ -11,9 +11,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
 import com.dilarakiraz.upschoolcapstoneproject.R
 import com.dilarakiraz.upschoolcapstoneproject.common.Resource
+import com.dilarakiraz.upschoolcapstoneproject.common.loadImage
 import com.dilarakiraz.upschoolcapstoneproject.common.viewBinding
 import com.dilarakiraz.upschoolcapstoneproject.databinding.FragmentProfileBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -59,11 +59,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
                     val profileImageUrl = document.getString("profileImageUrl")
 
-                    if (profileImageUrl != null) {
-                        Glide.with(root)
-                            .load(profileImageUrl)
-                            .into(imgProfile)
-                    }
+                    imgProfile.loadImage(profileImageUrl, R.drawable.ic_user)
+
                     val address = document.getString("address")
                     if (address != null) {
                         tvAddress.text = Editable.Factory.getInstance().newEditable(address)

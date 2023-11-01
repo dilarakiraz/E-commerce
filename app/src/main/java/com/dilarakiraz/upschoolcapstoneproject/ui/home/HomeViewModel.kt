@@ -8,50 +8,27 @@ import com.dilarakiraz.upschoolcapstoneproject.common.Resource
 import com.dilarakiraz.upschoolcapstoneproject.data.model.response.ProductUI
 import com.dilarakiraz.upschoolcapstoneproject.data.model.response.UserData
 import com.dilarakiraz.upschoolcapstoneproject.data.repository.ProductRepository
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import com.dilarakiraz.upschoolcapstoneproject.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val productRepository: ProductRepository
+    private val productRepository: ProductRepository,
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     private var _mainState = MutableLiveData<HomeState>()
     val mainState: LiveData<HomeState>
         get() = _mainState
 
-    private var _categoryList = MutableLiveData<List<String>>()
-    val categoryList: LiveData<List<String>>
-        get() = _categoryList
-
-    private var _productsByCategory = MutableLiveData<List<ProductUI>>()
-    val productsByCategory: LiveData<List<ProductUI>>
-        get() = _productsByCategory
-
-    private val _userData = MutableLiveData<UserData>()
-    val userData: LiveData<UserData> = _userData
-
-    private val db = Firebase.firestore
-    private val auth = FirebaseAuth.getInstance()
-    private val user = auth.currentUser
-
     init {
         getProducts()
         getCategories()
-
-        viewModelScope.launch {
-            performUserOperations()
-        }
+        performUserOperations()
     }
 
     private fun getProducts() = viewModelScope.launch {
@@ -66,25 +43,27 @@ class HomeViewModel @Inject constructor(
             saleProducts is Resource.Fail -> HomeState.EmptyScreen(saleProducts.message)
 
             else -> HomeState.Success(
-                (allProducts as Resource.Success).data,
                 (saleProducts as Resource.Success).data,
+                (allProducts as Resource.Success).data,
             )
         }
     }
 
     fun getProductsByCategory(category: String) = viewModelScope.launch {
-        val productsByCategoryResource = productRepository.getProductsByCategory(category)
-        if (productsByCategoryResource is Resource.Success) {
-            val products = productsByCategoryResource.data
-            _productsByCategory.value = products
+        _mainState.value = when (val productsByCategoryResource =
+            productRepository.getProductsByCategory(category)) {
+            is Resource.Success -> HomeState.ProductsByCategory(productsByCategoryResource.data)
+            is Resource.Error -> HomeState.Error(productsByCategoryResource.throwable)
+            is Resource.Fail -> HomeState.EmptyScreen("Failed to fetch products by category")
         }
     }
 
     private fun getCategories() = viewModelScope.launch {
         val categoriesResource = productRepository.getCategories()
-        if (categoriesResource is Resource.Success) {
-            val categories = categoriesResource.data
-            _categoryList.value = categories
+        _mainState.value = when (categoriesResource) {
+            is Resource.Success -> HomeState.Category(categoriesResource.data)
+            is Resource.Error -> HomeState.Error(categoriesResource.throwable)
+            is Resource.Fail -> HomeState.EmptyScreen("Failed to fetch categories")
         }
     }
 
@@ -94,31 +73,24 @@ class HomeViewModel @Inject constructor(
         getProducts()
     }
 
-    private suspend fun performUserOperations() {
-        val userId = user?.uid.orEmpty()
-        val userDocument = getUserDocument(userId)
+    private fun performUserOperations() = viewModelScope.launch {
+        val userId = userRepository.getUserUid()
 
-        val nickname = userDocument?.getString("nickname")
-        val profileImageUrl = userDocument?.getString("profileImageUrl")
+        when (val userResource = userRepository.getUserData(userId)) {
+            is Resource.Success -> {
+                val user = userResource.data
+                _mainState.value = HomeState.User(user)
+            }
 
-        val cartProductsResource = productRepository.getCartProducts(userId)
-        val cartProductsCount = if (cartProductsResource is Resource.Success) {
-            cartProductsResource.data.size
-        } else 0
+            is Resource.Error -> {
+                _mainState.value = HomeState.Error(userResource.throwable)
+            }
 
-        val userData = UserData(nickname, profileImageUrl, cartProductsCount)
-        _userData.value = userData
-    }
-
-    private suspend fun getUserDocument(userId: String): DocumentSnapshot? =
-        withContext(Dispatchers.IO) {
-            if (userId.isEmpty()) return@withContext null
-            try {
-                db.collection("users").document(userId).get().await()
-            } catch (e: Exception) {
-                null
+            is Resource.Fail -> {
+                _mainState.value = HomeState.EmptyScreen("Kullanıcı verileri alınamadı.")
             }
         }
+    }
 }
 
 sealed interface HomeState {
@@ -126,4 +98,7 @@ sealed interface HomeState {
     data class EmptyScreen(val message: String) : HomeState
     data class Error(val throwable: Throwable) : HomeState
     data class Success(val saleProducts: List<ProductUI>, val products: List<ProductUI>) : HomeState
+    data class User(val userData: UserData) : HomeState
+    data class Category(val categoryList: List<String>) : HomeState
+    data class ProductsByCategory(val productsByCategory: List<ProductUI>) : HomeState
 }

@@ -19,9 +19,10 @@ import com.dilarakiraz.upschoolcapstoneproject.databinding.ItemCartProductBindin
 class CartProductsAdapter(
     private val onProductClick: (Int) -> Unit,
     private val onDeleteClick: (Int) -> Unit,
-) : ListAdapter<ProductUI, CartProductsAdapter.CartProductViewHolder>(ProductDiffCallBack()) {
-    var onIncreaseClick: (Double) -> Unit = {}
+    var onIncreaseClick: (Double) -> Unit = {},
     var onDecreaseClick: (Double) -> Unit = {}
+) : ListAdapter<ProductUI, CartProductsAdapter.CartProductViewHolder>(ProductDiffCallBack()) {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartProductViewHolder =
         CartProductViewHolder(
             ItemCartProductBinding.inflate(LayoutInflater.from(parent.context), parent, false),
@@ -40,7 +41,7 @@ class CartProductsAdapter(
         private val onDeleteClick: (Int) -> Unit,
         private val onIncreaseClick: (Double) -> Unit,
         private val onDecreaseClick: (Double) -> Unit,
-        ) : RecyclerView.ViewHolder(binding.root) {
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         private var productCount = 1
 
@@ -56,11 +57,15 @@ class CartProductsAdapter(
                 tvSalePrice.visibility = View.GONE
             }
 
+            val priceToUse = if (product.salePrice != null) product.salePrice else product.price
+            tvPrice.text = "$priceToUse ₺"
+
             ivProduct.loadImage(product.imageOne)
 
             root.setOnClickListener {
                 onProductClick(product.id)
             }
+
             ivDelete.setOnClickListener {
                 onDeleteClick(product.id)
             }
@@ -69,14 +74,14 @@ class CartProductsAdapter(
                 onIncreaseClick(product.price)
                 productCount++
                 tvProductCount.text = productCount.toString()
-
             }
+
             imgDecrease.setOnClickListener {
-                if(productCount != 1){
+                if (productCount != 1) {
                     onDecreaseClick(product.price)
                     productCount--
                     tvProductCount.text = productCount.toString()
-                }else{
+                } else {
                     onDeleteClick(product.id)
                 }
             }
@@ -84,6 +89,14 @@ class CartProductsAdapter(
             tvProductCount.text = productCount.toString()
         }
     }
+
+//    fun submitList(list: List<ProductUI>) {
+//        super.submitList(list)
+//        val totalAmount = list.sumByDouble { product ->
+//            if (product.salePrice != null) product.salePrice else product.price
+//        }
+//        onTotalAmountChanged(totalAmount)
+//    }
 
     class ProductDiffCallBack : DiffUtil.ItemCallback<ProductUI>() {
         override fun areItemsTheSame(oldItem: ProductUI, newItem: ProductUI): Boolean {

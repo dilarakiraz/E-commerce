@@ -12,7 +12,7 @@
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:rotationX="180"
             android:src="@drawable/bottom_header"
             app:layout_constraintEnd_toEndOf="parent"
@@ -211,14 +211,14 @@
 
         <ImageView
             android:id="@+id/buble"
-            android:layout_width="75dp"
-            android:layout_height="50dp"
+            android:layout_width="97dp"
+            android:layout_height="66dp"
             android:layout_marginStart="36dp"
             android:src="@drawable/buble"
             app:layout_constraintBottom_toBottomOf="@+id/img_profile"
             app:layout_constraintStart_toStartOf="@+id/imageView3"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.8"
+            app:layout_constraintVertical_bias="0.0"
             app:tint="@color/redLight" />
 
         <ProgressBar
