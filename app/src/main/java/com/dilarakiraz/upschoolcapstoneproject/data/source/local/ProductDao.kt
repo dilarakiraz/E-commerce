@@ -16,8 +16,8 @@ interface ProductDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addToFavorites(product: ProductEntity)
 
-    @Query("SELECT title FROM products")
-    suspend fun getFavoriteTitles(): List<String>
+//    @Query("SELECT title FROM products")
+//    suspend fun getFavoriteTitles(): List<String>
 
     @Query("DELETE FROM products")
     suspend fun clearFavorites()

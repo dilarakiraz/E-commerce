@@ -19,8 +19,7 @@ import com.dilarakiraz.upschoolcapstoneproject.databinding.ItemCartProductBindin
 class CartProductsAdapter(
     private val onProductClick: (Int) -> Unit,
     private val onDeleteClick: (Int) -> Unit,
-    var onIncreaseClick: (Double) -> Unit = {},
-    var onDecreaseClick: (Double) -> Unit = {}
+    private val onPriceChangeClick: (Double, Double) -> Unit
 ) : ListAdapter<ProductUI, CartProductsAdapter.CartProductViewHolder>(ProductDiffCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartProductViewHolder =
@@ -28,8 +27,7 @@ class CartProductsAdapter(
             ItemCartProductBinding.inflate(LayoutInflater.from(parent.context), parent, false),
             onProductClick,
             onDeleteClick,
-            onIncreaseClick,
-            onDecreaseClick
+            onPriceChangeClick
         )
 
     override fun onBindViewHolder(holder: CartProductViewHolder, position: Int) =
@@ -39,8 +37,7 @@ class CartProductsAdapter(
         private val binding: ItemCartProductBinding,
         private val onProductClick: (Int) -> Unit,
         private val onDeleteClick: (Int) -> Unit,
-        private val onIncreaseClick: (Double) -> Unit,
-        private val onDecreaseClick: (Double) -> Unit,
+        private val onPriceChangeClick: (Double, Double) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private var productCount = 1
@@ -57,9 +54,6 @@ class CartProductsAdapter(
                 tvSalePrice.visibility = View.GONE
             }
 
-            val priceToUse = if (product.salePrice != null) product.salePrice else product.price
-            tvPrice.text = "$priceToUse ₺"
-
             ivProduct.loadImage(product.imageOne)
 
             root.setOnClickListener {
@@ -71,32 +65,24 @@ class CartProductsAdapter(
             }
 
             imgIncrease.setOnClickListener {
-                onIncreaseClick(product.price)
+                onPriceChangeClick(product.price, product.salePrice)
                 productCount++
                 tvProductCount.text = productCount.toString()
             }
 
             imgDecrease.setOnClickListener {
-                if (productCount != 1) {
-                    onDecreaseClick(product.price)
-                    productCount--
-                    tvProductCount.text = productCount.toString()
-                } else {
+                productCount--
+                tvProductCount.text = productCount.toString()
+                if (productCount <= 0) {
                     onDeleteClick(product.id)
+                } else {
+                    onPriceChangeClick(-product.price, -product.salePrice)
                 }
             }
 
             tvProductCount.text = productCount.toString()
         }
     }
-
-//    fun submitList(list: List<ProductUI>) {
-//        super.submitList(list)
-//        val totalAmount = list.sumByDouble { product ->
-//            if (product.salePrice != null) product.salePrice else product.price
-//        }
-//        onTotalAmountChanged(totalAmount)
-//    }
 
     class ProductDiffCallBack : DiffUtil.ItemCallback<ProductUI>() {
         override fun areItemsTheSame(oldItem: ProductUI, newItem: ProductUI): Boolean {

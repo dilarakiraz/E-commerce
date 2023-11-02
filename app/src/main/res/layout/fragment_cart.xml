@@ -119,6 +119,23 @@
         app:layout_constraintTop_toTopOf="@+id/textView8"
         tools:text="30$" />
 
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_total_sale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="@color/green"
+        app:layout_constraintEnd_toEndOf="@+id/tv_total_amount"
+        app:layout_constraintHorizontal_bias="0.062"
+        app:layout_constraintStart_toStartOf="@+id/tv_total_amount"
+        app:layout_constraintTop_toBottomOf="@+id/tv_total_amount"
+        tools:text="30$" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_buy_now"
         android:layout_width="160dp"

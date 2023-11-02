@@ -23,26 +23,20 @@ class CartViewModel @Inject constructor(
     val cartState: LiveData<CartState>
         get() = _cartState
 
-    private val _totalAmount = MutableLiveData(0.0)
-    val totalAmount: LiveData<Double> = _totalAmount
-
-    fun getCartProducts() {
+        fun getCartProducts() {
         viewModelScope.launch {
             _cartState.value = CartState.Loading
-
             when (val result = productRepository.getCartProducts(userRepository.getUserUid())) {
-
                 is Resource.Success -> {
-                    _cartState.value = CartState.Success(result.data)
-                    //_totalAmount.value = result.data.sumOf { it.price }
-                    updateTotalAmount(result.data)
-                }
+                    val cartData = result.data
+                    val totalAmount = cartData.sumOf { it.price }
+                    val totalSale = cartData.sumOf { it.salePrice }
 
+                    _cartState.value = CartState.Success(cartData)
+                    _cartState.value = CartState.CartData(totalAmount, totalSale)
+                }
                 is Resource.Error -> CartState.Error(result.throwable)
-
-                is Resource.Fail -> {
-                    _cartState.value = CartState.Error(Throwable(result.message))
-                }
+                is Resource.Fail -> _cartState.value = CartState.Error(Throwable(result.message))
             }
         }
     }
@@ -61,19 +55,13 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    fun increase(price: Double) {
-        _totalAmount.value = _totalAmount.value?.plus(price)
-    }
-
-    fun decrease(price: Double) {
-        _totalAmount.value = _totalAmount.value?.minus(price)
-    }
-
-    private fun updateTotalAmount(products: List<ProductUI>) {
-        val totalAmount = products.sumByDouble { product ->
-            if (product.salePrice != null) product.salePrice else product.price
+    fun changeTotalAmount(priceChange: Double, salePriceChange: Double) {
+        if (_cartState.value is CartState.CartData) {
+            val currentCartData = (_cartState.value as CartState.CartData)
+            val newTotalAmount = currentCartData.totalAmount + priceChange
+            val newTotalSale = currentCartData.totalSale + salePriceChange
+            _cartState.value = CartState.CartData(newTotalAmount, newTotalSale)
         }
-        _totalAmount.value = totalAmount
     }
 }
 
@@ -82,4 +70,5 @@ sealed interface CartState {
     data class EmptyScreen(val message: String) : CartState
     data class Success(val products: List<ProductUI>) : CartState
     data class Error(val throwable: Throwable) : CartState
+    data class CartData(val totalAmount: Double, val totalSale: Double) : CartState
 }

@@ -25,6 +25,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
         CartProductsAdapter(
             ::onProductClick,
             ::onDeleteClick,
+            ::onPriceChangeClick
         )
     }
 
@@ -42,14 +43,6 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
 
             btnBuyNow.setOnClickListener {
                 findNavController().navigate(R.id.cartToPayment)
-            }
-
-            cartProductsAdapter.onIncreaseClick = { price ->
-                viewModel.increase(price)
-            }
-
-            cartProductsAdapter.onDecreaseClick = { price ->
-                viewModel.decrease(price)
             }
         }
 
@@ -77,12 +70,15 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                     setViewsVisible(ivEmpty, tvEmpty)
                     tvEmpty.text = state.message
                 }
-            }
-        }
 
-        viewModel.totalAmount.observe(viewLifecycleOwner) { totalAmount ->
-            val totalAmountText = String.format("%.3f₺", totalAmount)
-            binding.tvTotalAmount.text = totalAmountText
+                is CartState.CartData -> {
+                    val totalAmountText = String.format("%.2f₺", state.totalAmount)
+                    tvTotalAmount.text = totalAmountText
+
+                    val totalSaleText = String.format("%.2f₺", state.totalSale)
+                    tvTotalSale.text = totalSaleText
+                }
+            }
         }
     }
 
@@ -93,5 +89,9 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
 
     private fun onDeleteClick(id: Int) {
         viewModel.deleteProductFromCart(id)
+    }
+
+    private fun onPriceChangeClick(priceChange: Double, salePriceChange: Double) {
+        viewModel.changeTotalAmount(priceChange, salePriceChange)
     }
 }
