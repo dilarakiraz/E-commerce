@@ -23,7 +23,7 @@ class CartViewModel @Inject constructor(
     val cartState: LiveData<CartState>
         get() = _cartState
 
-        fun getCartProducts() {
+    fun getCartProducts() {
         viewModelScope.launch {
             _cartState.value = CartState.Loading
             when (val result = productRepository.getCartProducts(userRepository.getUserUid())) {
@@ -35,6 +35,7 @@ class CartViewModel @Inject constructor(
                     _cartState.value = CartState.Success(cartData)
                     _cartState.value = CartState.CartData(totalAmount, totalSale)
                 }
+
                 is Resource.Error -> CartState.Error(result.throwable)
                 is Resource.Fail -> _cartState.value = CartState.Error(Throwable(result.message))
             }

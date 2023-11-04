@@ -81,4 +81,5 @@
     <string name="search">Search</string>
     <string name="cherry">CHERRY</string>
     <string name="producttitle">ProductTitle</string>
+    <string name="invalid_input">Invalid input</string>
 </resources>

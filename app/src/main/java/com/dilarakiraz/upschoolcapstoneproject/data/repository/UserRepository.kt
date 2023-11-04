@@ -71,4 +71,24 @@ class UserRepository(
             Resource.Error(e)
         }
     }
+
+    suspend fun saveUserDataToFirestore(
+        email: String,
+        nickname: String,
+        phoneNumber: String
+    ): Resource<Unit> {
+        return try {
+            val user = hashMapOf(
+                "nickname" to nickname,
+                "phone_number" to phoneNumber
+            )
+            db.collection("users")
+                .document(FirebaseAuth.getInstance().currentUser!!.uid)
+                .set(user)
+                .await()
+            Resource.Success(Unit)
+        } catch (e: Exception) {
+            Resource.Error(e)
+        }
+    }
 }

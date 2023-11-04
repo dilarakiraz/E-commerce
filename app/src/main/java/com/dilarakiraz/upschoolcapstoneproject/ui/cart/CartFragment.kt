@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.dilarakiraz.upschoolcapstoneproject.R
 import com.dilarakiraz.upschoolcapstoneproject.common.gone
+import com.dilarakiraz.upschoolcapstoneproject.common.setStrikeThrough
 import com.dilarakiraz.upschoolcapstoneproject.common.setViewsGone
 import com.dilarakiraz.upschoolcapstoneproject.common.setViewsVisible
 import com.dilarakiraz.upschoolcapstoneproject.common.viewBinding
@@ -72,11 +73,17 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                 }
 
                 is CartState.CartData -> {
-                    val totalAmountText = String.format("%.2f₺", state.totalAmount)
-                    tvTotalAmount.text = totalAmountText
+                    val totalAmount = state.totalAmount
+                    val totalSale = state.totalSale
 
-                    val totalSaleText = String.format("%.2f₺", state.totalSale)
-                    tvTotalSale.text = totalSaleText
+                    if (totalSale > 0) {
+                        tvTotalAmount.text = String.format("%.2f₺", totalAmount)
+                        tvTotalAmount.setStrikeThrough()
+                        tvTotalSale.text = String.format("%.2f₺", totalSale)
+                    } else {
+                        tvTotalAmount.text = String.format("%.2f₺", totalAmount)
+                        tvTotalSale.text = ""
+                    }
                 }
             }
         }
