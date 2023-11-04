@@ -12,9 +12,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchViewModel @Inject constructor (
+class SearchViewModel @Inject constructor(
     private val productRepository: ProductRepository
-) : ViewModel(){
+) : ViewModel() {
 
     private var _state = MutableLiveData<SearchState>()
     val state: LiveData<SearchState>
@@ -23,12 +23,12 @@ class SearchViewModel @Inject constructor (
     private var query = ""
 
     fun searchProduct(query: String?) = viewModelScope.launch {
-        if(query.isNullOrEmpty().not()) {
+        if (query.isNullOrEmpty().not()) {
             this@SearchViewModel.query = query.orEmpty()
 
             _state.value = SearchState.Loading
 
-            _state.value = when (val result = productRepository.searchProduct(query.orEmpty())){
+            _state.value = when (val result = productRepository.searchProduct(query.orEmpty())) {
                 is Resource.Success -> SearchState.Success(result.data)
                 is Resource.Error -> SearchState.Error(result.throwable)
                 is Resource.Fail -> SearchState.EmptyScreen(result.message)
@@ -37,13 +37,13 @@ class SearchViewModel @Inject constructor (
     }
 
     fun setFavoriteState(product: ProductUI) = viewModelScope.launch {
-        if(product.isFavorite) productRepository.deleteFromFavorites(product)
+        if (product.isFavorite) productRepository.deleteFromFavorites(product)
         else productRepository.addToFavorites(product)
         searchProduct(query)
     }
 }
 
-sealed interface SearchState{
+sealed interface SearchState {
     object Loading : SearchState
     data class EmptyScreen(val message: String) : SearchState
     data class Success(val products: List<ProductUI>) : SearchState

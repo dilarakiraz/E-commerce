@@ -13,20 +13,6 @@ class UserRepository(
 ) {
     private val db = Firebase.firestore
 
-    suspend fun signUp(email: String, password: String): Resource<Boolean> {
-        return try {
-            val signUpTask = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
-
-            if (signUpTask.user != null) {
-                Resource.Success(true)
-            } else {
-                Resource.Fail("User is null")
-            }
-        } catch (e: Exception) {
-            Resource.Error(e)
-        }
-    }
-
     suspend fun signIn(email: String, password: String): Resource<Boolean> {
         return try {
             val signInTask = firebaseAuth.signInWithEmailAndPassword(email, password).await()
@@ -72,21 +58,23 @@ class UserRepository(
         }
     }
 
-    suspend fun saveUserDataToFirestore(
-        email: String,
-        nickname: String,
-        phoneNumber: String
-    ): Resource<Unit> {
+    suspend fun signUpAndSaveUserData(email: String, password: String, nickname: String, phoneNumber: String): Resource<Boolean> {
         return try {
-            val user = hashMapOf(
-                "nickname" to nickname,
-                "phone_number" to phoneNumber
-            )
-            db.collection("users")
-                .document(FirebaseAuth.getInstance().currentUser!!.uid)
-                .set(user)
-                .await()
-            Resource.Success(Unit)
+            val signUpTask = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
+
+            if (signUpTask.user != null) {
+                val user = hashMapOf(
+                    "nickname" to nickname,
+                    "phone_number" to phoneNumber
+                )
+                db.collection("users")
+                    .document(signUpTask.user!!.uid)
+                    .set(user)
+                    .await()
+                Resource.Success(true)
+            } else {
+                Resource.Fail("User is null")
+            }
         } catch (e: Exception) {
             Resource.Error(e)
         }

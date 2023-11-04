@@ -52,7 +52,7 @@ class PaymentFragment : Fragment(R.layout.fragment_payment) {
 
                 override fun afterTextChanged(s: Editable?) {
                     s?.let { editable ->
-                        val newText = editable.toString().toUpperCase()
+                        val newText = editable.toString().uppercase()
                         if (editable.toString() != newText) {
                             editable.replace(0, editable.length, newText, 0, newText.length)
                             etCardholderName.setSelection(newText.length)

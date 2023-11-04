@@ -10,7 +10,6 @@ import com.dilarakiraz.upschoolcapstoneproject.common.loadImage
 import com.dilarakiraz.upschoolcapstoneproject.common.setStrikeThrough
 import com.dilarakiraz.upschoolcapstoneproject.data.model.response.ProductUI
 import com.dilarakiraz.upschoolcapstoneproject.databinding.ItemFavoriteProductBinding
-import com.dilarakiraz.upschoolcapstoneproject.ui.home.AllProductsAdapter
 
 /**
  * Created on 10.10.2023
@@ -20,7 +19,7 @@ import com.dilarakiraz.upschoolcapstoneproject.ui.home.AllProductsAdapter
 class FavoritesAdapter(
     private val onProductClick: (Int) -> Unit,
     private val onDeleteClick: (ProductUI) -> Unit,
-) : ListAdapter<ProductUI, FavoritesAdapter.ProductViewHolder>(AllProductsAdapter.ProductDiffCallBack()) {
+) : ListAdapter<ProductUI, FavoritesAdapter.ProductViewHolder>(ProductDiffCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder =
         ProductViewHolder(

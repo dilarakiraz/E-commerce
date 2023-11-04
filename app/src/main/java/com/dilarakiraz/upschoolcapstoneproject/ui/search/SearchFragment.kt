@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.speech.RecognizerIntent
 import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.dilarakiraz.upschoolcapstoneproject.R
@@ -31,8 +32,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             ::onFavoriteClick
         )
     }
-
-    private val requestCodeSpeechInput = 50
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -98,22 +97,22 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
             putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.prompt_text))
         }
-        try {
-            startActivityForResult(intent, requestCodeSpeechInput)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+
+        startSpeechRecognition.launch(intent)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == requestCodeSpeechInput && resultCode == Activity.RESULT_OK && data != null) {
-            val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-            if (!result.isNullOrEmpty()) {
-                val query = result[0]
-                binding.searchView.setQuery(query, true)
-                viewModel.searchProduct(query)
+    private val startSpeechRecognition =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+            if (activityResult.resultCode == Activity.RESULT_OK) {
+                val data = activityResult.data
+                if (data != null) {
+                    val results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+                    if (!results.isNullOrEmpty()) {
+                        val query = results[0]
+                        binding.searchView.setQuery(query, true)
+                        viewModel.searchProduct(query)
+                    }
+                }
             }
         }
-    }
 }

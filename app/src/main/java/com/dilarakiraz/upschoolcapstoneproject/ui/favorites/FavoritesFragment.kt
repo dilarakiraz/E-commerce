@@ -12,7 +12,6 @@ import com.dilarakiraz.upschoolcapstoneproject.common.viewBinding
 import com.dilarakiraz.upschoolcapstoneproject.common.visible
 import com.dilarakiraz.upschoolcapstoneproject.data.model.response.ProductUI
 import com.dilarakiraz.upschoolcapstoneproject.databinding.FragmentFavoritesBinding
-import com.dilarakiraz.upschoolcapstoneproject.ui.cart.CartState
 import dagger.hilt.android.AndroidEntryPoint
 
 

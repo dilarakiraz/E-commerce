@@ -12,6 +12,7 @@ import com.google.gson.annotations.SerializedName
 @Entity(tableName = "products")
 data class ProductEntity(
     @PrimaryKey(autoGenerate = true)
+
     @ColumnInfo(name = "id")
     val id: Int? = null,
 
@@ -40,5 +41,5 @@ data class ProductEntity(
     val count: Int,
 
     @ColumnInfo(name = "saleState")
-    val saleState: Boolean
+    val saleState: Boolean,
 )

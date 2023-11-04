@@ -17,6 +17,7 @@ import com.dilarakiraz.upschoolcapstoneproject.databinding.FragmentDetailBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
+
 /**
  * Created on 8.10.2023
  * @author Dilara Kiraz

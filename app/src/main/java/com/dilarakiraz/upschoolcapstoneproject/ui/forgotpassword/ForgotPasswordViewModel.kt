@@ -24,19 +24,14 @@ class ForgotPasswordViewModel @Inject constructor(private val userRepository: Us
 
     fun sendPasswordResetEmail(email: String) {
         viewModelScope.launch {
-            _result.value = ForgotState.Loading
-            val result = userRepository.sendPasswordResetEmail(email)
-            when (result) {
-                is Resource.Success -> {
-                    _result.value = ForgotState.Success("Password reset email sent.")
-                }
-                is Resource.Fail -> {
-                    _result.value = ForgotState.ShowPopUp(result.message)
-                }
-                is Resource.Error -> {
-                    _result.value = ForgotState.ShowPopUp(result.throwable.message ?: "An unexpected error occurred.")
-                }
+            val newState = when (val result = userRepository.sendPasswordResetEmail(email)) {
+                is Resource.Success -> ForgotState.Success("Password reset email sent.")
+                is Resource.Fail -> ForgotState.ShowPopUp(result.message)
+                is Resource.Error -> ForgotState.ShowPopUp(
+                    result.throwable.message ?: "An unexpected error occurred."
+                )
             }
+            _result.value = newState
         }
     }
 }

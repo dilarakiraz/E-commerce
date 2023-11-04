@@ -8,7 +8,6 @@ import com.dilarakiraz.upschoolcapstoneproject.R
 import com.dilarakiraz.upschoolcapstoneproject.common.Resource
 import com.dilarakiraz.upschoolcapstoneproject.data.model.response.ProductUI
 import com.dilarakiraz.upschoolcapstoneproject.data.repository.ProductRepository
-import com.dilarakiraz.upschoolcapstoneproject.ui.cart.CartState
 import com.dilarakiraz.upschoolcapstoneproject.utilities.ResourceProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
