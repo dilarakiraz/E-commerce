@@ -3,11 +3,15 @@ package com.dilarakiraz.upschoolcapstoneproject.ui.profile
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
+import android.Manifest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -32,6 +36,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     private val profileViewModel: ProfileViewModel by viewModels()
 
     private var selectedImageUri: Uri? = null
+
+    private val REQUEST_CODE = 1
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -104,8 +110,42 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         }
 
     private fun selectImageFromGallery() {
-        val galleryIntent = Intent(Intent.ACTION_PICK)
-        galleryIntent.type = "image/*"
-        galleryLauncher.launch(galleryIntent)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val permission = Manifest.permission.READ_MEDIA_IMAGES
+
+            if (ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    permission
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                requestPermissions(arrayOf(permission), REQUEST_CODE)
+            } else {
+                val galleryIntent = Intent(Intent.ACTION_PICK)
+                galleryIntent.type = "image/*"
+                galleryLauncher.launch(galleryIntent)
+            }
+        } else {
+            val galleryIntent = Intent(Intent.ACTION_PICK)
+            galleryIntent.type = "image/*"
+            galleryLauncher.launch(galleryIntent)
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                val galleryIntent = Intent(Intent.ACTION_PICK)
+                galleryIntent.type = "image/*"
+                galleryLauncher.launch(galleryIntent)
+            } else {
+                selectImageFromGallery()
+            }
+        }
     }
 }
