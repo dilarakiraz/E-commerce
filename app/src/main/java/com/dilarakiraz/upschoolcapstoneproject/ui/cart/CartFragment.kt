@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.dilarakiraz.upschoolcapstoneproject.R
 import com.dilarakiraz.upschoolcapstoneproject.common.gone
@@ -91,7 +92,15 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
 
     private fun onProductClick(id: Int) {
         val action = CartFragmentDirections.cartToDetail(id)
-        findNavController().navigate(action)
+        val navOptions = NavOptions.Builder()
+            .setLaunchSingleTop(true)
+            .setEnterAnim(R.anim.fade_in)
+            .setExitAnim(R.anim.fade_out)
+            .setPopEnterAnim(R.anim.fade_in)
+            .setPopExitAnim(R.anim.fade_out)
+            .build()
+
+        findNavController().navigate(action, navOptions)
     }
 
     private fun onDeleteClick(id: Int) {

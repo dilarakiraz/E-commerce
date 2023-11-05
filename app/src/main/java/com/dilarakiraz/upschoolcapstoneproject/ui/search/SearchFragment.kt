@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.dilarakiraz.upschoolcapstoneproject.R
 import com.dilarakiraz.upschoolcapstoneproject.common.gone
@@ -80,7 +81,15 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private fun onProductClick(id: Int) {
         val action = SearchFragmentDirections.searchToDetail(id)
-        findNavController().navigate(action)
+        val navOptions = NavOptions.Builder()
+            .setLaunchSingleTop(true)
+            .setEnterAnim(R.anim.fade_in)
+            .setExitAnim(R.anim.fade_out)
+            .setPopEnterAnim(R.anim.fade_in)
+            .setPopExitAnim(R.anim.fade_out)
+            .build()
+
+        findNavController().navigate(action, navOptions)
     }
 
     private fun onFavoriteClick(product: ProductUI) {
