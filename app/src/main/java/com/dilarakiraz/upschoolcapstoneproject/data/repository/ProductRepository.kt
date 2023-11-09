@@ -95,8 +95,8 @@ class ProductRepository(
         return result.call {}
     }
 
-    suspend fun deleteFromCart(id: Int): Resource<Unit> {
-        val result = productService.deleteFromCart(DeleteFromCartRequest(id))
+    suspend fun deleteFromCart(userId: String, id: Int): Resource<Unit> {
+        val result = productService.deleteFromCart(DeleteFromCartRequest(userId, id))
         return result.call {}
     }
 

@@ -107,7 +107,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                     Snackbar.make(requireView(), state.errorMessage, 1000).show()
                 }
 
-                else -> {}
+                else -> Unit
             }
         }
     }

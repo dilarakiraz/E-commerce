@@ -37,8 +37,8 @@ class PaymentSuccessViewModel @Inject constructor(
                         message = "Cart cleared successfully"
                     )
                 )
-
                 is Resource.Error -> Resource.Error(result.throwable)
+
                 else -> Resource.Error(Throwable("Clearing cart failed"))
             }
         }

@@ -104,7 +104,8 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
     }
 
     private fun onDeleteClick(id: Int) {
-        viewModel.deleteProductFromCart(id)
+        val userId = viewModel.getUserUid()
+        viewModel.deleteProductFromCart(userId, id)
     }
 
     private fun onPriceChangeClick(priceChange: Double, salePriceChange: Double) {

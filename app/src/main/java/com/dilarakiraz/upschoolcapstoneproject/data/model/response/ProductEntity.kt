@@ -3,7 +3,6 @@ package com.dilarakiraz.upschoolcapstoneproject.data.model.response
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.gson.annotations.SerializedName
 
 /**
  * Created on 7.10.2023

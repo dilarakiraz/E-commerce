@@ -42,11 +42,15 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    fun deleteProductFromCart(id: Int) {
+    fun deleteProductFromCart(userId: String, id: Int) {
         viewModelScope.launch {
-            productRepository.deleteFromCart(id)
+            productRepository.deleteFromCart(userId, id)
             getCartProducts()
         }
+    }
+
+    fun getUserUid(): String {
+        return userRepository.getUserUid()
     }
 
     fun clearCart() {

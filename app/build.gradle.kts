@@ -105,4 +105,8 @@ dependencies {
 
     //workManager
     implementation("androidx.work:work-runtime-ktx:2.8.1")
+
+    //Circle indicator for viewPager
+    implementation ("me.relex:circleindicator:2.1.6")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 }

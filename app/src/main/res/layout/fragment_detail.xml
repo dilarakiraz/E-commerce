@@ -36,18 +36,19 @@
 
         <ImageView
             android:id="@+id/iv_product"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="189dp"
+            android:layout_height="195dp"
+            android:background="@color/white"
+            android:padding="@dimen/_16sdp"
+            android:scaleType="fitCenter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:fontFamily="@font/agbalumo"
             android:gravity="center"
             android:lines="2"

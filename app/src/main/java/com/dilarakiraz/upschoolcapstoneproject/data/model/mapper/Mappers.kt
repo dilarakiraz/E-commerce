@@ -1,9 +1,7 @@
 package com.dilarakiraz.upschoolcapstoneproject.data.model.mapper
-
 import com.dilarakiraz.upschoolcapstoneproject.data.model.response.Product
 import com.dilarakiraz.upschoolcapstoneproject.data.model.response.ProductEntity
 import com.dilarakiraz.upschoolcapstoneproject.data.model.response.ProductUI
-
 
 fun Product?.mapToProductUI(isFavorite: List<Int>): ProductUI {
     return ProductUI(
