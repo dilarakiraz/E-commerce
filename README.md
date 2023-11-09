@@ -17,28 +17,28 @@ This application has been built with the MVVM + Clean Architecture design patter
 
 | Splash | Home | Detail |
 | ------ | ---- | ------ |
-|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/e27d26b9609ebae09ded8f1b46dbfd6f354d6edb/Screenshot_20231109_164210_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/e27d26b9609ebae09ded8f1b46dbfd6f354d6edb/Screenshot_20231109_164223_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/e27d26b9609ebae09ded8f1b46dbfd6f354d6edb/Screenshot_20231109_164228_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|
+|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/e27d26b9609ebae09ded8f1b46dbfd6f354d6edb/upschool/Screenshot_20231109_164210_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/e27d26b9609ebae09ded8f1b46dbfd6f354d6edb/upschool/Screenshot_20231109_164223_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/e27d26b9609ebae09ded8f1b46dbfd6f354d6edb/upschool/Screenshot_20231109_164228_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|
 
 </br>
 
 | Cart | Payment | Success |
 | --- | ------- | ------- |
-|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/e27d26b9609ebae09ded8f1b46dbfd6f354d6edb/Screenshot_20231109_164337_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/e27d26b9609ebae09ded8f1b46dbfd6f354d6edb/Screenshot_20231109_164400_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/e27d26b9609ebae09ded8f1b46dbfd6f354d6edb/Screenshot_20231109_164405_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|
+|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/e27d26b9609ebae09ded8f1b46dbfd6f354d6edb/upschool/Screenshot_20231109_164337_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/e27d26b9609ebae09ded8f1b46dbfd6f354d6edb/upschool/Screenshot_20231109_164400_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/e27d26b9609ebae09ded8f1b46dbfd6f354d6edb/upschool/Screenshot_20231109_164405_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|
 
 </br>
 
 | Favorites | Search | Profile |
 | --------- | ------ | ------- |
-|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/e27d26b9609ebae09ded8f1b46dbfd6f354d6edb/Screenshot_20231109_164255_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/e27d26b9609ebae09ded8f1b46dbfd6f354d6edb/Screenshot_20231109_164315_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/e27d26b9609ebae09ded8f1b46dbfd6f354d6edb/Screenshot_20231109_164414_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|
+|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/e27d26b9609ebae09ded8f1b46dbfd6f354d6edb/upschool/Screenshot_20231109_164255_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/e27d26b9609ebae09ded8f1b46dbfd6f354d6edb/upschool/Screenshot_20231109_164315_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/e27d26b9609ebae09ded8f1b46dbfd6f354d6edb/upschool/Screenshot_20231109_164414_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|
 
 </br>
 
 | SignIn | SignUp | Forgot Password |
 | --- | ------- | ------- |
-|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/e27d26b9609ebae09ded8f1b46dbfd6f354d6edb/Screenshot_20231109_164516_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/e27d26b9609ebae09ded8f1b46dbfd6f354d6edb/Screenshot_20231109_164728_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/e27d26b9609ebae09ded8f1b46dbfd6f354d6edb/Screenshot_20231109_164533_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|
+|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/e27d26b9609ebae09ded8f1b46dbfd6f354d6edb/upschool/Screenshot_20231109_164516_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/e27d26b9609ebae09ded8f1b46dbfd6f354d6edb/upschool/Screenshot_20231109_164728_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/e27d26b9609ebae09ded8f1b46dbfd6f354d6edb/upschool/Screenshot_20231109_164533_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|
 
 </br>
 
 | WorkManager & Chucker | Microphone | Password Changed |
 | --- | ------- | ------- |
-|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/e27d26b9609ebae09ded8f1b46dbfd6f354d6edb/Screenshot_20231109_164156_One%20UI%20Home.jpg" width="250" height="500"/>|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/e27d26b9609ebae09ded8f1b46dbfd6f354d6edb/Screenshot_20231109_164322_Speech%20Recognition%20and%20Synthesis%20from%20Google.jpg" width="250" height="500"/>|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/e27d26b9609ebae09ded8f1b46dbfd6f354d6edb/Screenshot_20231109_164605_Chrome.jpg" width="250" height="500"/>|
+|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/c8dcf0af4802aeac851db56432153d60fc229d82/upschool/Screenshot_20231109_164156_One%20UI%20Home.jpg" width="250" height="500"/>|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/e27d26b9609ebae09ded8f1b46dbfd6f354d6edb/upschool/Screenshot_20231109_164322_Speech%20Recognition%20and%20Synthesis%20from%20Google.jpg" width="250" height="500"/>|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/e27d26b9609ebae09ded8f1b46dbfd6f354d6edb/upschool/Screenshot_20231109_164605_Chrome.jpg" width="250" height="500"/>|
