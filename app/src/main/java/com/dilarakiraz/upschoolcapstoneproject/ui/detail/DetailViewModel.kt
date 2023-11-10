@@ -1,6 +1,5 @@
 package com.dilarakiraz.upschoolcapstoneproject.ui.detail
 
-
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,7 +11,6 @@ import com.dilarakiraz.upschoolcapstoneproject.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
 
 /**
  * Created on 8.10.2023
@@ -85,6 +83,7 @@ class DetailViewModel @Inject constructor(
 sealed interface DetailState {
     object Loading : DetailState
     data class EmptyScreen(val message: String) : DetailState
+    data class Error(val throwable: Throwable) : DetailState
     data class Success(val product: ProductUI, val toastMessage: String? = null) : DetailState
     data class ShowPopUp(val errorMessage: String) : DetailState
 }

@@ -88,6 +88,8 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
                         tvCount.text = "Count: ${product.count}"
 
+                        tvCategories.text = product.category
+
                         if (state.toastMessage != null) {
                             Toast.makeText(requireContext(), state.toastMessage, Toast.LENGTH_SHORT)
                                 .show()
