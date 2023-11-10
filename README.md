@@ -17,7 +17,7 @@ This application has been built with the MVVM + Clean Architecture design patter
 
 | Splash | Home | Detail |
 | ------ | ---- | ------ |
-|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/c163bceb7ff2bc027f9bb766715c66cebc548c95/upschool/Screenshot_20231109_164210_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/c163bceb7ff2bc027f9bb766715c66cebc548c95/upschool/Screenshot_20231109_164223_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/c163bceb7ff2bc027f9bb766715c66cebc548c95/upschool/Screenshot_20231109_164228_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|
+|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/c163bceb7ff2bc027f9bb766715c66cebc548c95/upschool/Screenshot_20231109_164210_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/c163bceb7ff2bc027f9bb766715c66cebc548c95/upschool/Screenshot_20231109_164223_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|<img src="https://github.com/dilarakiraz/UpSchoolCapstoneProject/blob/5c575d976b693cb7bd193dcc7c4d8338812cf03b/upschool/Screenshot_20231110_205631_UpSchoolCapstoneProject.jpg" width="250" height="500"/>|
 
 </br>
 
