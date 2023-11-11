@@ -26,9 +26,7 @@ class UserRepository(
             val userDocument = db.collection("users").document(userId).get().await()
             val nickname = userDocument?.getString("nickname")
             val profileImageUrl = userDocument?.getString("profileImageUrl")
-
-            val cartProductsCount =
-                (productRepository.getCartProducts(userId) as? Resource.Success)?.data?.size ?: 0
+            val cartProductsCount = (productRepository.getCartProducts(userId) as? Resource.Success)?.data?.size ?: 0
 
             Resource.Success(UserData(nickname, profileImageUrl, cartProductsCount))
         } catch (e: Exception) {
@@ -40,8 +38,7 @@ class UserRepository(
         password: String,
         nickname: String,
         phoneNumber: String
-    ): Resource<Boolean> =
-        firebaseAuthCall {
+    ): Resource<Boolean> = firebaseAuthCall {
             val signUpTask = createUserWithEmailAndPassword(email, password).await()
 
             if (signUpTask.user != null) {

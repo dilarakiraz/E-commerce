@@ -35,8 +35,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getProductDetail(args.id)
-
         with(binding) {
             icDetailToHome.setOnClickListener {
                 findNavController().navigate(R.id.detailToHome)
@@ -50,6 +48,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                 viewModel.toggleFavorite()
             }
         }
+        viewModel.getProductDetail(args.id)
         observeData()
     }
 

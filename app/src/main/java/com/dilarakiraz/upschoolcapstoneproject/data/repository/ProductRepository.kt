@@ -85,7 +85,6 @@ class ProductRepository(
         return result.call {
             result.products.orEmpty().map {
                 it.mapToProductUI(favorites)
-
             }
         }
     }
@@ -130,7 +129,6 @@ class ProductRepository(
         return result.call {
             result.products.orEmpty().map {
                 it.mapToProductUI(favorites)
-
             }
         }
     }
