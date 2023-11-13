@@ -13,7 +13,7 @@ This application has been built with the MVVM + Clean Architecture design patter
  - Chucker
  - Work Manager
 
-Youtube Link -> https://youtu.be/NAlMqA1jmnQ
+Youtube Link -> https://youtu.be/J-xgVUwY0So
 
 ## Screens
 
